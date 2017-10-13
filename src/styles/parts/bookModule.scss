@@ -1,0 +1,34 @@
+.book-module {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.book-module img {
+  width: 70px;
+  height: 70px;
+}
+
+.book-module__head {
+  text-align: center;
+  h2 {
+    position: absolute;
+    margin: 5px 0 0 0;
+    font-size: 18px;  // Правильно указать размер (в em? %^&$)
+  }
+}
+
+.book-module__list {
+  display: inline-flex;
+  list-style: none;
+  margin: 0;
+}
+
+.book-module__item {
+  text-align: center;
+  h3 {
+    position: absolute;
+    margin: 5px auto 0 5px;
+    font-size: 10px;  // Правильно указать размер (в em? %^&$)
+  }
+}
