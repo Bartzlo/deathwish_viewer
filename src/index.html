@@ -28,104 +28,7 @@
       </section>
 
       <section class="core">
-        <ul class="core__list">
-          <li class="core__item">
-            <div class="book-module">
-              <div class="book-module__head">
-                <img src="img/book-previwe.jpg" alt="">
-                <h2>Book title</h2>
-              </div>
-              <div class="book-module__slider">
-                <ul class="book-module__list">
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <li class="core__item">
-            <div class="book-module">
-              <div class="book-module__head">
-                <img src="img/book-previwe.jpg" alt="">
-                <h2>Book title</h2>
-              </div>
-              <div class="book-module__slider">
-                <ul class="book-module__list">
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <li class="core__item">
-            <div class="book-module">
-              <div class="book-module__head">
-                <img src="img/book-previwe.jpg" alt="">
-                <h2>Book title</h2>
-              </div>
-              <div class="book-module__slider">
-                <ul class="book-module__list">
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                  <li class="book-module__item">
-                    <img src="img/issue-previwe.jpg" alt="">
-                    <h3>Issue title</h3>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </li>
-        </ul>
+
       </section>
     </main>
 
@@ -133,6 +36,32 @@
   <footer class="main-footer">
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   </footer>
+
+  <script type="template" id="core">
+    <ul class="core__list">
+      {{#coreItems}}
+      <li class="core__item">
+        <div class="book-module">
+          <div class="book-module__head">
+            <img src="{{srcBookPreviwe}}" alt="{{altBookPreviwe}}">
+            <h2>{{bookTitle}}</h2>
+          </div>
+          <div class="book-module__slider">
+            <ul class="book-module__list">
+              {{#bookModuleItem}}
+              <li class="book-module__item">
+                <img src="{{srcPartPreviwe}}" alt="{{altPartPreviwe}}">
+                <h3>{{partTitle}}</h3>
+              </li>
+              {{/bookModuleItem}}
+            </ul>
+          </div>
+        </div>
+      </li>
+      {{/coreItems}}
+    </ul>
+  </script>
+
   <script src="scripts/main.js" charset="utf-8"></script>
 </body>
 
