@@ -12,7 +12,7 @@ const
   rimraf = require('rimraf'),
   babel = require("gulp-babel");
 
-gulp.task('serve', ['build-style', 'build-html', 'build-js', 'build-img'], function() {
+gulp.task('serve', ['build-style', 'build-html', 'build-js'], function() {
     browserSync.init({
         server: {baseDir: "build/"}
     });
@@ -20,7 +20,7 @@ gulp.task('serve', ['build-style', 'build-html', 'build-js', 'build-img'], funct
     gulp.watch('src/*.html', ['build-html']);
     gulp.watch('src/styles/**/*.scss', ['build-style']);
     gulp.watch('src/scripts/**/*.js', ['build-js']);
-    gulp.watch('src/img//**/*.*', ['build-img']);
+    //gulp.watch('src/img/**/*.*', ['build-img']);
     //gulp.watch('src/**/*.*').on('change', browserSync.reload);
 });
 
@@ -51,11 +51,11 @@ gulp.task('build-js', () => {
   .pipe(browserSync.stream());
 });
 
-gulp.task('build-img', () => {
-  return gulp.src('src/img/*.*')
-  .pipe(gulp.dest('build/img/'))
-  .pipe(browserSync.stream());
-});
+// gulp.task('build-img', () => {
+//   return gulp.src('src/img/**/*.*')
+//   .pipe(gulp.dest('build/img/'))
+//   .pipe(browserSync.stream());
+// });
 
 gulp.task('clean', function (cb) {
     rimraf('build', cb);

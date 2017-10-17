@@ -1,122 +1,72 @@
 'use strict';
 console.log('start main script');
-//********************************//
 
 const Mustache = require('mustache');
+//********************************//
 
-let imgs = [
-  {src: 'img/im_01', alt: "alt_01", title: 'title_01'},
-  {src: 'img/im_02', alt: "alt_02", title: 'title_02'},
-  {src: 'img/im_03', alt: "alt_03", title: 'title_03'},
-  {src: 'img/im_04', alt: "alt_04", title: 'title_04'},
-  {src: 'img/im_05', alt: "alt_05", title: 'title_05'}
-];
+let coreObjectItems = [];
+let xhrBooks = new XMLHttpRequest();
+xhrBooks.open('GET', 'img/books/books.json', true);
+
+xhrBooks.addEventListener('load', e => {
+  try {
+    let books = JSON.parse(e.target.responseText);
+    books.forEach((bookName, i) => {
+      coreObjectItems[i] = {};
+      coreObjectItems[i].srcBookPreviwe = `img/books/${bookName}/book-previwe.jpg`;
+      coreObjectItems[i].altBookPreviwe = `${bookName} previwe`;
+      coreObjectItems[i].bookTitle = bookName;
+
+      let xhrParts = new XMLHttpRequest();
+      xhrParts.open('GET', `img/books/${bookName}/parts.json`, true);
+      xhrParts.bookNumber = i;
+      xhrParts.bookName = bookName;
+
+      xhrParts.addEventListener('load', e => {
+        try {
+          let parts = JSON.parse(e.target.responseText);
+          let bookNumber = e.target.bookNumber;
+          let bookName = e.target.bookName;
+          coreObjectItems[bookNumber].bookModuleItem = [];
+
+          parts.forEach((partName, i) => {
+            coreObjectItems[bookNumber].bookModuleItem[i] = {};
+            coreObjectItems[bookNumber].bookModuleItem[i].srcPartPreviwe = `img/books/${bookName}/${partName}/issue-previwe.jpg`;
+            coreObjectItems[bookNumber].bookModuleItem[i].altPartPreviwe = `${partName} previwe`;
+            coreObjectItems[bookNumber].bookModuleItem[i].partTitle = partName;
+          });
+
+
+        }
+        catch (err) {
+          console.error('Error in file ' + e.target.responseURL + "\n" + err.stack);
+        }
+
+
+      });
+
+      xhrParts.addEventListener('error', e => {
+        console.error('Ошибка ' + e.name + ":" + e.message + "\n" + e.stack);
+      });
+
+      xhrParts.send();
+    });
+  }
+  catch (err) {
+    console.error('Error in file ' + e.target.responseURL + "\n" + err.stack);
+  }
+});
+
+xhrBooks.addEventListener('error', e => {
+  console.error('Ошибка ' + e.name + ":" + e.message + "\n" + e.stack);
+});
+
+xhrBooks.send();
+
 
 let core = document.getElementById('core').innerHTML;
 Mustache.parse(core);
-let render = Mustache.render(core, {
-  "coreItems":
-    [
-      {
-      "srcBookPreviwe": "img/book-previwe.jpg",
-      "altBookPreviwe": "Book 1 previwe",
-      "bookTitle": "Book 1",
-      "bookModuleItem":
-        [
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 1 previwe",
-          "partTitle": "Part 1"
-          },
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 2 previwe",
-          "partTitle": "Part 2"
-          },
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 3 previwe",
-          "partTitle": "Part 3"
-          },
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 4 previwe",
-          "partTitle": "Part 4"
-          },
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 5 previwe",
-          "partTitle": "Part 5"
-          }
-        ]
-      },
-      {
-      "srcBookPreviwe": "img/book-previwe.jpg",
-      "altBookPreviwe": "Book 2 previwe",
-      "bookTitle": "Book 2",
-      "bookModuleItem":
-        [
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 1 previwe",
-          "partTitle": "Part 1"
-          },
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 2 previwe",
-          "partTitle": "Part 2"
-          },
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 3 previwe",
-          "partTitle": "Part 3"
-          },
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 4 previwe",
-          "partTitle": "Part 4"
-          },
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 5 previwe",
-          "partTitle": "Part 5"
-          }
-        ]
-      },
-      {
-      "srcBookPreviwe": "img/book-previwe.jpg",
-      "altBookPreviwe": "Book 3 previwe",
-      "bookTitle": "Book 3",
-      "bookModuleItem":
-        [
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 1 previwe",
-          "partTitle": "Part 1"
-          },
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 2 previwe",
-          "partTitle": "Part 2"
-          },
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 3 previwe",
-          "partTitle": "Part 3"
-          },
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 4 previwe",
-          "partTitle": "Part 4"
-          },
-          {
-          "srcPartPreviwe": "img/issue-previwe.jpg",
-          "altPartPreviwe": "Part 5 previwe",
-          "partTitle": "Part 5"
-          }
-        ]
-      }
-    ]
-});
 
+// coreObjectItems empty, becouse asyncs
+let render = Mustache.render(core, {coreItems: coreObjectItems});
 document.querySelector('.core').innerHTML = render;
