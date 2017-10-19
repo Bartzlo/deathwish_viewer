@@ -10,14 +10,15 @@ const
   uglifyjs = require('gulp-uglify'),
   browserify = require('gulp-browserify'),
   rimraf = require('rimraf'),
-  babel = require("gulp-babel");
+  babel = require('gulp-babel'),
+  rigger = require('gulp-rigger');
 
 gulp.task('serve', ['build-style', 'build-html', 'build-js'], function() {
     browserSync.init({
         server: {baseDir: "build/"}
     });
 
-    gulp.watch('src/*.html', ['build-html']);
+    gulp.watch('src/html/**/*.html', ['build-html']);
     gulp.watch('src/styles/**/*.scss', ['build-style']);
     gulp.watch('src/scripts/**/*.js', ['build-js']);
     //gulp.watch('src/img/**/*.*', ['build-img']);
@@ -25,7 +26,8 @@ gulp.task('serve', ['build-style', 'build-html', 'build-js'], function() {
 });
 
 gulp.task('build-html', () => {
-  return gulp.src('src/*.html')
+  return gulp.src('src/html/index.html')
+  .pipe(rigger())
   .pipe(gulp.dest('build/'))
   .pipe(browserSync.stream());
 });
