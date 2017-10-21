@@ -3,12 +3,17 @@ const BookModuleConfig = require('./booksModule/BookConfig.js');
 const BookModule = require('./booksModule/BookModule.js');
 
 let mainScreen = document.createElement('div');
-mainScreen.setAttribute('data-render', 'qwe');
+mainScreen.setAttribute('data-render', '');
 
 let container = document.createElement('section');
 document.getElementsByTagName('main')[0].appendChild(container);
 
 function createMainScreen() {
+  console.log('createMainScreen()');
+  if (mainScreen.dataset.render == 'inload') {
+    return;
+  }
+
   container.className = 'books-module-container';
   container.innerHTML = '';
   container.appendChild(mainScreen);
@@ -18,16 +23,13 @@ function createMainScreen() {
   }
 
   booksModuleSliderController.init();
+  mainScreen.dataset.render = 'inload';
 
   let bookModuleConfig = new BookModuleConfig('img/books/', 'config.json');
   bookModuleConfig.getConfig()
     .then(function(config) {
       mainScreen.innerHTML = '';
       displayAllBookModules(config);
-    })
-    .then(function() {
-      console.log('complit all');
-      mainScreen.dataset.render = 'complite';
     })
     .catch(function(err) {
       console.log(err.stack);
@@ -36,16 +38,21 @@ function createMainScreen() {
 
 function displayAllBookModules(config) {
   let moduleData = config.shift();
-  if (!moduleData) return;
+  if (!moduleData){
+    console.log('module is full loaded');
+    mainScreen.dataset.render = 'complite';
+    return;
+  }
 
-  new Promise((resolve, reject) => {
-    let bookModule = new BookModule(moduleData);
-    bookModule.getElement();
-    document.addEventListener('loadBookModule', e => {
+  let bookModule = new BookModule(moduleData);
+  bookModule.getElement()
+    .then(() => {
       mainScreen.appendChild(bookModule.bookElem);
       displayAllBookModules(config);
-    });
-  });
+    })
+    .catch((err) => {
+      console.log(err.stack);
+    })
 }
 
 module.exports.createMainScreen = createMainScreen;

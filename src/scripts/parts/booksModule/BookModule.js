@@ -10,29 +10,32 @@ class BookModule {
 
   getElement() {
     if (this.bookElem) {
-      document.dispatchEvent(this._complitEvent);
+      return Promise.resolve(this.bookElem);
     } else {
-      this._loadBookModule();
+      return this._loadBookModule();
     }
   }
 
+
   _loadBookModule() {
-    let imgUrls = this.bookConfig.issues.map((item) => this._loadImg(item.srcIssuePreviwe));
-    imgUrls.push(this._loadImg(this.bookConfig.srcBookPreviwe));
+    return new Promise((resolve, reject) => {
+      let imgUrls = this.bookConfig.issues.map((item) => this._loadImg(item.srcIssuePreviwe));
+      imgUrls.push(this._loadImg(this.bookConfig.srcBookPreviwe));
 
-    Promise.all(imgUrls)
-    .then(() => {
-      let elem = document.createElement('div');
-      elem.className = 'books-module';
+      Promise.all(imgUrls)
+      .then(() => {
+        let elem = document.createElement('div');
+        elem.className = 'books-module';
 
-      let render = Mustache.render(this._tmpl, this.bookConfig);
-      elem.innerHTML = render;
-      this.bookElem = elem;
+        let render = Mustache.render(this._tmpl, this.bookConfig);
+        elem.innerHTML = render;
+        this.bookElem = elem;
 
-      document.dispatchEvent(this._complitEvent);
-    })
-    .catch(function(err) {
-      console.log(err.stack);
+        resolve(this.bookElem);
+      })
+      .catch(function(err) {
+        console.log(err.stack);
+      });
     });
 }
 

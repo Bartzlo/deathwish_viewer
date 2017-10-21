@@ -7,16 +7,10 @@ class BookConfig {
 
   getConfig() {
     if (this.config) {
-      return this._getGetReadyConfig();
+      return Promise.resolve(this.config);
     } else {
       return this._requestConfig();
     }
-  }
-
-  _getGetReadyConfig() {
-    return new Promise((resolve, reject) => {
-      resolve(this.config);
-    });
   }
 
   _requestConfig() {
