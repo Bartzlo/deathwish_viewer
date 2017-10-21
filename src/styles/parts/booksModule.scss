@@ -9,9 +9,11 @@
 .books-module img {
   width: 70px;
   height: 70px;
+  background: gray;
 }
 
 .books-module__head {
+  width: 20%;
   text-align: center;
   margin-right: 40px;
   h2 {
@@ -31,6 +33,7 @@
 }
 
 .books-module__slideItem {
+  width: 70px;
   text-align: center;
   margin-right: 2px;
   h3 {

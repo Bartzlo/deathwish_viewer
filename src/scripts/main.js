@@ -1,16 +1,30 @@
 'use strict';
 console.log('start main script');
 
-const booksModuleConstructor = require('./parts/booksModule/constructor.js');
+//const booksModuleConstructor = require('./parts/booksModule/constructor.js');
 const booksModuleSliderController = require('./parts/booksModule/sliderController.js');
-let coreElemRender; // core module for main screen
+const BookModuleConfig = require('./parts/booksModule/BookConfig.js');
+const BookModule = require('./parts/booksModule/BookModule.js');
 //********************************//
 
-booksModuleConstructor.create(); // when complite, booksModuleIsCreated will be call
-booksModuleSliderController.init();
+let container = document.createElement('section');
+document.getElementsByTagName('main')[0].appendChild(container);
 
-document.addEventListener('booksModuleIsCreated', e => {
-  console.log('books module is ready');
-  coreElemRender = e.detail.coreElemRender;
-  document.querySelector('.books-module-container').innerHTML = coreElemRender;
-});
+createMainScreen()
+
+function createMainScreen() {
+  booksModuleSliderController.init();
+  container.className = 'books-module-container';
+
+  let bookModuleConfig = new BookModuleConfig('img/books/', 'config.json');
+  bookModuleConfig.getConfig()
+    .then(function (config) {
+      config.forEach(item => {
+        let bookModule = new BookModule(item);
+        container.appendChild(bookModule.getElement());
+      });
+    })
+    .catch(function (err) {
+      console.log(err.stack);
+    });
+}
