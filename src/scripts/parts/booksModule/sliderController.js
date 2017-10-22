@@ -33,18 +33,18 @@ function init() {
       left = currShift + shift;
 
       if (left > 0) {
-        slideList.style.left = 0 + 'px';
+        slideList.style.transform = `translatex(0px)`;
         slideList.dataset.shift = 0;
         return;
       }
 
       if (left < (sliderWidth - slideListWidth)) {
-        slideList.style.left = -(slideListWidth - sliderWidth) + 'px';
+        slideList.style.transform = `translatex(${-(slideListWidth - sliderWidth)}px)`;
         slideList.dataset.shift = -(slideListWidth - sliderWidth);
         return;
       }
 
-      slideList.style.left = left + 'px';
+      slideList.style.transform = `translatex(${left}px)`;
       slideList.dataset.shift = left;
   }
 }

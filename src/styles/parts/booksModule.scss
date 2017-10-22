@@ -27,9 +27,9 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  position: relative;
-  left: 0px;
-   transition: left 0.5s;
+  //position: relative;
+  //left: 0px;
+   transition: transform 0.5s;
 }
 
 .books-module__slideItem {
