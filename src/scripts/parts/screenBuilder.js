@@ -9,6 +9,11 @@ let container = document.createElement('section');
 document.getElementsByTagName('main')[0].appendChild(container);
 
 function createMainScreen() {
+  // Есть 3 варианта згрузки модулей:
+  // - Згрузка все модулей книг без прелоада asyncLoadBookModules()
+  // - Загрузка модулей поочереди без прелоада syncLoadBookModules( ,false)
+  // - Загрузка модулей поочереди с прелоадом syncLoadBookModules( ,true)
+
   console.log('createMainScreen()');
   if (mainScreen.dataset.render == 'inload') {
     return;
@@ -29,14 +34,15 @@ function createMainScreen() {
   bookModuleConfig.getConfig()
     .then(function(config) {
       mainScreen.innerHTML = '';
-      displayAllBookModules(config);
+      syncLoadBookModules(config, false);
+      //asyncLoadBookModules(config);
     })
     .catch(function(err) {
       console.log(err.stack);
     });
 }
 
-function displayAllBookModules(config) {
+function syncLoadBookModules(config, preload) {
   let moduleData = config.shift();
   if (!moduleData){
     console.log('module is full loaded');
@@ -45,14 +51,28 @@ function displayAllBookModules(config) {
   }
 
   let bookModule = new BookModule(moduleData);
+  // Для показа модуля без предварительной загрузки изображений
+  if (!preload)
+    mainScreen.appendChild(bookModule.bookElem);
+
   bookModule.getElement()
     .then(() => {
-      mainScreen.appendChild(bookModule.bookElem);
-      displayAllBookModules(config);
+      syncLoadBookModules(config, preload);
+      // Для показа модуля с предварительной загрузки изображений
+      if (preload)
+        mainScreen.appendChild(bookModule.bookElem);
     })
     .catch((err) => {
       console.log(err.stack);
     })
+}
+
+// don't using now
+function asyncLoadBookModules(config) {
+  config.forEach((moduleData) => {
+    let bookModule = new BookModule(moduleData);
+    mainScreen.appendChild(bookModule.bookElem);
+  });
 }
 
 module.exports.createMainScreen = createMainScreen;
