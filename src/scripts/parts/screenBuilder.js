@@ -34,15 +34,15 @@ function createMainScreen() {
   bookModuleConfig.getConfig()
     .then(function(config) {
       mainScreen.innerHTML = '';
-      syncLoadBookModules(config, false);
-      //asyncLoadBookModules(config);
+      // if preload then sync may by only true
+      syncLoadBookModules(config, {preload: false, sync: true});
     })
     .catch(function(err) {
       console.log(err.stack);
     });
 }
 
-function syncLoadBookModules(config, preload) {
+function syncLoadBookModules(config, opt) {
   let moduleData = config.shift();
   if (!moduleData){
     console.log('module is full loaded');
@@ -51,28 +51,21 @@ function syncLoadBookModules(config, preload) {
   }
 
   let bookModule = new BookModule(moduleData);
-  // Для показа модуля без предварительной загрузки изображений
-  if (!preload)
-    mainScreen.appendChild(bookModule.bookElem);
 
-  bookModule.getElement()
+  // Для показа модуля без предварительной загрузки изображений
+  if (!opt.preload) {
+    mainScreen.appendChild(bookModule.getElement());
+    if (!opt.sync) syncLoadBookModules(config, opt);
+  }
+
+  bookModule.isComplitLoad()
     .then(() => {
-      syncLoadBookModules(config, preload);
-      // Для показа модуля с предварительной загрузки изображений
-      if (preload)
-        mainScreen.appendChild(bookModule.bookElem);
+      if (opt.preload) mainScreen.appendChild(bookModule.getElement());
+      syncLoadBookModules(config, opt);
     })
     .catch((err) => {
       console.log(err.stack);
     })
-}
-
-// don't using now
-function asyncLoadBookModules(config) {
-  config.forEach((moduleData) => {
-    let bookModule = new BookModule(moduleData);
-    mainScreen.appendChild(bookModule.bookElem);
-  });
 }
 
 module.exports.createMainScreen = createMainScreen;

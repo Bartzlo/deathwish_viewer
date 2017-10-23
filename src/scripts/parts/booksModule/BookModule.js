@@ -4,33 +4,16 @@ class BookModule {
   constructor(bookConfig) {
     this.bookConfig = bookConfig;
     this._tmpl = document.getElementById('core').innerHTML;
-    this.bookElem = this._renderModule();;
+    this.bookElem = this._renderModule();
     this._complitEvent = new Event('loadBookModule');
   }
 
   getElement() {
-    return this._loadBookModule();
+    return this.bookElem;
   }
 
-
-  _loadBookModule() {
-    return new Promise((resolve, reject) => {
-
-      let imgUrls = this.bookConfig.issues.map((item) => this._preLoadImg(item.srcIssuePreviwe));
-      imgUrls.push(this._preLoadImg(this.bookConfig.srcBookPreviwe));
-
-      // Блок ниже ожно использовать без promise.all
-      // в таком случае модуль будет появляться сразу не дожидаясь
-      // загрузки изображений
-      // Promise.all написан специально для syncLoadBookModules() скрибилдера
-      Promise.all(imgUrls)
-      .then(() => {
-        resolve('preload complite');
-      })
-      .catch(function(err) {
-        console.log(err.stack);
-      });
-    });
+  isComplitLoad() {
+    return this._loadBookModule();
   }
 
   _renderModule() {
@@ -42,6 +25,22 @@ class BookModule {
     this.bookElem = elem;
 
     return elem;
+  }
+
+  _loadBookModule() {
+    return new Promise((resolve, reject) => {
+
+      let imgUrls = this.bookConfig.issues.map((item) => this._preLoadImg(item.srcIssuePreviwe));
+      imgUrls.push(this._preLoadImg(this.bookConfig.srcBookPreviwe));
+
+      Promise.all(imgUrls)
+      .then(() => {
+        resolve('preload complite');
+      })
+      .catch(function(err) {
+        console.log(err.stack);
+      });
+    });
   }
 
   _preLoadImg(url) {
