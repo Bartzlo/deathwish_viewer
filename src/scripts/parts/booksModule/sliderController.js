@@ -1,52 +1,51 @@
-function init() {
+function init () {
   document.addEventListener('click', e => {
-    let trg = e.target;
+    let trg = e.target
 
-    while (trg){
+    while (trg) {
       if (trg.classList.contains('books-module__forwardBtn')) {
-          e.preventDefault();
-          let bookModule = trg.closest('.books-module');
-          slideBookModule(bookModule, -216);
-        return;
+        e.preventDefault()
+        let bookModule = trg.closest('.books-module')
+        slideBookModule(bookModule, -216)
+        return
       }
 
       if (trg.classList.contains('books-module__backBtn')) {
-          e.preventDefault();
-          let bookModule = trg.closest('.books-module');
-          slideBookModule(bookModule, 216);
-        return;
+        e.preventDefault()
+        let bookModule = trg.closest('.books-module')
+        slideBookModule(bookModule, 216)
+        return
       }
 
-      trg = trg.parentElement;
+      trg = trg.parentElement
     }
-  });
+  })
 
-  function slideBookModule(bookModule, shift) {
-    let
-      slider = bookModule.querySelector('.books-module__slider'),
-      slideList = bookModule.querySelector('.books-module__slideList'),
+  function slideBookModule (bookModule, shift) {
+    let slider = bookModule.querySelector('.books-module__slider')
+    let slideList = bookModule.querySelector('.books-module__slideList')
 
-      sliderWidth = slider.getBoundingClientRect().width,
-      slideListWidth = slideList.getBoundingClientRect().width,
+    let sliderWidth = slider.getBoundingClientRect().width
+    let slideListWidth = slideList.getBoundingClientRect().width
 
-      currShift = parseInt(slideList.dataset.shift),
-      left = currShift + shift;
+    let currShift = parseInt(slideList.dataset.shift)
+    let left = currShift + shift
 
-      if (left > 0) {
-        slideList.style.transform = `translatex(0px)`;
-        slideList.dataset.shift = 0;
-        return;
-      }
+    if (left > 0) {
+      slideList.style.transform = `translatex(0px)`
+      slideList.dataset.shift = 0
+      return
+    }
 
-      if (left < (sliderWidth - slideListWidth)) {
-        slideList.style.transform = `translatex(${-(slideListWidth - sliderWidth)}px)`;
-        slideList.dataset.shift = -(slideListWidth - sliderWidth);
-        return;
-      }
+    if (left < (sliderWidth - slideListWidth)) {
+      slideList.style.transform = `translatex(${-(slideListWidth - sliderWidth)}px)`
+      slideList.dataset.shift = -(slideListWidth - sliderWidth)
+      return
+    }
 
-      slideList.style.transform = `translatex(${left}px)`;
-      slideList.dataset.shift = left;
+    slideList.style.transform = `translatex(${left}px)`
+    slideList.dataset.shift = left
   }
 }
 
-module.exports.init = init;
+module.exports.init = init

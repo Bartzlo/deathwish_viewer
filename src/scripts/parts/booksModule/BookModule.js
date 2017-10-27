@@ -1,63 +1,62 @@
-const Mustache = require('mustache');
+const Mustache = require('mustache')
 
 class BookModule {
-  constructor(bookConfig) {
-    this.bookConfig = bookConfig;
-    this._tmpl = document.getElementById('core').innerHTML;
-    this.bookElem = this._renderModule();
-    this._complitEvent = new Event('loadBookModule');
+  constructor (bookConfig) {
+    this.bookConfig = bookConfig
+    this._tmpl = document.getElementById('core').innerHTML
+    this.bookElem = this._renderModule()
+    this._complitEvent = new Event('loadBookModule')
   }
 
-  getElement() {
-    return this.bookElem;
+  getElement () {
+    return this.bookElem
   }
 
-  isComplitLoad() {
-    return this._loadBookModule();
+  isComplitLoad () {
+    return this._loadBookModule()
   }
 
-  _renderModule() {
-    let elem = document.createElement('div');
-    elem.className = 'books-module';
+  _renderModule () {
+    let elem = document.createElement('div')
+    elem.className = 'books-module'
 
-    let render = Mustache.render(this._tmpl, this.bookConfig);
-    elem.innerHTML = render;
-    this.bookElem = elem;
+    let render = Mustache.render(this._tmpl, this.bookConfig)
+    elem.innerHTML = render
+    this.bookElem = elem
 
-    return elem;
+    return elem
   }
 
-  _loadBookModule() {
+  _loadBookModule () {
     return new Promise((resolve, reject) => {
-
-      let imgUrls = this.bookConfig.issues.map((item) => this._preLoadImg(item.srcIssuePreviwe));
-      imgUrls.push(this._preLoadImg(this.bookConfig.srcBookPreviwe));
+      let imgUrls = this.bookConfig.issues.map((item) => this._preLoadImg(item.srcIssuePreviwe))
+      imgUrls.push(this._preLoadImg(this.bookConfig.srcBookPreviwe))
 
       Promise.all(imgUrls)
-      .then(() => {
-        resolve('preload complite');
-      })
-      .catch(function(err) {
-        console.log(err.stack);
-      });
-    });
+        .then(() => {
+          resolve('preload complite')
+        })
+        .catch(function (err) {
+          console.log(err.stack)
+        })
+    })
   }
 
-  _preLoadImg(url) {
+  _preLoadImg (url) {
     return new Promise((resolve, reject) => {
-      let img = document.createElement('img');
-      img.src = url;
+      let img = document.createElement('img')
+      img.src = url
 
       img.addEventListener('load', e => {
-        resolve();
-      });
+        resolve()
+      })
 
       img.addEventListener('error', e => {
-        console.log(new Error('Preloading image error. Image file not found. Url: ' + url).stack);
-        resolve();
-      });
-    });
+        console.log(new Error('Preloading image error. Image file not found. Url: ' + url).stack)
+        resolve()
+      })
+    })
   }
 }
 
-module.exports = BookModule;
+module.exports = BookModule

@@ -8,14 +8,14 @@ mainScreen.setAttribute('data-render', '');
 let container = document.createElement('section');
 document.getElementsByTagName('main')[0].appendChild(container);
 
-function createMainScreen() {
+function createMainScreen () {
   // Есть 3 варианта згрузки модулей:
   // - Згрузка все модулей книг без прелоада asyncLoadBookModules()
   // - Загрузка модулей поочереди без прелоада syncLoadBookModules( ,false)
   // - Загрузка модулей поочереди с прелоадом syncLoadBookModules( ,true)
 
   console.log('createMainScreen()');
-  if (mainScreen.dataset.render == 'inload') {
+  if (mainScreen.dataset.render === 'inload') {
     return;
   }
 
@@ -23,7 +23,7 @@ function createMainScreen() {
   container.innerHTML = '';
   container.appendChild(mainScreen);
 
-  if (mainScreen.dataset.render == 'complite') {
+  if (mainScreen.dataset.render === 'complite') {
     return;
   }
 
@@ -32,19 +32,19 @@ function createMainScreen() {
 
   let bookModuleConfig = new BookModuleConfig('img/books/', 'config.json');
   bookModuleConfig.getConfig()
-    .then(function(config) {
+    .then(function (config) {
       mainScreen.innerHTML = '';
       // if preload then sync may by only true
       syncLoadBookModules(config, {preload: false, sync: true});
     })
-    .catch(function(err) {
+    .catch(function (err) {
       console.log(err.stack);
     });
 }
 
-function syncLoadBookModules(config, opt) {
+function syncLoadBookModules (config, opt) {
   let moduleData = config.shift();
-  if (!moduleData){
+  if (!moduleData) {
     console.log('module is full loaded');
     mainScreen.dataset.render = 'complite';
     return;
@@ -65,7 +65,7 @@ function syncLoadBookModules(config, opt) {
     })
     .catch((err) => {
       console.log(err.stack);
-    })
+    });
 }
 
 module.exports.createMainScreen = createMainScreen;

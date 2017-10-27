@@ -1,44 +1,44 @@
 class BookConfig {
-  constructor(configUrl, configName) {
-    this.url = configUrl;
-    this.configName = configName;
-    this.config;
+  constructor (configUrl, configName) {
+    this.url = configUrl
+    this.configName = configName
+    this.config = null
   }
 
-  getConfig() {
+  getConfig () {
     if (this.config) {
-      return Promise.resolve(this.config);
+      return Promise.resolve(this.config)
     } else {
-      return this._requestConfig();
+      return this._requestConfig()
     }
   }
 
-  _requestConfig() {
+  _requestConfig () {
     return new Promise((resolve, reject) => {
       fetch(this.url + this.configName)
         .then(res => res.json())
         .then(res => {
-          let conf = this._formateConfig(res);
-          this.config = conf;
-          resolve(conf);
+          let conf = this._formateConfig(res)
+          this.config = conf
+          resolve(conf)
         })
-        .catch(err => reject(err));
-      });
+        .catch(err => reject(err))
+    })
   }
 
-  _formateConfig(config) {
+  _formateConfig (config) {
     config.forEach(book => {
-      book.srcBookPreviwe = this.url + book.bookName + '/book-previwe.jpg';
-      book.altBookPreviwe = book.bookName + ' previwe';
+      book.srcBookPreviwe = this.url + book.bookName + '/book-previwe.jpg'
+      book.altBookPreviwe = book.bookName + ' previwe'
 
       book.issues.forEach(issue => {
-        issue.srcIssuePreviwe = this.url + book.bookName + '/' + issue.issueName + '/issue-previwe.jpg';
-        issue.altIssuePreviwe = issue.issueName + ' previwe';
-      });
-    });
+        issue.srcIssuePreviwe = this.url + book.bookName + '/' + issue.issueName + '/issue-previwe.jpg'
+        issue.altIssuePreviwe = issue.issueName + ' previwe'
+      })
+    })
 
-    return(config);
+    return (config)
   }
 }
 
-module.exports = BookConfig;
+module.exports = BookConfig
