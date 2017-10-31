@@ -33,6 +33,8 @@ class BookConfig {
 
       book.issues.forEach(issue => {
         issue.srcIssuePreviwe = this.url + book.bookName + '/' + issue.issueName + '/issue-previwe.jpg'
+        issue.issueUrl = this.url + book.bookName + '/' + issue.issueName
+        issue.issueCount = issue.cuont
         issue.altIssuePreviwe = issue.issueName + ' previwe'
       })
     })

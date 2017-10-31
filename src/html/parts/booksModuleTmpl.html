@@ -11,7 +11,7 @@
   <div class="books-module__slider">
     <ul class="books-module__slideList" data-shift="0">
       {{#issues}}
-      <li class="books-module__slideItem">
+      <li class="books-module__slideItem" data-issue_url="{{issueUrl}}" data-issue_count="{{issueCount}}">
         <a href="#"><img src="{{srcIssuePreviwe}}" alt="{{altIssuePreviwe}}"></a>
         <h3>{{issueName}}</h3>
       </li>

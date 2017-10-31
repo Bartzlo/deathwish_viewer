@@ -1,9 +1,9 @@
 'use strict'
 console.log('start main script')
 
-const screenBuilder = require('./parts/screenBuilder.js')
+const screenController = require('./parts/screenController.js')
 
-screenBuilder.createMainScreen()
+screenController.init()
 
 // setTimeout(screenBuilder.createMainScreen, 0);
 // setTimeout(screenBuilder.createMainScreen, 100);
