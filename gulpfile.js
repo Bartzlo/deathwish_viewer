@@ -13,20 +13,23 @@ const
   babel = require('gulp-babel'),
   rigger = require('gulp-rigger');
 
-gulp.task('serve', ['build-style', 'build-html', 'build-js'], function() {
+gulp.task('serve', ['build-style', 'build-html', 'build-js', 'build-img', 'copy-data'], function() {
     browserSync.init({
-        server: {baseDir: "build/"}
+        server: {baseDir: "build/"},
+        open: false,
+        reloadOnRestart: true
     });
 
     gulp.watch('src/html/**/*.html', ['build-html']);
     gulp.watch('src/styles/**/*.scss', ['build-style']);
-    gulp.watch('src/scripts/**/*.js', ['build-js']);
-    //gulp.watch('src/img/**/*.*', ['build-img']);
+    gulp.watch('src/**/*.js', ['build-js']);
+    gulp.watch('src/img/**/*.*', ['build-img']);
+    gulp.watch('src/data/**/*.*', ['copy-data']);
     //gulp.watch('src/**/*.*').on('change', browserSync.reload);
 });
 
 gulp.task('build-html', () => {
-  return gulp.src('src/html/index.html')
+  return gulp.src('src/html/*.html')
   .pipe(rigger())
   .pipe(gulp.dest('build/'))
   .pipe(browserSync.stream());
@@ -43,7 +46,7 @@ gulp.task('build-style', () => {
 });
 
 gulp.task('build-js', () => {
-  return gulp.src('src/scripts/main.js')
+  return gulp.src('src/scripts/*.js')
   .pipe(sourcemaps.init()) // !!!exclude from the release!!!
   .pipe(browserify({debug : true})) // !!!exclude from the release (debug : false)!!!
   .pipe(babel())
@@ -53,11 +56,17 @@ gulp.task('build-js', () => {
   .pipe(browserSync.stream());
 });
 
-// gulp.task('build-img', () => {
-//   return gulp.src('src/img/**/*.*')
-//   .pipe(gulp.dest('build/img/'))
-//   .pipe(browserSync.stream());
-// });
+gulp.task('build-img', () => {
+  return gulp.src('src/img/**/*.*')
+  .pipe(gulp.dest('build/img/'))
+  .pipe(browserSync.stream());
+});
+
+gulp.task('copy-data', () => {
+  return gulp.src('src/data/**/*.*')
+  .pipe(gulp.dest('build/data/'))
+  .pipe(browserSync.stream());
+});
 
 gulp.task('clean', function (cb) {
     rimraf('build', cb);
