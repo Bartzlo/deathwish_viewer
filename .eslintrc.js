@@ -3,11 +3,7 @@ module.exports = {
     "rules": {
         "indent": [
             "error",
-            4
-        ],
-        "semi": [
-            "error",
-            "always"
+            2
         ]
     },
     "env": {
