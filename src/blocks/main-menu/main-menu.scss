@@ -1,0 +1,17 @@
+.main-menu {
+  text-align: center;
+}
+
+.main-menu__list {
+  list-style: none;
+  padding: 0;
+  display: inline-flex;
+  justify-content: space-around;
+  width: 350px;
+  border: solid 1px green;
+}
+
+.main-menu__item {
+  padding: 20px;
+  border: solid 1px white;
+}

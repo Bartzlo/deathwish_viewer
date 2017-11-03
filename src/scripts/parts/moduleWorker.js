@@ -1,10 +1,10 @@
 const Mustache = require('mustache')
-let mainScreen = require('../../blocks/mainScreen/mainScreen.js')
+let mainScreen = require('../../blocks/main-screen/main-screen.js')
 let logo = require('../../blocks/logo/logo.js')
 let preloader = require('../../blocks/preloader/preloader.js')
 
 let modules = {
-  'mainScreen': mainScreen,
+  'main-screen': mainScreen,
   'logo': logo,
   'preloader': preloader
 }

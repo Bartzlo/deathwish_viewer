@@ -1,0 +1,25 @@
+@import "../../node_modules/normalize.css/normalize.css";
+@import "../blocks/logo/logo.scss";
+@import "../blocks/main-menu/main-menu.scss";
+@import "../blocks/main-footer/main-footer.scss";
+@import "../blocks/book-sliders-container/book-sliders-container.scss";
+@import "../blocks/book-sliders-container/book-slider/book-slider.scss";
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color: black;
+  color: red;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 600px;
+  height: 100%;
+  flex: 1;
+}

@@ -11,16 +11,10 @@ function buildMainScreen() {
 
   moduleWorker.insert(
     content, 
-    'mainScreen',
-    {menuItems: [1,2,3,4,5]},
-    {query: false, preload: true}
+    'main-screen',
+    {},
+    {query: false, preload: false}
   )
-    .then(res => moduleWorker.insert(
-      document.getElementById('cell-logo'),
-      'logo',
-      './data/images.json',
-      {query: true, preload: true}
-    ))
     .catch(rej => console.error(rej))
 }
 

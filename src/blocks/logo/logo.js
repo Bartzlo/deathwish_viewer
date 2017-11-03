@@ -1,9 +1,6 @@
-let template =
+module.exports =
 `
-<div class="logo">
-  {{#images}}
-  <img src="{{.}}" alt="logo">
-  {{/images}}
-</div>
+<header class="logo">
+  <img src="./img/logo.png" alt="Death wish">
+</header>
 `
-module.exports = template
