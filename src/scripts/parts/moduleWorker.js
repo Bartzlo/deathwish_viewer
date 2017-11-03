@@ -1,12 +1,14 @@
 const Mustache = require('mustache')
 let mainScreen = require('../../blocks/main-screen/main-screen.js')
 let logo = require('../../blocks/logo/logo.js')
+let bookSlider = require('../../blocks/book-sliders-container/book-slider/book-slider.js')
 let preloader = require('../../blocks/preloader/preloader.js')
 
 let modules = {
   'main-screen': mainScreen,
   'logo': logo,
-  'preloader': preloader
+  'preloader': preloader,
+  'book-slider': bookSlider
 }
 
 function getElement (moduleName, data = {}) {
@@ -14,12 +16,15 @@ function getElement (moduleName, data = {}) {
     if (!modules[moduleName]) {
       throw new Error(`Module "${moduleName}" no found`)
     }
+
+    // console.log(modules[moduleName])
+    // console.log(data)
+
     let elem = document.createElement('div')
     elem.innerHTML = Mustache.render(modules[moduleName], data)
     elem = elem.firstElementChild
     return elem
-  } 
-  catch (error) {
+  } catch (error) {
     console.error(error.stack)
     let div = document.createElement('div')
     div.setAttribute('data-render_error', moduleName)

@@ -1,6 +1,6 @@
 module.exports =
 `
-<div class="book-slider"></div>
+<div class="book-slider">
   <div class="book-slider__head">
     <img src="{{srcBookPreviwe}}" alt="{{altBookPreviwe}}">
     <h2>{{bookName}}</h2>
@@ -29,24 +29,25 @@ module.exports =
 `
 
 document.addEventListener('click', e => {
+  console.log('click')
   let trg = e.target
   let el
 
-  if (isClass(trg, 'books-module__forwardBtn')) {
+  if (isClass(trg, 'book-slider__forwardBtn')) {
     e.preventDefault()
-    let bookModule = trg.closest('.books-module')
+    let bookModule = trg.closest('.book-slider')
     slideBookModule(bookModule, -216)
     return
   }
 
-  if (isClass(trg, 'books-module__backBtn')) {
+  if (isClass(trg, 'book-slider__backBtn')) {
     e.preventDefault()
-    let bookModule = trg.closest('.books-module')
+    let bookModule = trg.closest('.book-slider')
     slideBookModule(bookModule, 216)
     return
   }
 
-  if (el = isClass(trg, 'books-module__slideItem')) {
+  if (el = isClass(trg, 'book-slider__slideItem')) {
     let event = new CustomEvent('callPageSelectScreen', {
       detail: {
         url: el.dataset.issue_url,
@@ -63,8 +64,8 @@ function isClass (elem, selector) {
 }
 
 function slideBookModule (bookModule, shift) {
-  let slider = bookModule.querySelector('.books-module__slider')
-  let slideList = bookModule.querySelector('.books-module__slideList')
+  let slider = bookModule.querySelector('.book-slider__slider')
+  let slideList = bookModule.querySelector('.book-slider__slideList')
 
   let sliderWidth = slider.getBoundingClientRect().width
   let slideListWidth = slideList.getBoundingClientRect().width
