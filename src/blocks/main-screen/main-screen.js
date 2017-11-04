@@ -5,12 +5,12 @@ let bookSliderContainer = require('../book-sliders-container/book-sliders-contai
 
 module.exports =
 `
-<div>
+<div class="content main-screen">
   <div class="wrapper">
-    <div id="cell-logo">${logo}</div>
-    <div id="cell-mainMenu">${mainMenu}</div>
+    ${logo}
+    ${mainMenu}
     ${bookSliderContainer}
   </div>
-  <div id="cell-mainFooter">${mainFooter}</div>
+  ${mainFooter}
 </div>
 `

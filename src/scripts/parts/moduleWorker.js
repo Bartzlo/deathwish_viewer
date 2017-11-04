@@ -34,18 +34,17 @@ function getElement (moduleName, data = {}) {
 
 function getPreloadElement (moduleName, data = {}) {
   return new Promise((resolve, reject) => {
-
     let elem = getElement(moduleName, data)
     let counter = elem.getElementsByTagName('img').length
     if (counter === 0) resolve(elem)
 
     elem.addEventListener('load', e => {
-      counter-= 1
+      counter -= 1
       if (counter === 0) resolve(elem)
     }, true)
 
     elem.addEventListener('error', e => {
-      counter-= 1
+      counter -= 1
       if (counter === 0) resolve(elem)
     }, true)
   })
@@ -54,27 +53,27 @@ function getPreloadElement (moduleName, data = {}) {
 function getRemElement (moduleName, query) {
   let url = `${query}`
   return fetch(url)
-          .then(res => res.json())
-          .then(res => getElement(moduleName, res))
-          .catch(rej => {
-            console.error(rej)
-            let div = document.createElement('div')
-            div.setAttribute('data-render_error', moduleName)
-            return div
-          })
+    .then(res => res.json())
+    .then(res => getElement(moduleName, res))
+    .catch(rej => {
+      console.error(rej)
+      let div = document.createElement('div')
+      div.setAttribute('data-render_error', moduleName)
+      return div
+    })
 }
 
 function getRemPreloadElement (moduleName, query) {
   let url = `${query}`
   return fetch(url)
-          .then(res => res.json())
-          .then(res => getPreloadElement(moduleName, res))
-          .catch(rej => {
-            console.error(rej)
-            let div = document.createElement('div')
-            div.setAttribute('data-render_error', moduleName)
-            return div
-          })
+    .then(res => res.json())
+    .then(res => getPreloadElement(moduleName, res))
+    .catch(rej => {
+      console.error(rej)
+      let div = document.createElement('div')
+      div.setAttribute('data-render_error', moduleName)
+      return div
+    })
 }
 
 function insert (target, moduleName, data = {}, opt = {query: false, preload: false}) {
@@ -89,16 +88,14 @@ function insert (target, moduleName, data = {}, opt = {query: false, preload: fa
           resolve(target)
         })
         .catch(rej => reject(rej))
-    } 
-    else if (opt.query) {
+    } else if (opt.query) {
       getRemElement(moduleName, data)
         .then(res => {
           target.appendChild(res)
           resolve(target)
         })
         .catch(rej => reject(rej))
-    } 
-    else if (opt.preload) {
+    } else if (opt.preload) {
       let preloader = getElement('preloader')
       target.appendChild(preloader)
       getPreloadElement(moduleName, data)
@@ -108,8 +105,7 @@ function insert (target, moduleName, data = {}, opt = {query: false, preload: fa
           resolve(target)
         })
         .catch(rej => reject(rej))
-    }
-    else {
+    } else {
       target.appendChild(getElement(moduleName, data))
       resolve(target)
     }

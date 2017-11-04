@@ -1,7 +1,7 @@
 const moduleWorker = require('./moduleWorker.js')
 const DataController = require('./dataController.js')
 
-let content = document.getElementById('content')
+let body = document.body
 let bookDbController = new DataController('./data/books.json')
 let bookDb
 
@@ -16,23 +16,29 @@ function buildScreen (url) {
 }
 
 function buildMainScreen () {
-  content.innerHTML = ''
+  let content = body.querySelector('.conrent')
+  if (content && content.classList.hasClass('main-screen')) return
+  if (content && !content.classList.hasClass('main-screen')) content.remove()
 
   moduleWorker.insert(
-    content,
+    body,
     'main-screen',
     {},
-    {query: false, preload: false}
+    {query: false, preload: true}
   )
     .then(res => {
-      bookDb.forEach((book) => {
+      let books = bookDb.length;
+
+      (function createModule (counter) {
+        if (counter >= books) return
         moduleWorker.insert(
           document.querySelector('.book-sliders-container'),
           'book-slider',
-          book,
-          {query: false, preload: true}
+          bookDb[counter],
+          {query: false, preload: false}
         )
-      })
+          .then(res => createModule(counter += 1))
+      })(0)
     })
     .catch(rej => console.error(rej))
 }

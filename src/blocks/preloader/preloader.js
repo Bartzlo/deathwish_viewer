@@ -1,4 +1,4 @@
 module.exports =
 `
-<img src="./img/Eclipse.svg">
+<img class="preloader" src="./img/Eclipse.svg">
 `

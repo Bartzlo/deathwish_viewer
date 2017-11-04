@@ -21,7 +21,7 @@ gulp.task('serve', ['build-style', 'build-html', 'build-js', 'build-img', 'copy-
     });
 
     gulp.watch('src/html/**/*.html', ['build-html']);
-    gulp.watch('src/styles/**/*.scss', ['build-style']);
+    gulp.watch('src/**/*.scss', ['build-style']);
     gulp.watch('src/**/*.js', ['build-js']);
     gulp.watch('src/img/**/*.*', ['build-img']);
     gulp.watch('src/data/**/*.*', ['copy-data']);

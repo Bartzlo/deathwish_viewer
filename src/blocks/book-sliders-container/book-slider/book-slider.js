@@ -31,7 +31,7 @@ module.exports =
 document.addEventListener('click', e => {
   console.log('click')
   let trg = e.target
-  let el
+  // let el
 
   if (isClass(trg, 'book-slider__forwardBtn')) {
     e.preventDefault()
@@ -47,16 +47,16 @@ document.addEventListener('click', e => {
     return
   }
 
-  if (el = isClass(trg, 'book-slider__slideItem')) {
-    let event = new CustomEvent('callPageSelectScreen', {
-      detail: {
-        url: el.dataset.issue_url,
-        count: el.dataset.issue_count
-      }
-    })
+  // if (el === isClass(trg, 'book-slider__slideItem')) {
+  //   let event = new CustomEvent('callPageSelectScreen', {
+  //     detail: {
+  //       url: el.dataset.issue_url,
+  //       count: el.dataset.issue_count
+  //     }
+  //   })
 
-    document.dispatchEvent(event)
-  }
+  //   document.dispatchEvent(event)
+  // }
 })
 
 function isClass (elem, selector) {

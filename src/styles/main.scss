@@ -1,5 +1,6 @@
 @import "../../node_modules/normalize.css/normalize.css";
 @import "../blocks/logo/logo.scss";
+@import "../blocks/preloader/preloader.scss";
 @import "../blocks/main-menu/main-menu.scss";
 @import "../blocks/main-footer/main-footer.scss";
 @import "../blocks/book-sliders-container/book-sliders-container.scss";
@@ -11,10 +12,14 @@ html {
 
 body {
   background-color: black;
+}
+
+.content {
   color: red;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .wrapper {
