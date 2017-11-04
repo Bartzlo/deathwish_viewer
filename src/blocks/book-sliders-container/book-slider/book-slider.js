@@ -1,37 +1,31 @@
 module.exports =
 `
 <div class="book-slider">
-  <div class="book-slider__head">
+  <header class="book-slider__head">
     <img src="{{srcBookPreviwe}}" alt="{{altBookPreviwe}}">
     <h2>{{bookName}}</h2>
+  </header>
+  <div class="book-slider__backBtn">
+    &#8647;
   </div>
-  <a href="">
-    <div class="book-slider__backBtn">
-      &#8647;
-    </div>
-  </a>
-  <div class="book-slider__slider">
-  <ul class="book-slider__slideList" data-shift="0">
-    {{#issues}}
-    <li class="book-slider__slideItem" data-issue_url="{{issueUrl}}" data-issue_count="{{issueCount}}">
-      <a href="#"><img src="{{srcIssuePreviwe}}" alt="{{altIssuePreviwe}}"></a>
-      <h3>{{issueName}}</h3>
-    </li>
-    {{/issues}}
-  </ul>
+  <div class="book-slider__slider" data-book-name="{{bookName}}">
+    <ul class="book-slider__slideList" data-shift="0">
+      {{#issues}}
+      <li class="book-slider__slideItem" data-issue-name="{{issueName}}">
+        <a href="#"><img src="{{srcIssuePreviwe}}" alt="{{altIssuePreviwe}}"></a>
+        <h3>{{issueName}}</h3>
+      </li>
+      {{/issues}}
+    </ul>
   </div>
-  <a href="">
-    <div class="book-slider__forwardBtn">
-      &#8649;
-    </div>
-  </a>
+  <div class="book-slider__forwardBtn">
+    &#8649;
+  </div>
 </div>
 `
 
 document.addEventListener('click', e => {
-  console.log('click')
   let trg = e.target
-  // let el
 
   if (isClass(trg, 'book-slider__forwardBtn')) {
     e.preventDefault()
@@ -47,16 +41,18 @@ document.addEventListener('click', e => {
     return
   }
 
-  // if (el === isClass(trg, 'book-slider__slideItem')) {
-  //   let event = new CustomEvent('callPageSelectScreen', {
-  //     detail: {
-  //       url: el.dataset.issue_url,
-  //       count: el.dataset.issue_count
-  //     }
-  //   })
+  let el = isClass(trg, 'book-slider__slideItem')
+  if (el) {
+    let event = new CustomEvent('callPartsVeiwerScreen', {
+      detail: {
+        issueName: el.dataset.issueName,
+        bookName: el.closest('.book-slider__slider').dataset.bookName
+      },
+      bubbles: true
+    })
 
-  //   document.dispatchEvent(event)
-  // }
+    document.dispatchEvent(event)
+  }
 })
 
 function isClass (elem, selector) {

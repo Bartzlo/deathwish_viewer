@@ -1,7 +1,6 @@
 .book-slider {
   display: inline-flex;
   align-items: center;
-  margin-bottom: 50px;
   width: 100%;
   margin: 20px 0 20px 0;
 }
@@ -47,10 +46,10 @@
 }
 
 .book-slider__backBtn, .book-slider__forwardBtn {
-  height: 40px;
   line-height: 40px;
-  width: 20px;
+  width: 30px;
   border: 2px solid red;
   color: red;
   text-align: center;
+  cursor: pointer;
 }

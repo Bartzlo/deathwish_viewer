@@ -1,0 +1,49 @@
+.parts-viewer__container {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.parts-viewer__header {
+  text-align: center;
+  padding-top: 20px;
+  margin-bottom: 20px;
+  h1 {
+    font-size: 120%;
+    margin-right: 30px;
+    display: inline;
+  }
+}
+
+.parts-viewer__list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  justify-content: space-around;
+  margin: 0 20px 0 20px;
+}
+
+.parts-viewer__item {
+  margin: 10px;
+}
+
+.parts-viewer__item img {
+  width: 80px;
+  height: 120px;
+  background: rgb(70, 0, 0);
+}
+
+.parts-viewer__backBtn, .parts-viewer__forwardBtn {
+  line-height: 40px;
+  width: 80px;
+  border: 2px solid red;
+  color: red;
+  text-align: center;
+  cursor: pointer;
+}
+
+.parts-viewer__backBtn[data-issue-name=""], .parts-viewer__forwardBtn[data-issue-name=""] {
+  visibility: hidden;
+}

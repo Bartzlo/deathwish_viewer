@@ -16,15 +16,16 @@ function buildScreen (url) {
 }
 
 function buildMainScreen () {
-  let content = body.querySelector('.conrent')
-  if (content && content.classList.hasClass('main-screen')) return
-  if (content && !content.classList.hasClass('main-screen')) content.remove()
+  let content = body.querySelector('.content')
+  if (content && content.classList.contains('main-screen')) return
+  if (content && !content.classList.contains('main-screen')) content.remove()
+  window.stop()
 
   moduleWorker.insert(
     body,
     'main-screen',
     {},
-    {query: false, preload: true}
+    {query: false, preload: false}
   )
     .then(res => {
       let books = bookDb.length;
@@ -35,7 +36,7 @@ function buildMainScreen () {
           document.querySelector('.book-sliders-container'),
           'book-slider',
           bookDb[counter],
-          {query: false, preload: false}
+          {query: false, preload: true}
         )
           .then(res => createModule(counter += 1))
       })(0)
@@ -43,4 +44,22 @@ function buildMainScreen () {
     .catch(rej => console.error(rej))
 }
 
-module.exports.buildScreen = buildScreen
+function buildPartsViewer (bookName, issueName) {
+  let content = body.querySelector('.content')
+  if (content) content.remove()
+  window.stop()
+
+  moduleWorker.insert(
+    body,
+    'parts-viewer-screen',
+    bookDbController.getParts(bookName, issueName),
+    {query: false, preload: false}
+  )
+    .catch(rej => console.error(rej))
+}
+
+module.exports = {
+  'buildScreen': buildScreen,
+  'buildPartsViewer': buildPartsViewer,
+  'buildMainScreen': buildMainScreen
+}

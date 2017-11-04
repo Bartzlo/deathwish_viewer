@@ -3,12 +3,14 @@ let mainScreen = require('../../blocks/main-screen/main-screen.js')
 let logo = require('../../blocks/logo/logo.js')
 let bookSlider = require('../../blocks/book-sliders-container/book-slider/book-slider.js')
 let preloader = require('../../blocks/preloader/preloader.js')
+let partsVeiwerScreen = require('../../blocks/parts-viewer-screen/parts-viewer-screen.js')
 
 let modules = {
   'main-screen': mainScreen,
   'logo': logo,
   'preloader': preloader,
-  'book-slider': bookSlider
+  'book-slider': bookSlider,
+  'parts-viewer-screen': partsVeiwerScreen
 }
 
 function getElement (moduleName, data = {}) {
