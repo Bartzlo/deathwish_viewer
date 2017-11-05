@@ -32,7 +32,7 @@ module.exports = class dataController {
     return (config)
   }
 
-  getParts (bookName, issueName) {
+  getMinParts (bookName, issueName) {
     let result = {'bookName': bookName, 'issueName': issueName}
 
     this.dataBase.forEach((book) => {
@@ -45,10 +45,32 @@ module.exports = class dataController {
             result.prevIssue = book.issues[i - 1] ? book.issues[i - 1].issueName : ''
 
             for (let i = 1; i <= issue.count; i++) {
-              urls.push(this.rootDir + bookName + '/' + issueName + '/' + i + '.jpg')
+              urls.push({'url': this.rootDir + bookName + '/' + issueName + '/min-' + i + '.jpg',
+                'number': i})
             }
 
             result.parts = urls
+          }
+        })
+      }
+    })
+
+    return result
+  }
+
+  getPart (bookName, issueName, number) {
+    let result = {'bookName': bookName, 'issueName': issueName}
+
+    this.dataBase.forEach((book) => {
+      if (book.bookName === bookName) {
+        book.issues.forEach((issue, i) => {
+          if (issue.issueName === issueName) {
+            for (let i = 1; i <= issue.count; i++) {
+              if (i === parseInt(number)) {
+                result.part = this.rootDir + bookName + '/' + issueName + '/' + i + '.jpg'
+                result.partNumber = i
+              }
+            }
           }
         })
       }

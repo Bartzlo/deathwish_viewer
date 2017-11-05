@@ -5,17 +5,17 @@ module.exports =
     <h1>{{bookName}}</h1><span>{{issueName}}</span>
   </header>
   <div class="parts-viewer__container">
-    <div class="parts-viewer__backBtn" data-issue-name="{{prevIssue}}">
+    <div class="parts-viewer__btn" data-issue-name="{{prevIssue}}">
       &#8647;
     </div>
     <ul class="parts-viewer__list">
       {{#parts}}
-        <li class="parts-viewer__item">
-          <img src="{{.}}" alt="Part previwe">
+        <li class="parts-viewer__item" data-number={{number}}>
+          <img src="{{url}}" alt="Image not found">
         </li>
       {{/parts}}
     </ul>
-    <div class="parts-viewer__forwardBtn" data-issue-name="{{nextIssue}}">
+    <div class="parts-viewer__btn" data-issue-name="{{nextIssue}}">
       &#8649;
     </div>
   </div>
@@ -25,31 +25,34 @@ module.exports =
 document.addEventListener('click', e => {
   let trg = e.target
 
-  if (isClass(trg, 'parts-viewer__forwardBtn')) {
+  if (isClass(trg, 'parts-viewer__item')) {
     e.preventDefault()
     let el = isClass(trg, 'parts-viewer')
-    link(el.dataset.bookName, trg.dataset.issueName)
+    let event = new CustomEvent('callMainVeiwer', {
+      detail: {
+        'bookName': el.dataset.bookName,
+        'issueName': el.dataset.issueName,
+        'number': isClass(trg, 'parts-viewer__item').dataset.number
+      },
+      bubbles: true
+    })
+    document.dispatchEvent(event)
   }
 
-  if (isClass(trg, 'parts-viewer__backBtn')) {
+  if (isClass(trg, 'parts-viewer__btn')) {
     e.preventDefault()
     let el = isClass(trg, 'parts-viewer')
-    link(el.dataset.bookName, trg.dataset.issueName)
+    let event = new CustomEvent('callPartsVeiwerScreen', {
+      detail: {
+        'bookName': el.dataset.bookName,
+        'issueName': trg.dataset.issueName
+      },
+      bubbles: true
+    })
+    document.dispatchEvent(event)
   }
 })
 
 function isClass (elem, selector) {
   return elem.classList.contains(selector) ? elem : elem.closest('.' + selector)
-}
-
-function link (bookName, issueName) {
-  let event = new CustomEvent('callPartsVeiwerScreen', {
-    detail: {
-      'bookName': bookName,
-      'issueName': issueName
-    },
-    bubbles: true
-  })
-
-  document.dispatchEvent(event)
 }

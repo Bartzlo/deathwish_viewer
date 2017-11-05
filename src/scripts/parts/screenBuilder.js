@@ -52,8 +52,22 @@ function buildPartsViewer (bookName, issueName) {
   moduleWorker.insert(
     body,
     'parts-viewer-screen',
-    bookDbController.getParts(bookName, issueName),
+    bookDbController.getMinParts(bookName, issueName),
     {query: false, preload: false}
+  )
+    .catch(rej => console.error(rej))
+}
+
+function buildMainVeiwer (bookName, issueName, number) {
+  let content = body.querySelector('.content')
+  if (content) content.remove()
+  window.stop()
+
+  moduleWorker.insert(
+    body,
+    'main-veiwer',
+    bookDbController.getPart(bookName, issueName, number),
+    {query: false, preload: true}
   )
     .catch(rej => console.error(rej))
 }
@@ -61,5 +75,6 @@ function buildPartsViewer (bookName, issueName) {
 module.exports = {
   'buildScreen': buildScreen,
   'buildPartsViewer': buildPartsViewer,
-  'buildMainScreen': buildMainScreen
+  'buildMainScreen': buildMainScreen,
+  'buildMainVeiwer': buildMainVeiwer
 }

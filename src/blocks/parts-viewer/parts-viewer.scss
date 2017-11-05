@@ -35,7 +35,7 @@
   background: rgb(70, 0, 0);
 }
 
-.parts-viewer__backBtn, .parts-viewer__forwardBtn {
+.parts-viewer__btn {
   line-height: 40px;
   width: 80px;
   border: 2px solid red;
@@ -44,6 +44,6 @@
   cursor: pointer;
 }
 
-.parts-viewer__backBtn[data-issue-name=""], .parts-viewer__forwardBtn[data-issue-name=""] {
+.parts-viewer__btn[data-issue-name=""] {
   visibility: hidden;
 }
