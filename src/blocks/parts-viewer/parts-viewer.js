@@ -10,7 +10,7 @@ module.exports =
     </div>
     <ul class="parts-viewer__list">
       {{#parts}}
-        <li class="parts-viewer__item" data-number={{number}}>
+        <li class="parts-viewer__item" data-number={{partNumber}}>
           <img src="{{url}}" alt="Image not found">
         </li>
       {{/parts}}

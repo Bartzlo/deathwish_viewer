@@ -46,7 +46,7 @@ module.exports = class dataController {
 
             for (let i = 1; i <= issue.count; i++) {
               urls.push({'url': this.rootDir + bookName + '/' + issueName + '/min-' + i + '.jpg',
-                'number': i})
+                'partNumber': i})
             }
 
             result.parts = urls
@@ -65,12 +65,37 @@ module.exports = class dataController {
       if (book.bookName === bookName) {
         book.issues.forEach((issue, i) => {
           if (issue.issueName === issueName) {
+            result.count = issue.count
+
             for (let i = 1; i <= issue.count; i++) {
               if (i === parseInt(number)) {
                 result.part = this.rootDir + bookName + '/' + issueName + '/' + i + '.jpg'
                 result.partNumber = i
               }
             }
+          }
+        })
+      }
+    })
+
+    return result
+  }
+
+  getPartsSet (bookName, issueName) {
+    let result = {'bookName': bookName, 'issueName': issueName}
+
+    this.dataBase.forEach((book) => {
+      if (book.bookName === bookName) {
+        book.issues.forEach((issue, i) => {
+          if (issue.issueName === issueName) {
+            let urls = []
+
+            for (let i = 1; i <= issue.count; i++) {
+              urls.push({'url': this.rootDir + bookName + '/' + issueName + '/' + i + '.jpg',
+                'partNumber': i})
+            }
+
+            result.parts = urls
           }
         })
       }

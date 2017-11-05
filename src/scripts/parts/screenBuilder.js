@@ -69,6 +69,14 @@ function buildMainVeiwer (bookName, issueName, number) {
     bookDbController.getPart(bookName, issueName, number),
     {query: false, preload: true}
   )
+    .then(res => {
+      moduleWorker.insert(
+        document.querySelector('.main-viewer__container'),
+        'main-veiwer__set',
+        bookDbController.getPartsSet(bookName, issueName),
+        {query: false, preload: false}
+      )
+    })
     .catch(rej => console.error(rej))
 }
 
