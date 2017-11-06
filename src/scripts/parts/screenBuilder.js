@@ -1,21 +1,39 @@
 const moduleWorker = require('./moduleWorker.js')
-const DataController = require('./dataController.js')
 
 let body = document.body
-let bookDbController = new DataController('./data/books.json')
-let bookDb
+let bookDbController
+let builder = {}
 
-function buildScreen (url) {
-  bookDbController.loadBase()
-    .then(db => {
-    // if (url == 'mainScreen') ...
-      bookDb = db
-      buildMainScreen()
-    })
-    .catch(rej => console.error(rej))
+function setDbController (dbController) {
+  bookDbController = dbController
 }
 
-function buildMainScreen () {
+function setUrl (funcName, args) {
+  args = args[0] ? [].slice.call(args[0]).join('&') : null
+  let url = '#' + funcName + (args ? '&' + args : '')
+  // window.location.hash = url
+  history.pushState({path: url}, '', url)
+}
+
+builder.getScreen = function (url) { // 'funcName&arg1&arg2&...'
+  let params = url.split('&')
+  params.push('prevUrl')
+
+  // если вызов билдеров идет из этой функции, не нужно вызывать setUrl
+  try {
+    this[params[0]](params.slice(1))
+  } catch (err) {
+    if (err.message.includes('is not a function')) {
+      builder.buildMainScreen()
+      console.log('Wrong url: ' + url)
+    } else {
+      console.log(err.message)
+    }
+  }
+}
+
+builder.buildMainScreen = function ([prevUrl]) {
+  if (!prevUrl) setUrl('buildMainScreen', arguments)
   let content = body.querySelector('.content')
   if (content && content.classList.contains('main-screen')) return
   if (content && !content.classList.contains('main-screen')) content.remove()
@@ -28,14 +46,14 @@ function buildMainScreen () {
     {query: false, preload: false}
   )
     .then(res => {
-      let books = bookDb.length;
+      let books = bookDbController.getBooksCounter();
 
       (function createModule (counter) {
         if (counter >= books) return
         moduleWorker.insert(
           document.querySelector('.book-sliders-container'),
           'book-slider',
-          bookDb[counter],
+          bookDbController.getBook(counter),
           {query: false, preload: true}
         )
           .then(res => createModule(counter += 1))
@@ -44,7 +62,8 @@ function buildMainScreen () {
     .catch(rej => console.error(rej))
 }
 
-function buildPartsViewer (bookName, issueName) {
+builder.buildPartsViewer = function ([bookName, issueName, prevUrl]) {
+  if (!prevUrl) setUrl('buildPartsViewer', arguments)
   let content = body.querySelector('.content')
   if (content) content.remove()
   window.stop()
@@ -58,7 +77,8 @@ function buildPartsViewer (bookName, issueName) {
     .catch(rej => console.error(rej))
 }
 
-function buildMainVeiwer (bookName, issueName, number) {
+builder.buildMainVeiwer = function ([bookName, issueName, number, prevUrl]) {
+  if (!prevUrl) setUrl('buildMainVeiwer', arguments)
   let content = body.querySelector('.content')
   if (content) content.remove()
   window.stop()
@@ -81,8 +101,6 @@ function buildMainVeiwer (bookName, issueName, number) {
 }
 
 module.exports = {
-  'buildScreen': buildScreen,
-  'buildPartsViewer': buildPartsViewer,
-  'buildMainScreen': buildMainScreen,
-  'buildMainVeiwer': buildMainVeiwer
+  'setDbController': setDbController,
+  'builder': builder
 }

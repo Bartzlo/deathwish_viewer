@@ -12,7 +12,7 @@ module.exports =
     <ul class="book-slider__slideList" data-shift="0">
       {{#issues}}
       <li class="book-slider__slideItem" data-issue-name="{{issueName}}">
-        <a href="#"><img src="{{srcIssuePreviwe}}" alt="{{altIssuePreviwe}}"></a>
+        <img src="{{srcIssuePreviwe}}" alt="{{altIssuePreviwe}}">
         <h3>{{issueName}}</h3>
       </li>
       {{/issues}}

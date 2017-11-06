@@ -103,4 +103,12 @@ module.exports = class dataController {
 
     return result
   }
+
+  getBooksCounter () {
+    return this.dataBase.length
+  }
+
+  getBook (counter) {
+    return this.dataBase[counter]
+  }
 }

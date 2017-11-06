@@ -35,6 +35,11 @@ document.addEventListener('click', e => {
       return
     }
 
+    let url = window.location.hash.split('&')
+    url[url.length - 1] = queryNumber
+    url = url.join('&')
+    console.log(url)
+    history.pushState({path: url}, '', url)
     changeImg(currentImg, queryNumber, queryNumber > currentNumber ? 'fwd' : 'bwd')
   }
 
@@ -89,7 +94,5 @@ function changeImg (img, counter, direction) {
 
 function hideElem (e) {
   if (e.target.classList.contains('current-img')) return
-
   e.target.setAttribute('hidden', '')
-  console.log('transitionend')
 }
