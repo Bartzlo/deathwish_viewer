@@ -85,13 +85,21 @@ builder.buildMainVeiwer = function ([bookName, issueName, number, prevUrl]) {
 
   moduleWorker.insert(
     body,
-    'main-veiwer',
-    bookDbController.getPart(bookName, issueName, number),
-    {query: false, preload: true}
+    'main-veiwer-screen',
+    {},
+    {query: false, preload: false}
   )
     .then(res => {
+      return moduleWorker.insert(
+        document.querySelector('.main-viewer-container'),
+        'main-veiwer',
+        bookDbController.getPart(bookName, issueName, number),
+        {query: false, preload: true}
+      )
+    })
+    .then(res => {
       moduleWorker.insert(
-        document.querySelector('.main-viewer__container'),
+        document.querySelector('.main-viewer__imgs-area'),
         'main-veiwer__set',
         bookDbController.getPartsSet(bookName, issueName),
         {query: false, preload: false}

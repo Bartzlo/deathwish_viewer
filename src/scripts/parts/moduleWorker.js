@@ -4,6 +4,7 @@ let logo = require('../../blocks/logo/logo.js')
 let bookSlider = require('../../blocks/book-sliders-container/book-slider/book-slider.js')
 let preloader = require('../../blocks/preloader/preloader.js')
 let partsVeiwerScreen = require('../../blocks/parts-viewer-screen/parts-viewer-screen.js')
+let mainVeiwerScreen = require('../../blocks/main-veiwer-screen/main-veiwer-screen.js')
 let mainVeiwer = require('../../blocks/main-veiwer/main-veiwer.js')
 let mainVeiwerSet = require('../../blocks/main-veiwer/main-veiwer__set/main-veiwer__set.js')
 
@@ -13,7 +14,8 @@ let modules = {
   'preloader': preloader,
   'book-slider': bookSlider,
   'parts-viewer-screen': partsVeiwerScreen,
-  'main-veiwer': mainVeiwer,
+  'main-veiwer-screen':mainVeiwerScreen,
+  'main-veiwer':mainVeiwer,
   'main-veiwer__set': mainVeiwerSet
 }
 
@@ -51,6 +53,7 @@ function getPreloadElement (moduleName, data = {}) {
 
     elem.addEventListener('error', e => {
       counter -= 1
+      console.error('Img: ' + e.path[0].baseURI + ' not load')
       if (counter === 0) resolve(elem)
     }, true)
   })

@@ -1,0 +1,41 @@
+modules:
+  main-header
+  main-menu
+  books-block
+    book-slider
+  main-footer
+  part-info
+  main-viewer-block
+    block__present
+    block__hiddens
+
+
+
+body
+  script main.js
+  screen-containet#main-screen
+    main-header (logo)
+    main-menu
+    books-block
+      books-block__book-slider ~querry
+      books-block__book-slider ~querry
+      books-block__book-slider ~querry
+    main-footer
+
+
+body
+  script main.js
+  screen-containet#parts-previewer-screen
+    main-header (logo)
+    parts-previewer
+    main-footer
+
+
+body
+  script main.js
+  screen-containet#main-viewer-screen
+    part-info (book and part names)
+    main-viewer-block
+      main-viewer-block__present
+      main-viewer-block__hiddens
+    main-footer

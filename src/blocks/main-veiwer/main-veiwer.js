@@ -1,12 +1,12 @@
 module.exports =
 `
-<div class="content main-viewer" data-book-name="{{bookName}}" data-issue-name="{{issueName}}" data-count="{{count}}">
+<div class="main-viewer" data-book-name="{{bookName}}" data-issue-name="{{issueName}}" data-count="{{count}}">
   <div class="main-viewer__backwardBtn" data-inc="-1"><svg width="36px" height="36px" class="JUQOtc yjarQe" viewBox="0 0 24 24"><path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"></path></svg></div>
   <div class="wrapper">
     <header class="main-viewer__header">
       <span class="main-viewer__backBtn"><- Back</span> <span class="main-viewer__homeBtn">Home</span> <h1>{{bookName}}</h1><span>{{issueName}}       part <span class="main-viewer__part-number">{{partNumber}}</span></span>
     </header>
-    <div class="main-viewer__container">
+    <div class="main-viewer__imgs-area">
       <div class="main-viewer__part">
         <img class="current-img" src="{{part}}" alt="Part" data-number="{{partNumber}}">
       </div>
@@ -38,7 +38,6 @@ document.addEventListener('click', e => {
     let url = window.location.hash.split('&')
     url[url.length - 1] = queryNumber
     url = url.join('&')
-    console.log(url)
     history.pushState({path: url}, '', url)
     changeImg(currentImg, queryNumber, queryNumber > currentNumber ? 'fwd' : 'bwd')
   }

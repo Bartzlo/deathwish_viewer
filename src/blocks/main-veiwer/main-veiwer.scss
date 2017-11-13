@@ -37,11 +37,12 @@
 .main-viewer__part {
   img {
     width: 600px;
-    height: auto;
+    height: 883px;
     opacity: 1;
     transform: translateX(0);
     position: absolute;
     transition: transform 0.4s, opacity 0.4s;
+    background: rgb(70, 0, 0);
   }
 
   .forward-img {
