@@ -1,6 +1,7 @@
 modules:
   main-header
   main-menu
+  content
   books-block
     book-slider
   main-footer
@@ -15,28 +16,30 @@ modules:
 
 body
   script main.js
-  screen-content#main-screen
+  screen-container#main-screen
     main-header (logo)
     main-menu
-    simple-text-container
-    books-block
-      book-slider ~async
-      book-slider ~async
-      book-slider ~async
+    content
+      simple-text-container (example)
+      books-block
+        book-slider ~async
+        book-slider ~async
+        book-slider ~async
     main-footer
 
 
 body
   script main.js
-  screen-content#parts-previewer-screen
+  screen-container#parts-previewer-screen
     main-header (logo)
+    content
     parts-previewer ~async
     main-footer
 
 
 body
   script main.js
-  screen-content#main-viewer-screen
+  screen-container#main-viewer-screen
     part-info (book and part names)
     main-viewer
       __present ~async

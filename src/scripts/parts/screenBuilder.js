@@ -1,11 +1,20 @@
-let mainScreen = require('../../blocks/main-screen/main-screen.js')
-let bookSlider = require('../../blocks/book-sliders-container/book-slider/book-slider.js')
-let partsVeiwerScreen = require('../../blocks/parts-viewer-screen/parts-viewer-screen.js')
-let mainVeiwerScreen = require('../../blocks/main-veiwer-screen/main-veiwer-screen.js')
-let mainVeiwer = require('../../blocks/main-veiwer/main-veiwer.js')
-let mainVeiwerSet = require('../../blocks/main-veiwer/main-veiwer__set/main-veiwer__set.js')
-
 const moduleWorker = require('./moduleWorker.js')
+
+let baseContainer = require('../../blocks/base-container/base-container')
+let mainHeader = require('../../blocks/main-header/main-header')
+let mainMenu = require('../../blocks/main-menu/main-menu')
+let content = require('../../blocks/content/content')
+let mainFooter = require('../../blocks/main-footer/main-footer')
+
+let simpleText = require('../../blocks/simple-text-container/simple-text-container')
+
+let booksBolck = require('../../blocks/books-block/books-block')
+let bookSlider = require('../../blocks/book-slider/book-slider')
+
+let partsPreviewer = require('../../blocks/parts-previewer/parts-previewer')
+
+let mainVeiwer = require('../../blocks/main-viewer/main-viewer')
+let mainVeiwerSet = require('../../blocks/main-viewer/__hiddens/main-veiwer__hiddens')
 
 let body = document.body
 let bookDbController
@@ -39,90 +48,170 @@ builder.getScreen = function (url) { // 'funcName&arg1&arg2&...'
   }
 }
 
-builder.buildMainScreen = function ([prevUrl]) {
-  if (!prevUrl) setUrl('buildMainScreen', arguments)
-  let content = body.querySelector('.content')
-  if (content && content.classList.contains('main-screen')) return
-  if (content && !content.classList.contains('main-screen')) content.remove()
-  window.stop()
-
-  Promise.resolve()
+builder._buildBaseStruct = function () {
+  return Promise.resolve()
     .then(() => {
-      moduleWorker.insert({
-        block: mainScreen,
+      return moduleWorker.insert({
+        block: baseContainer.get('base-struct'),
         position: 'inside',
         target: body
       })
     })
+    .then(elem => {
+      return moduleWorker.insert({
+        block: mainHeader.get(),
+        position: 'inside',
+        target: elem.querySelector('.screen-container__wrapper')
+      })
+    })
+    .then(elem => {
+      return moduleWorker.insert({
+        block: mainMenu.get(),
+        position: 'after',
+        target: elem
+      })
+    })
+    .then(elem => {
+      return moduleWorker.insert({
+        block: content.get(),
+        position: 'after',
+        target: elem
+      })
+    })
+    .then(elem => {
+      return moduleWorker.insert({
+        block: mainFooter.get(),
+        position: 'after',
+        target: elem.parentElement
+      })
+    })
     .then(() => {
+      return moduleWorker.insert
+    })
+    .catch((error) => console.error(error))
+}
+
+builder.buildMainScreen = function ([prevUrl]) {
+  let container = document.getElementById('screen-container')
+  if (container && container.dataset.screen === 'main-screen') return
+  if (!prevUrl) setUrl('buildMainScreen', arguments)
+  window.stop()
+
+  Promise.resolve()
+    .then(() => {
+      if (!container) return builder._buildBaseStruct()
+      if (container && container.dataset.struct !== 'base-struct') {
+        container.remove()
+        return builder._buildBaseStruct()
+      }
+      document.getElementById('content').innerHTML = ''
+      return null
+    })
+    .then(() => {
+      document.getElementById('screen-container').dataset.screen = 'main-screen'
+    })
+    .then(() => {
+      return moduleWorker.insert({
+        block: simpleText.get(),
+        position: 'inside',
+        target: document.getElementById('content'),
+        data: {text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus quam porro, maiores assumenda, distinctio facilis ex ullam sint iure ipsam nemo nisi repudiandae iste aliquid placeat laboriosam neque quibusdam nesciunt.'}
+      })
+    })
+    .then(elem => {
+      return moduleWorker.insert({
+        block: booksBolck.get(),
+        position: 'after',
+        target: elem
+      })
+    })
+    .then(elem => {
       let books = bookDbController.getBooksCounter();
 
       (function createModule (counter) {
         if (counter >= books) return
 
         moduleWorker.insert({
-          block: bookSlider,
+          block: bookSlider.get(),
           position: 'inside',
-          target: document.querySelector('.book-sliders-container'),
+          target: elem,
           data: bookDbController.getBook(counter),
           preload: true
         })
           .then(res => createModule(counter += 1))
       })(0)
     })
-    .catch(rej => console.error(rej))
+    .catch(error => console.error(error))
 }
 
 builder.buildPartsViewer = function ([bookName, issueName, prevUrl]) {
+  let container = document.getElementById('screen-container')
   if (!prevUrl) setUrl('buildPartsViewer', arguments)
-  let content = body.querySelector('.content')
-  if (content) content.remove()
   window.stop()
 
   Promise.resolve()
     .then(() => {
-      moduleWorker.insert({
-        block: partsVeiwerScreen,
+      if (!container) return builder._buildBaseStruct()
+      if (container && container.dataset.struct !== 'base-struct') {
+        container.remove()
+        return builder._buildBaseStruct()
+      }
+      document.getElementById('content').innerHTML = ''
+      return null
+    })
+    .then(() => {
+      document.getElementById('screen-container').dataset.screen = 'parts-screen'
+    })
+    .then(() => {
+      return moduleWorker.insert({
+        block: partsPreviewer.get(),
         position: 'inside',
-        target: body,
+        target: document.getElementById('content'),
         data: bookDbController.getMinParts(bookName, issueName)
       })
     })
-    .catch(rej => console.error(rej))
+    .catch(error => console.error(error))
 }
 
 builder.buildMainVeiwer = function ([bookName, issueName, number, prevUrl]) {
+  let container = document.getElementById('screen-container')
+  if (container) container.remove()
   if (!prevUrl) setUrl('buildMainVeiwer', arguments)
-  let content = body.querySelector('.content')
-  if (content) content.remove()
   window.stop()
 
   Promise.resolve()
     .then(() => {
-      moduleWorker.insert({
-        block: mainVeiwerScreen,
+      return moduleWorker.insert({
+        block: baseContainer.get(null, 'main-viewer'),
         position: 'inside',
         target: body
       })
     })
-    .then(res => {
+    .then(elem => {
       return moduleWorker.insert({
-        block: mainVeiwer,
+        block: content.get(),
         position: 'inside',
-        target: document.querySelector('.main-viewer-container'),
+        target: elem.querySelector('.screen-container__wrapper')
+      })
+    })
+    .then(elem => {
+      return moduleWorker.insert({
+        block: mainVeiwer.get(),
+        position: 'inside',
+        target: elem,
         data: bookDbController.getPart(bookName, issueName, number),
         preload: true
       })
     })
-    .then(res => {
+    .then(elem => {
       moduleWorker.insert({
-        block: mainVeiwerSet,
+        block: mainVeiwerSet.get(),
         position: 'inside',
-        target: document.querySelector('.main-viewer__imgs-area'),
+        target: elem,
         data: bookDbController.getPartsSet(bookName, issueName)
       })
     })
-    .catch(rej => console.error(rej))
+    .catch(error => console.error(error))
 }
 
 module.exports = {

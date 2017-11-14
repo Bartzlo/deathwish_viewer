@@ -1,12 +1,17 @@
-@import "../../node_modules/normalize.css/normalize.css";
-@import "../blocks/logo/logo.scss";
-@import "../blocks/preloader/preloader.scss";
-@import "../blocks/main-menu/main-menu.scss";
-@import "../blocks/main-footer/main-footer.scss";
-@import "../blocks/book-sliders-container/book-sliders-container.scss";
-@import "../blocks/book-sliders-container/book-slider/book-slider.scss";
-@import "../blocks/parts-viewer/parts-viewer.scss";
-@import "../blocks/main-veiwer/main-veiwer.scss";
+@import '../../node_modules/normalize.css/normalize.css';
+@import '../blocks/base-container/base-container.scss';
+@import '../blocks/preloader/preloader.scss';
+
+@import '../blocks/main-header/main-header.scss';
+@import '../blocks/main-menu/main-menu.scss';
+@import '../blocks/main-footer/main-footer.scss';
+
+@import '../blocks/books-block/books-block.scss';
+@import '../blocks/book-slider/book-slider.scss';
+
+@import '../blocks/parts-previewer/parts-previewer.scss';
+
+@import '../blocks/main-viewer/__present/main-viewer__present.scss';
 
 html {
   height: 100%;
@@ -14,19 +19,5 @@ html {
 
 body {
   background-color: black;
-}
 
-.content {
-  color: red;
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.wrapper {
-  margin: 0 auto;
-  width: 600px;
-  height: 100%;
-  flex: 1;
 }

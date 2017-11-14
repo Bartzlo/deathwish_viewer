@@ -1,0 +1,14 @@
+#screen-container {
+  color: red;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.screen-container__wrapper {
+  margin: 0 auto;
+  width: 600px;
+  height: 100%;
+  flex: 1;
+}

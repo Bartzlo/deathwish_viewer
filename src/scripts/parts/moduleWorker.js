@@ -57,34 +57,35 @@ function insert ({block, position, target, data, preload, query}) {
   return new Promise((resolve, reject) => {
     if (query && preload) {
       let preloader = getElement(preloaderBlock)
-      target.appendChild(preloader)
+      addElem(preloader, target, position)
       getRemPreloadElement(block, data)
         .then(res => {
           preloader.remove()
-          target.appendChild(res)
-          resolve(target)
+          addElem(res, target, position)
+          resolve(res)
         })
         .catch(rej => reject(rej))
     } else if (query) {
       getRemElement(block, data)
         .then(res => {
-          target.appendChild(res)
-          resolve(target)
+          addElem(res, target, position)
+          resolve(res)
         })
         .catch(rej => reject(rej))
     } else if (preload) {
       let preloader = getElement(preloaderBlock)
-      target.appendChild(preloader)
+      addElem(preloader, target, position)
       getPreloadElement(block, data)
         .then(res => {
           preloader.remove()
-          target.appendChild(res)
-          resolve(target)
+          addElem(res, target, position)
+          resolve(res)
         })
         .catch(rej => reject(rej))
     } else {
-      target.appendChild(getElement(block, data))
-      resolve(target)
+      let elem = getElement(block, data)
+      addElem(elem, target, position)
+      resolve(elem)
     }
   })
 }
@@ -95,7 +96,9 @@ function addElem (elem, target, position) {
   } else if (position === 'before') {
     target.parentElement.insertBefore(elem, target)
   } else if (position === 'after') {
-    target.parentElement.insertBefore(elem, target.nextElementSibling || target)
+    target.nextElementSibling
+      ? target.parentElement.insertBefore(elem, target.nextElementSibling)
+      : target.parentElement.appendChild(elem)
   }
 }
 

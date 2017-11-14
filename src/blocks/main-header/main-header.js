@@ -1,9 +1,10 @@
-module.exports =
-`
-<header class="main-header">
-  <img src="./img/logo.png" alt="Death wish">
-</header>
-`
+module.exports.get = function (className) {
+  return `
+  <header class="main-header${className ? ' ' + className : ''}">
+    <img src="./img/logo.png" alt="Death wish">
+  </header>
+  `
+}
 
 document.addEventListener('click', e => {
   if (!e.target.classList.contains('.main-header') && !e.target.closest('.main-header')) return

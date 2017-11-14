@@ -1,11 +1,11 @@
-.parts-viewer__container {
+.parts-previewer__container {
   display: inline-flex;
   align-items: center;
   width: 100%;
   justify-content: space-between;
 }
 
-.parts-viewer__header {
+.parts-previewer__header {
   text-align: center;
   padding-top: 20px;
   margin-bottom: 20px;
@@ -16,7 +16,7 @@
   }
 }
 
-.parts-viewer__list {
+.parts-previewer__list {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
@@ -25,17 +25,17 @@
   margin: 0 20px 0 20px;
 }
 
-.parts-viewer__item {
+.parts-previewer__item {
   margin: 10px;
 }
 
-.parts-viewer__item img {
+.parts-previewer__item img {
   width: 80px;
   height: 120px;
   background: rgb(70, 0, 0);
 }
 
-.parts-viewer__btn {
+.parts-previewer__btn {
   line-height: 40px;
   width: 80px;
   border: 2px solid red;
@@ -44,6 +44,6 @@
   cursor: pointer;
 }
 
-.parts-viewer__btn[data-issue-name=""] {
+.parts-previewer__btn[data-issue-name=""] {
   visibility: hidden;
 }

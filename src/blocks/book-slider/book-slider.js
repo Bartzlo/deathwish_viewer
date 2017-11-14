@@ -1,28 +1,29 @@
-module.exports =
-`
-<div class="book-slider">
-  <header class="book-slider__head">
-    <img src="{{srcBookPreviwe}}" alt="{{altBookPreviwe}}">
-    <h2>{{bookName}}</h2>
-  </header>
-  <div class="book-slider__backBtn">
-    &#8647;
+module.exports.get = function () {
+  return `
+  <div class="book-slider">
+    <header class="book-slider__head">
+      <img src="{{srcBookPreviwe}}" alt="{{altBookPreviwe}}">
+      <h2>{{bookName}}</h2>
+    </header>
+    <div class="book-slider__backBtn">
+      &#8647;
+    </div>
+    <div class="book-slider__slider" data-book-name="{{bookName}}">
+      <ul class="book-slider__slideList" data-shift="0">
+        {{#issues}}
+        <li class="book-slider__slideItem" data-issue-name="{{issueName}}">
+          <img src="{{srcIssuePreviwe}}" alt="{{altIssuePreviwe}}">
+          <h3>{{issueName}}</h3>
+        </li>
+        {{/issues}}
+      </ul>
+    </div>
+    <div class="book-slider__forwardBtn">
+      &#8649;
+    </div>
   </div>
-  <div class="book-slider__slider" data-book-name="{{bookName}}">
-    <ul class="book-slider__slideList" data-shift="0">
-      {{#issues}}
-      <li class="book-slider__slideItem" data-issue-name="{{issueName}}">
-        <img src="{{srcIssuePreviwe}}" alt="{{altIssuePreviwe}}">
-        <h3>{{issueName}}</h3>
-      </li>
-      {{/issues}}
-    </ul>
-  </div>
-  <div class="book-slider__forwardBtn">
-    &#8649;
-  </div>
-</div>
-`
+  `
+}
 
 document.addEventListener('click', e => {
   let trg = e.target
