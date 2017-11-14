@@ -1,48 +1,16 @@
 const Mustache = require('mustache')
-let mainScreen = require('../../blocks/main-screen/main-screen.js')
-let logo = require('../../blocks/logo/logo.js')
-let bookSlider = require('../../blocks/book-sliders-container/book-slider/book-slider.js')
-let preloader = require('../../blocks/preloader/preloader.js')
-let partsVeiwerScreen = require('../../blocks/parts-viewer-screen/parts-viewer-screen.js')
-let mainVeiwerScreen = require('../../blocks/main-veiwer-screen/main-veiwer-screen.js')
-let mainVeiwer = require('../../blocks/main-veiwer/main-veiwer.js')
-let mainVeiwerSet = require('../../blocks/main-veiwer/main-veiwer__set/main-veiwer__set.js')
+let preloaderBlock = require('../../blocks/preloader/preloader.js')
 
-let modules = {
-  'main-screen': mainScreen,
-  'logo': logo,
-  'preloader': preloader,
-  'book-slider': bookSlider,
-  'parts-viewer-screen': partsVeiwerScreen,
-  'main-veiwer-screen':mainVeiwerScreen,
-  'main-veiwer':mainVeiwer,
-  'main-veiwer__set': mainVeiwerSet
+function getElement (block, data = {}) {
+  let elem = document.createElement('div')
+  elem.innerHTML = Mustache.render(block, data)
+  elem = elem.firstElementChild
+  return elem
 }
 
-function getElement (moduleName, data = {}) {
-  try {
-    if (!modules[moduleName]) {
-      throw new Error(`Module "${moduleName}" no found`)
-    }
-
-    // console.log(modules[moduleName])
-    // console.log(data)
-
-    let elem = document.createElement('div')
-    elem.innerHTML = Mustache.render(modules[moduleName], data)
-    elem = elem.firstElementChild
-    return elem
-  } catch (error) {
-    console.error(error.stack)
-    let div = document.createElement('div')
-    div.setAttribute('data-render_error', moduleName)
-    return div
-  }
-}
-
-function getPreloadElement (moduleName, data = {}) {
+function getPreloadElement (block, data = {}) {
   return new Promise((resolve, reject) => {
-    let elem = getElement(moduleName, data)
+    let elem = getElement(block, data)
     let counter = elem.getElementsByTagName('img').length
     if (counter === 0) resolve(elem)
 
@@ -59,55 +27,55 @@ function getPreloadElement (moduleName, data = {}) {
   })
 }
 
-function getRemElement (moduleName, query) {
+function getRemElement (block, query) {
   let url = `${query}`
   return fetch(url)
     .then(res => res.json())
-    .then(res => getElement(moduleName, res))
+    .then(res => getElement(block, res))
     .catch(rej => {
       console.error(rej)
       let div = document.createElement('div')
-      div.setAttribute('data-render_error', moduleName)
+      div.setAttribute('data-render_error', '')
       return div
     })
 }
 
-function getRemPreloadElement (moduleName, query) {
+function getRemPreloadElement (block, query) {
   let url = `${query}`
   return fetch(url)
     .then(res => res.json())
-    .then(res => getPreloadElement(moduleName, res))
+    .then(res => getPreloadElement(block, res))
     .catch(rej => {
       console.error(rej)
       let div = document.createElement('div')
-      div.setAttribute('data-render_error', moduleName)
+      div.setAttribute('data-render_error', '')
       return div
     })
 }
 
-function insert (target, moduleName, data = {}, opt = {query: false, preload: false}) {
+function insert ({block, position, target, data, preload, query}) {
   return new Promise((resolve, reject) => {
-    if (opt.query && opt.preload) {
-      let preloader = getElement('preloader')
+    if (query && preload) {
+      let preloader = getElement(preloaderBlock)
       target.appendChild(preloader)
-      getRemPreloadElement(moduleName, data)
+      getRemPreloadElement(block, data)
         .then(res => {
           preloader.remove()
           target.appendChild(res)
           resolve(target)
         })
         .catch(rej => reject(rej))
-    } else if (opt.query) {
-      getRemElement(moduleName, data)
+    } else if (query) {
+      getRemElement(block, data)
         .then(res => {
           target.appendChild(res)
           resolve(target)
         })
         .catch(rej => reject(rej))
-    } else if (opt.preload) {
-      let preloader = getElement('preloader')
+    } else if (preload) {
+      let preloader = getElement(preloaderBlock)
       target.appendChild(preloader)
-      getPreloadElement(moduleName, data)
+      getPreloadElement(block, data)
         .then(res => {
           preloader.remove()
           target.appendChild(res)
@@ -115,10 +83,20 @@ function insert (target, moduleName, data = {}, opt = {query: false, preload: fa
         })
         .catch(rej => reject(rej))
     } else {
-      target.appendChild(getElement(moduleName, data))
+      target.appendChild(getElement(block, data))
       resolve(target)
     }
   })
+}
+
+function addElem (elem, target, position) {
+  if (position === 'inside') {
+    target.appendChild(elem)
+  } else if (position === 'before') {
+    target.parentElement.insertBefore(elem, target)
+  } else if (position === 'after') {
+    target.parentElement.insertBefore(elem, target.nextElementSibling || target)
+  }
 }
 
 module.exports = {

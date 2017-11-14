@@ -13,6 +13,5 @@ document.addEventListener('callMainVeiwer', e => {
 })
 
 window.addEventListener('popstate', e => {
-  console.log('pop')
   screenBuilder.getScreen(window.location.hash ? window.location.hash.substring(1) : 'buildMainScreen')
 })

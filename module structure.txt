@@ -4,38 +4,41 @@ modules:
   books-block
     book-slider
   main-footer
+  simple-text-container
+  parts-previewer
   part-info
-  main-viewer-block
-    block__present
-    block__hiddens
+  main-viewer
+    __present
+    __hiddens
 
 
 
 body
   script main.js
-  screen-containet#main-screen
+  screen-content#main-screen
     main-header (logo)
     main-menu
+    simple-text-container
     books-block
-      books-block__book-slider ~querry
-      books-block__book-slider ~querry
-      books-block__book-slider ~querry
+      book-slider ~async
+      book-slider ~async
+      book-slider ~async
     main-footer
 
 
 body
   script main.js
-  screen-containet#parts-previewer-screen
+  screen-content#parts-previewer-screen
     main-header (logo)
-    parts-previewer
+    parts-previewer ~async
     main-footer
 
 
 body
   script main.js
-  screen-containet#main-viewer-screen
+  screen-content#main-viewer-screen
     part-info (book and part names)
-    main-viewer-block
-      main-viewer-block__present
-      main-viewer-block__hiddens
+    main-viewer
+      __present ~async
+      __hiddens ~async
     main-footer
