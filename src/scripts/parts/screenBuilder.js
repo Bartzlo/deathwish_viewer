@@ -1,6 +1,7 @@
 const moduleWorker = require('./moduleWorker.js')
 
-let baseContainer = require('../../blocks/base-container/base-container')
+let coreStruct = require('../../frames/core/core')
+let wrapper = require('../../blocks/wpapper/wrapper')
 let mainHeader = require('../../blocks/main-header/main-header')
 let mainMenu = require('../../blocks/main-menu/main-menu')
 let content = require('../../blocks/content/content')
@@ -16,7 +17,8 @@ let partsPreviewer = require('../../blocks/parts-previewer/parts-previewer')
 let mainVeiwer = require('../../blocks/main-viewer/main-viewer')
 let mainVeiwerSet = require('../../blocks/main-viewer/__hiddens/main-veiwer__hiddens')
 
-let body = document.body
+let screenContainer = document.getElementById('screen-container')
+
 let bookDbController
 let builder = {}
 
@@ -48,67 +50,43 @@ builder.getScreen = function (url) { // 'funcName&arg1&arg2&...'
   }
 }
 
-builder._buildBaseStruct = function () {
+function clearScreenContainer () {
+  screenContainer.dataset.struct = ''
+  screenContainer.dataset.screen = ''
+  screenContainer.innerHTML = ''
+}
+
+function buildBaseStruct () {
   return Promise.resolve()
     .then(() => {
+      clearScreenContainer()
+      screenContainer.dataset.struct = 'base-struct'
+      return screenContainer
+    })
+    .then(elem => {
       return moduleWorker.insert({
-        block: baseContainer.get('base-struct'),
+        block: coreStruct.get(),
         position: 'inside',
-        target: body
+        target: screenContainer
       })
-    })
-    .then(elem => {
-      return moduleWorker.insert({
-        block: mainHeader.get(),
-        position: 'inside',
-        target: elem.querySelector('.screen-container__wrapper')
-      })
-    })
-    .then(elem => {
-      return moduleWorker.insert({
-        block: mainMenu.get(),
-        position: 'after',
-        target: elem
-      })
-    })
-    .then(elem => {
-      return moduleWorker.insert({
-        block: content.get(),
-        position: 'after',
-        target: elem
-      })
-    })
-    .then(elem => {
-      return moduleWorker.insert({
-        block: mainFooter.get(),
-        position: 'after',
-        target: elem.parentElement
-      })
-    })
-    .then(() => {
-      return moduleWorker.insert
     })
     .catch((error) => console.error(error))
 }
 
 builder.buildMainScreen = function ([prevUrl]) {
-  let container = document.getElementById('screen-container')
-  if (container && container.dataset.screen === 'main-screen') return
   if (!prevUrl) setUrl('buildMainScreen', arguments)
   window.stop()
 
   Promise.resolve()
     .then(() => {
-      if (!container) return builder._buildBaseStruct()
-      if (container && container.dataset.struct !== 'base-struct') {
-        container.remove()
-        return builder._buildBaseStruct()
+      if (screenContainer.dataset.struct === 'base-struct') {
+        document.getElementById('content').innerHTML = ''
+      } else {
+        return buildBaseStruct()
       }
-      document.getElementById('content').innerHTML = ''
-      return null
     })
     .then(() => {
-      document.getElementById('screen-container').dataset.screen = 'main-screen'
+      screenContainer.dataset.screen = 'main-screen'
     })
     .then(() => {
       return moduleWorker.insert({
@@ -145,22 +123,19 @@ builder.buildMainScreen = function ([prevUrl]) {
 }
 
 builder.buildPartsViewer = function ([bookName, issueName, prevUrl]) {
-  let container = document.getElementById('screen-container')
   if (!prevUrl) setUrl('buildPartsViewer', arguments)
   window.stop()
 
   Promise.resolve()
     .then(() => {
-      if (!container) return builder._buildBaseStruct()
-      if (container && container.dataset.struct !== 'base-struct') {
-        container.remove()
-        return builder._buildBaseStruct()
+      if (screenContainer.dataset.struct === 'base-struct') {
+        document.getElementById('content').innerHTML = ''
+      } else {
+        return buildBaseStruct()
       }
-      document.getElementById('content').innerHTML = ''
-      return null
     })
     .then(() => {
-      document.getElementById('screen-container').dataset.screen = 'parts-screen'
+      screenContainer.dataset.screen = 'parts-screen'
     })
     .then(() => {
       return moduleWorker.insert({
@@ -174,24 +149,27 @@ builder.buildPartsViewer = function ([bookName, issueName, prevUrl]) {
 }
 
 builder.buildMainVeiwer = function ([bookName, issueName, number, prevUrl]) {
-  let container = document.getElementById('screen-container')
-  if (container) container.remove()
+  clearScreenContainer()
+
   if (!prevUrl) setUrl('buildMainVeiwer', arguments)
   window.stop()
 
   Promise.resolve()
     .then(() => {
+      screenContainer.dataset.screen = 'main-viewer'
+    })
+    .then(elem => {
       return moduleWorker.insert({
-        block: baseContainer.get(null, 'main-viewer'),
+        block: wrapper.get(),
         position: 'inside',
-        target: body
+        target: screenContainer
       })
     })
     .then(elem => {
       return moduleWorker.insert({
         block: content.get(),
         position: 'inside',
-        target: elem.querySelector('.screen-container__wrapper')
+        target: elem
       })
     })
     .then(elem => {

@@ -1,7 +1,8 @@
 @import '../../node_modules/normalize.css/normalize.css';
-@import '../blocks/base-container/base-container.scss';
+
 @import '../blocks/preloader/preloader.scss';
 
+@import '../blocks/wpapper/wrapper.scss';
 @import '../blocks/main-header/main-header.scss';
 @import '../blocks/main-menu/main-menu.scss';
 @import '../blocks/main-footer/main-footer.scss';
@@ -20,4 +21,12 @@ html {
 body {
   background-color: black;
 
+}
+
+#screen-container {
+  color: red;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
 }
