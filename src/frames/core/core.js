@@ -6,13 +6,11 @@ let mainFooter = require('../../blocks/main-footer/main-footer')
 
 module.exports.get = function () {
   return `
-  <div>
     ${wrapper.get(null, `
       ${mainHeader.get()}
       ${mainMenu.get()}
       ${content.get()}
     `)}
     ${mainFooter.get()}
-  </div>
   `
 }

@@ -1,7 +1,8 @@
-const screenBuilder = require('./parts/screenBuilder.js')
-const controller = require('./parts/controller.js')
+const polifills = require('./parts/polyfills')
+const screenBuilder = require('./parts/screenBuilder')
+const controller = require('./parts/controller')
 
-const DataController = require('./parts/dataController.js')
+const DataController = require('./parts/dataController')
 let bookDbController = new DataController('./data/books.json')
 
 bookDbController.loadBase()

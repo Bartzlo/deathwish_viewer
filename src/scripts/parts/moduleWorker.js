@@ -4,7 +4,6 @@ let preloaderBlock = require('../../blocks/preloader/preloader.js')
 function getElement (block, data = {}) {
   let elem = document.createElement('div')
   elem.innerHTML = Mustache.render(block, data)
-  elem = elem.firstElementChild
   return elem
 }
 
@@ -57,49 +56,52 @@ function insert ({block, position, target, data, preload, query}) {
   return new Promise((resolve, reject) => {
     if (query && preload) {
       let preloader = getElement(preloaderBlock)
-      addElem(preloader, target, position)
+      preloader = addElem(preloader, target, position)
       getRemPreloadElement(block, data)
-        .then(res => {
+        .then(elem => {
           preloader.remove()
-          addElem(res, target, position)
-          resolve(res)
+          elem = addElem(elem, target, position)
+          resolve(elem)
         })
         .catch(rej => reject(rej))
     } else if (query) {
       getRemElement(block, data)
-        .then(res => {
-          addElem(res, target, position)
-          resolve(res)
+        .then(elem => {
+          elem = addElem(elem, target, position)
+          resolve(elem)
         })
         .catch(rej => reject(rej))
     } else if (preload) {
       let preloader = getElement(preloaderBlock)
-      addElem(preloader, target, position)
+      preloader = addElem(preloader, target, position)
       getPreloadElement(block, data)
-        .then(res => {
+        .then(elem => {
           preloader.remove()
-          addElem(res, target, position)
-          resolve(res)
+          elem = addElem(elem, target, position)
+          resolve(elem)
         })
         .catch(rej => reject(rej))
     } else {
       let elem = getElement(block, data)
-      addElem(elem, target, position)
+      elem = addElem(elem, target, position)
       resolve(elem)
     }
   })
 }
 
 function addElem (elem, target, position) {
+  // console.log(elem.iqnnerHTML)
+  let outElem = elem.firstElementChild
+
   if (position === 'inside') {
-    target.appendChild(elem)
+    target.append(...elem.childNodes)
   } else if (position === 'before') {
-    target.parentElement.insertBefore(elem, target)
+    target.before(...elem.childNodes)
   } else if (position === 'after') {
-    target.nextElementSibling
-      ? target.parentElement.insertBefore(elem, target.nextElementSibling)
-      : target.parentElement.appendChild(elem)
+    target.after(...elem.childNodes)
   }
+
+  return outElem
 }
 
 module.exports = {

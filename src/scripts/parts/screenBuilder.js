@@ -2,10 +2,7 @@ const moduleWorker = require('./moduleWorker.js')
 
 let coreStruct = require('../../frames/core/core')
 let wrapper = require('../../blocks/wpapper/wrapper')
-let mainHeader = require('../../blocks/main-header/main-header')
-let mainMenu = require('../../blocks/main-menu/main-menu')
 let content = require('../../blocks/content/content')
-let mainFooter = require('../../blocks/main-footer/main-footer')
 
 let simpleText = require('../../blocks/simple-text-container/simple-text-container')
 
