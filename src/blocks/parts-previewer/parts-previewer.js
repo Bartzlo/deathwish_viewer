@@ -1,4 +1,4 @@
-module.exports.get = function () {
+module.exports.get = function (className = '', id = '', innerContent = '') {
   return `
   <section class="parts-previewer" data-book-name="{{bookName}}" data-issue-name="{{issueName}}">
     <header class="parts-previewer__header">

@@ -1,8 +1,7 @@
 const moduleWorker = require('./moduleWorker.js')
 
-let coreStruct = require('../../frames/core/core')
-let wrapper = require('../../blocks/wpapper/wrapper')
-let content = require('../../blocks/content/content')
+let mainScreenSet = require('../../blocks-sets/main-screen/main-screen')
+let viewerScreenSet = require('../../blocks-sets/viewer-screen/viewer-screen')
 
 let simpleText = require('../../blocks/simple-text-container/simple-text-container')
 
@@ -53,16 +52,41 @@ function clearScreenContainer () {
   screenContainer.innerHTML = ''
 }
 
-function buildBaseStruct () {
+function clearSlots () {
+  document.querySelectorAll('.slot').forEach(item => {
+    item.innerHTML = ''
+  })
+}
+
+// Build static sets
+
+function buildMainScreenSet () {
   return Promise.resolve()
     .then(() => {
       clearScreenContainer()
-      screenContainer.dataset.struct = 'base-struct'
+      screenContainer.dataset.struct = 'main-screen-set'
       return screenContainer
     })
     .then(elem => {
       return moduleWorker.insert({
-        block: coreStruct.get(),
+        block: mainScreenSet.get(),
+        position: 'inside',
+        target: screenContainer
+      })
+    })
+    .catch((error) => console.error(error))
+}
+
+function buildViewerScreenSet () {
+  return Promise.resolve()
+    .then(() => {
+      clearScreenContainer()
+      screenContainer.dataset.struct = 'viewer-screen-set'
+      return screenContainer
+    })
+    .then(() => {
+      return moduleWorker.insert({
+        block: viewerScreenSet.get(),
         position: 'inside',
         target: screenContainer
       })
@@ -76,10 +100,10 @@ builder.buildMainScreen = function ([prevUrl]) {
 
   Promise.resolve()
     .then(() => {
-      if (screenContainer.dataset.struct === 'base-struct') {
-        document.getElementById('content').innerHTML = ''
+      if (screenContainer.dataset.struct === 'main-screen-set') {
+        clearSlots()
       } else {
-        return buildBaseStruct()
+        return buildMainScreenSet()
       }
     })
     .then(() => {
@@ -89,7 +113,7 @@ builder.buildMainScreen = function ([prevUrl]) {
       return moduleWorker.insert({
         block: simpleText.get(),
         position: 'inside',
-        target: document.getElementById('content'),
+        target: document.getElementById('main-content'),
         data: {text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus quam porro, maiores assumenda, distinctio facilis ex ullam sint iure ipsam nemo nisi repudiandae iste aliquid placeat laboriosam neque quibusdam nesciunt.'}
       })
     })
@@ -125,10 +149,10 @@ builder.buildPartsViewer = function ([bookName, issueName, prevUrl]) {
 
   Promise.resolve()
     .then(() => {
-      if (screenContainer.dataset.struct === 'base-struct') {
-        document.getElementById('content').innerHTML = ''
+      if (screenContainer.dataset.struct === 'main-screen-set') {
+        clearSlots()
       } else {
-        return buildBaseStruct()
+        return buildMainScreenSet()
       }
     })
     .then(() => {
@@ -138,7 +162,7 @@ builder.buildPartsViewer = function ([bookName, issueName, prevUrl]) {
       return moduleWorker.insert({
         block: partsPreviewer.get(),
         position: 'inside',
-        target: document.getElementById('content'),
+        target: document.getElementById('main-content'),
         data: bookDbController.getMinParts(bookName, issueName)
       })
     })
@@ -146,34 +170,25 @@ builder.buildPartsViewer = function ([bookName, issueName, prevUrl]) {
 }
 
 builder.buildMainVeiwer = function ([bookName, issueName, number, prevUrl]) {
-  clearScreenContainer()
-
   if (!prevUrl) setUrl('buildMainVeiwer', arguments)
   window.stop()
 
   Promise.resolve()
     .then(() => {
-      screenContainer.dataset.screen = 'main-viewer'
+      if (screenContainer.dataset.struct === 'viewer-screen-set') {
+        clearSlots()
+      } else {
+        return buildViewerScreenSet()
+      }
     })
-    .then(elem => {
-      return moduleWorker.insert({
-        block: wrapper.get(),
-        position: 'inside',
-        target: screenContainer
-      })
-    })
-    .then(elem => {
-      return moduleWorker.insert({
-        block: content.get(),
-        position: 'inside',
-        target: elem
-      })
+    .then(() => {
+      screenContainer.dataset.screen = 'main-slider'
     })
     .then(elem => {
       return moduleWorker.insert({
         block: mainVeiwer.get(),
         position: 'inside',
-        target: elem,
+        target: document.getElementById('pats-slider'),
         data: bookDbController.getPart(bookName, issueName, number),
         preload: true
       })

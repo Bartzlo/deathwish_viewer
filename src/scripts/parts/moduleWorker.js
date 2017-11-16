@@ -55,7 +55,7 @@ function getRemPreloadElement (block, query) {
 function insert ({block, position, target, data, preload, query}) {
   return new Promise((resolve, reject) => {
     if (query && preload) {
-      let preloader = getElement(preloaderBlock)
+      let preloader = getElement(preloaderBlock.get())
       preloader = addElem(preloader, target, position)
       getRemPreloadElement(block, data)
         .then(elem => {
@@ -72,7 +72,7 @@ function insert ({block, position, target, data, preload, query}) {
         })
         .catch(rej => reject(rej))
     } else if (preload) {
-      let preloader = getElement(preloaderBlock)
+      let preloader = getElement(preloaderBlock.get())
       preloader = addElem(preloader, target, position)
       getPreloadElement(block, data)
         .then(elem => {

@@ -1,15 +1,15 @@
-let wrapper = require('../../blocks/wpapper/wrapper')
+let wrapper = require('../../blocks-frames/wpapper/wrapper')
+let content = require('../../blocks-frames/content/content')
 let mainHeader = require('../../blocks/main-header/main-header')
 let mainMenu = require('../../blocks/main-menu/main-menu')
-let content = require('../../blocks/content/content')
 let mainFooter = require('../../blocks/main-footer/main-footer')
 
-module.exports.get = function () {
+module.exports.get = function (className = '', id = '', innerContent = '') {
   return `
-    ${wrapper.get(null, `
+    ${wrapper.get(null, null, `
       ${mainHeader.get()}
       ${mainMenu.get()}
-      ${content.get()}
+      ${content.get(null, 'main-content', null)}
     `)}
     ${mainFooter.get()}
   `

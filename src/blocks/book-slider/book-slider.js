@@ -1,4 +1,4 @@
-module.exports.get = function () {
+module.exports.get = function (className = '', id = '', innerContent = '') {
   return `
   <div class="book-slider">
     <header class="book-slider__head">

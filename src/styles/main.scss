@@ -1,17 +1,15 @@
 @import '../../node_modules/normalize.css/normalize.css';
 
+@import '../blocks-frames/wpapper/wrapper.scss';
 @import '../blocks/preloader/preloader.scss';
 
-@import '../blocks/wpapper/wrapper.scss';
 @import '../blocks/main-header/main-header.scss';
 @import '../blocks/main-menu/main-menu.scss';
 @import '../blocks/main-footer/main-footer.scss';
 
 @import '../blocks/books-block/books-block.scss';
 @import '../blocks/book-slider/book-slider.scss';
-
 @import '../blocks/parts-previewer/parts-previewer.scss';
-
 @import '../blocks/main-viewer/__present/main-viewer__present.scss';
 
 html {

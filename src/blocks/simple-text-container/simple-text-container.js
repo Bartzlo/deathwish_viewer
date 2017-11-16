@@ -1,4 +1,4 @@
-module.exports.get = function () {
+module.exports.get = function (className = '', id = '', innerContent = '') {
   return `
   <section class="simple-text-container">
     {{text}}

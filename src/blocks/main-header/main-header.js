@@ -1,6 +1,6 @@
-module.exports.get = function (className) {
+module.exports.get = function (className = '', id = '', innerContent = '') {
   return `
-  <header class="main-header${className ? ' ' + className : ''}">
+  <header class="main-header ${className}">
     <img src="./img/logo.png" alt="Death wish">
   </header>
   `
