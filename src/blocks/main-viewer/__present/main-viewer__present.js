@@ -31,11 +31,12 @@ document.addEventListener('click', e => {
       return
     }
 
+    changeImg(currentImg, queryNumber, queryNumber > currentNumber ? 'fwd' : 'bwd')
+
     let url = window.location.hash.split('&')
     url[url.length - 1] = queryNumber
     url = url.join('&')
     history.pushState({path: url}, '', url)
-    changeImg(currentImg, queryNumber, queryNumber > currentNumber ? 'fwd' : 'bwd')
   }
 
   if (isClass(trg, 'main-viewer__backBtn')) {
@@ -85,7 +86,7 @@ function changeImg (img, counter, direction) {
   setTimeout(() => {
     newImg.classList.remove('forward-img')
     newImg.classList.remove('backward-img')
-  }, 0)
+  }, 20)
 }
 
 function hideElem (e) {
