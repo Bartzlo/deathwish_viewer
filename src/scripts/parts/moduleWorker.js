@@ -1,5 +1,4 @@
 const Mustache = require('mustache')
-let preloaderBlock = require('../../blocks/preloader/preloader.js')
 
 function getElement (block, data = {}) {
   let elem = document.createElement('div')
@@ -52,14 +51,14 @@ function getRemPreloadElement (block, query) {
     })
 }
 
-function insert ({block, position, target, data, preload, query}) {
+function insert ({block, position, target, data, blockPreload, query}) {
   return new Promise((resolve, reject) => {
-    if (query && preload) {
-      let preloader = getElement(preloaderBlock.get())
-      preloader = addElem(preloader, target, position)
+    if (query && blockPreload) {
+      let elemPreload = getElement(blockPreload)
+      elemPreload = addElem(elemPreload, target, position)
       getRemPreloadElement(block, data)
         .then(elem => {
-          preloader.remove()
+          elemPreload.remove()
           elem = addElem(elem, target, position)
           resolve(elem)
         })
@@ -71,12 +70,12 @@ function insert ({block, position, target, data, preload, query}) {
           resolve(elem)
         })
         .catch(rej => reject(rej))
-    } else if (preload) {
-      let preloader = getElement(preloaderBlock.get())
-      preloader = addElem(preloader, target, position)
+    } else if (blockPreload) {
+      let elemPreload = getElement(blockPreload)
+      elemPreload = addElem(elemPreload, target, position)
       getPreloadElement(block, data)
         .then(elem => {
-          preloader.remove()
+          elemPreload.remove()
           elem = addElem(elem, target, position)
           resolve(elem)
         })

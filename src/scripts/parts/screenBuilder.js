@@ -2,6 +2,8 @@ const moduleWorker = require('./moduleWorker.js')
 
 let mainScreenSet = require('../../blocks-sets/main-screen/main-screen')
 let viewerScreenSet = require('../../blocks-sets/viewer-screen/viewer-screen')
+let preloaderSlider = require('../../blocks/preloader-slider/preloader-slider')
+let preloaderViewer = require('../../blocks/preloader-viewer/preloader-viewer')
 
 let simpleText = require('../../blocks/simple-text-container/simple-text-container')
 
@@ -135,7 +137,7 @@ builder.buildMainScreen = function ([prevUrl]) {
           position: 'inside',
           target: elem,
           data: bookDbController.getBook(counter),
-          preload: true
+          blockPreload: preloaderSlider.get()
         })
           .then(res => createModule(counter += 1))
       })(0)
@@ -190,7 +192,7 @@ builder.buildMainVeiwer = function ([bookName, issueName, number, prevUrl]) {
         position: 'inside',
         target: document.getElementById('pats-slider'),
         data: bookDbController.getPart(bookName, issueName, number),
-        preload: true
+        blockPreload: preloaderViewer.get()
       })
     })
     .then(elem => {
