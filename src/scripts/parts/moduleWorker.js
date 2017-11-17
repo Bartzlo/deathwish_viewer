@@ -1,8 +1,8 @@
-const Mustache = require('mustache')
+const Handlebars = require('handlebars')
 
 function getElement (block, data = {}) {
   let elem = document.createElement('div')
-  elem.innerHTML = Mustache.render(block, data)
+  elem.innerHTML = Handlebars.compile(block)(data)
   return elem
 }
 
