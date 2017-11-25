@@ -1,6 +1,7 @@
 'use strict'
 
 const gulp = require('gulp')
+const wait = require('gulp-wait')
 const browserSync = require('browser-sync')
 const sass = require('gulp-sass')
 const cleanCSS = require('gulp-clean-css')
@@ -11,7 +12,7 @@ const rimraf = require('rimraf')
 const babel = require('gulp-babel')
 const rigger = require('gulp-rigger')
 
-gulp.task('serve', ['build-style', 'build-html', 'build-js', 'build-img', 'copy-data'], function () {
+gulp.task('serve', ['build-style', 'build-html', 'build-js', 'build-img', 'copy-data', 'build-fonts'], function () {
   browserSync.init({
     server: {baseDir: 'build/'},
     open: false,
@@ -22,6 +23,7 @@ gulp.task('serve', ['build-style', 'build-html', 'build-js', 'build-img', 'copy-
   gulp.watch('src/**/*.scss', ['build-style'])
   gulp.watch('src/**/*.js', ['build-js'])
   gulp.watch('src/img/**/*.*', ['build-img'])
+  gulp.watch('src/fonts/**/*.*', ['build-fonts'])
   gulp.watch('src/data/**/*.*', ['copy-data'])
   // gulp.watch('src/**/*.*').on('change', browserSync.reload);
 })
@@ -36,10 +38,12 @@ gulp.task('build-html', () => {
 gulp.task('build-style', () => {
   return gulp.src('src/styles/main.scss')
     .pipe(sourcemaps.init()) // !!!exclude from the release!!!
+    .pipe(wait(300))
     .pipe(sass())
     .pipe(cleanCSS())
     .pipe(sourcemaps.write()) // !!!exclude from the release!!!
     .pipe(gulp.dest('build/styles/'))
+    .pipe(wait(100))
     .pipe(browserSync.stream())
 })
 
@@ -57,6 +61,12 @@ gulp.task('build-js', () => {
 gulp.task('build-img', () => {
   return gulp.src('src/img/**/*.*')
     .pipe(gulp.dest('build/img/'))
+    .pipe(browserSync.stream())
+})
+
+gulp.task('build-fonts', () => {
+  return gulp.src('src/fonts/**/*.*')
+    .pipe(gulp.dest('build/fonts/'))
     .pipe(browserSync.stream())
 })
 

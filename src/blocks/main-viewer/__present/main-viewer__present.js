@@ -21,6 +21,7 @@ document.addEventListener('click', e => {
 
   if (isClass(trg, 'main-viewer__backwardBtn') || isClass(trg, 'main-viewer__forwardBtn')) {
     e.preventDefault()
+    window.scrollTo(0, 0)
 
     let currentImg = document.querySelector('.current-img')
     let el = isClass(trg, 'main-viewer__backwardBtn') || isClass(trg, 'main-viewer__forwardBtn')

@@ -3,10 +3,10 @@ module.exports.get = function (className = '', id = '', innerContent = '') {
   <div class="book-slider">
     <header class="book-slider__head">
       <img src="{{srcBookPreviwe}}" alt="{{altBookPreviwe}}">
-      <h2>{{bookName}}</h2>
+      
     </header>
     <div class="book-slider__backBtn">
-      &#8647;
+      &#11164;
     </div>
     <div class="book-slider__slider" data-book-name="{{bookName}}">
       <ul class="book-slider__slideList" data-shift="0">
@@ -19,11 +19,15 @@ module.exports.get = function (className = '', id = '', innerContent = '') {
       </ul>
     </div>
     <div class="book-slider__forwardBtn">
-      &#8649;
+      &#11166;
     </div>
   </div>
   `
 }
+
+document.addEventListener('mousedown', e => {
+  if (isClass(e.target, 'book-slider__forwardBtn') || isClass(e.target, 'book-slider__backBtn')) e.preventDefault()
+})
 
 document.addEventListener('click', e => {
   let trg = e.target

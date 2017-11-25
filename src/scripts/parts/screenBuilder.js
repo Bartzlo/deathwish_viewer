@@ -5,7 +5,7 @@ let viewerScreenSet = require('../../blocks-sets/viewer-screen/viewer-screen')
 let preloaderSlider = require('../../blocks/preloader-slider/preloader-slider')
 let preloaderViewer = require('../../blocks/preloader-viewer/preloader-viewer')
 
-let simpleText = require('../../blocks/simple-text-container/simple-text-container')
+let mianScreenDiscription = require('../../blocks/mian-screen-discription/mian-screen-discription')
 
 let booksBolck = require('../../blocks/books-block/books-block')
 let bookSlider = require('../../blocks/book-slider/book-slider')
@@ -113,7 +113,7 @@ builder.buildMainScreen = function ([prevUrl]) {
     })
     .then(() => {
       return moduleWorker.insert({
-        block: simpleText.get(),
+        block: mianScreenDiscription.get(),
         position: 'inside',
         target: document.getElementById('main-content'),
         data: {text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus quam porro, maiores assumenda, distinctio facilis ex ullam sint iure ipsam nemo nisi repudiandae iste aliquid placeat laboriosam neque quibusdam nesciunt.'}

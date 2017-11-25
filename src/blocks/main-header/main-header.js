@@ -1,7 +1,7 @@
 module.exports.get = function (className = '', id = '', innerContent = '') {
   return `
   <header class="main-header ${className}">
-    <img src="./img/logo.png" alt="Death wish">
+    <img class="main-header__logo" src="./img/logo.png" alt="Death wish">
   </header>
   `
 }

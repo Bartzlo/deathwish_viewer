@@ -8,22 +8,28 @@
 @import '../blocks/main-menu/main-menu.scss';
 @import '../blocks/main-footer/main-footer.scss';
 
+@import '../blocks/mian-screen-discription/mian-screen-discription.scss';
 @import '../blocks/books-block/books-block.scss';
 @import '../blocks/book-slider/book-slider.scss';
 @import '../blocks/parts-previewer/parts-previewer.scss';
-@import '../blocks/main-viewer/__present/main-viewer__present.scss';
+@import '../blocks/main-viewer/main-viewer.scss';
+
+@font-face {
+  font-family: 'Century Gothic';
+  src: url(../fonts/CenturyGothicRegular.ttf)
+}
 
 html {
   height: 100%;
 }
 
 body {
-  background-color: black;
-
+  background-color: rgb(26, 26, 26);
+  font-family: 'Century Gothic', 'Trebuchet MS';
 }
 
 #screen-container {
-  color: red;
+  color: gray;
   display: flex;
   min-height: 100vh;
   flex-direction: column;

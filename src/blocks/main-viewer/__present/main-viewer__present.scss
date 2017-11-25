@@ -29,15 +29,10 @@
 .main-viewer__part {
   overflow: hidden;
   display: flex;
-  width: 600px;
-  height: 888px;
+  height: 930px;
   position: relative;
-}
-
-.main-viewer__part {
   img {
-    width: 600px;
-    height: 883px;
+    width: 630px;
     opacity: 1;
     transform: translateX(0);
     position: absolute;
@@ -56,13 +51,8 @@
   }
 }
 
-.main-viewer__backBtn, .main-viewer__homeBtn {
-  text-align: center;
-  cursor: pointer;
-  border: 1px solid red;
-}
-
 .main-viewer__backwardBtn, .main-viewer__forwardBtn {
+  z-index: -1;
   background: rgba(66,66,66,0.54);
   border-radius: 28px;
   cursor: pointer;

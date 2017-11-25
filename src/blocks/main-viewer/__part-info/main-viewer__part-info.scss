@@ -1,0 +1,21 @@
+.main-viewer__homeBtn, .main-viewer__backBtn {
+  font-size: 200%;
+  height: 45px;
+  width: 45px;
+  background: rgba(66,66,66,0.54);
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+}
+
+.main-viewer__backBtn {
+  right: 50px;
+}
+
+.main-viewer__homeBtn {
+  right: 0;
+}

@@ -1,8 +1,13 @@
+.parts-previewer {
+  text-align: center;
+}
+
 .parts-previewer__container {
   display: inline-flex;
   align-items: center;
-  width: 100%;
+  width: 95%;
   justify-content: space-between;
+  background: rgb(8, 8, 8)
 }
 
 .parts-previewer__header {
@@ -38,10 +43,9 @@
 .parts-previewer__btn {
   line-height: 40px;
   width: 80px;
-  border: 2px solid red;
-  color: red;
   text-align: center;
   cursor: pointer;
+  font-size: 200%;
 }
 
 .parts-previewer__btn[data-issue-name=""] {

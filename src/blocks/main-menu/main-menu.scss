@@ -1,17 +1,25 @@
 .main-menu {
-  text-align: center;
+  height: 30px;
+  background-color: rgb(5, 5, 5);
+  border-bottom: 10px solid rgb(26, 26, 26);
 }
 
 .main-menu__list {
+  width: 100%;
+  margin: 0;
   list-style: none;
   padding: 0;
-  display: inline-flex;
-  justify-content: space-around;
-  width: 350px;
-  border: solid 1px green;
 }
 
 .main-menu__item {
-  padding: 20px;
-  border: solid 1px white;
+  float: left;
+  margin-left: 20px;
+  text-decoration: none;
+  a {
+    text-decoration: none;
+    color: white;
+  }
+  &:first-child {
+    border-bottom: 2px solid red;
+  }
 }

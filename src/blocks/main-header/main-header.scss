@@ -1,4 +1,10 @@
 .main-header {
   text-align: center;
-  height: 117px;
+  line-height: 117px;
+  background-color: rgb(5, 5, 5);
+}
+
+.main-header__logo {
+  width: 300px;
+  vertical-align: middle;
 }

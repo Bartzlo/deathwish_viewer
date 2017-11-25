@@ -1,0 +1,20 @@
+.mian-screen-discription {
+  background-color: rgb(5, 5, 5);
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 10px solid rgb(26, 26, 26);
+}
+
+.mian-screen-discription__firts-img{
+  height: 100px;
+}
+
+.mian-screen-discription__second-img {
+  height: 100px;
+}
+
+.mian-screen-discription__text {
+  font-size: 80%;
+  color: gray;
+  padding: 20px;
+}

@@ -6,7 +6,7 @@ module.exports.get = function (className = '', id = '', innerContent = '') {
     </header>
     <div class="parts-previewer__container">
       <div class="parts-previewer__btn" data-issue-name="{{prevIssue}}">
-        &#8647;
+        &#11164;
       </div>
       <ul class="parts-previewer__list">
         {{#parts}}
@@ -16,7 +16,7 @@ module.exports.get = function (className = '', id = '', innerContent = '') {
         {{/parts}}
       </ul>
       <div class="parts-previewer__btn" data-issue-name="{{nextIssue}}">
-        &#8649;
+        &#11166;
       </div>
     </div>
   </section>
