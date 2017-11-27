@@ -19,6 +19,9 @@
     margin-right: 30px;
     display: inline;
   }
+  &::first-letter {
+    color: red;
+  }
 }
 
 .parts-previewer__list {

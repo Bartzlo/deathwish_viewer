@@ -1,7 +1,19 @@
+.main-viewer__part-info {
+  margin-left: 15px;
+  h1::first-letter {
+    color: red;
+  }
+}
+
+.main-viewer__part-name {
+  float: left;
+  width: 138px;
+}
+
 .main-viewer__homeBtn, .main-viewer__backBtn {
-  font-size: 200%;
-  height: 45px;
-  width: 45px;
+  font-size: 170%;
+  height: 37px;
+  width: 40px;
   background: rgba(66,66,66,0.4);
   color: rgba($color: #ffffff, $alpha: 0.5);
   text-align: center;
@@ -13,7 +25,7 @@
 }
 
 .main-viewer__backBtn {
-  right: 50px;
+  right: 45px;
 }
 
 .main-viewer__homeBtn {

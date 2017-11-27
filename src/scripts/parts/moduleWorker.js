@@ -8,6 +8,14 @@ Handlebars.registerHelper('if_eq', function (a, b, opts) {
   }
 })
 
+Handlebars.registerHelper('gen', function (n, block) {
+  var accum = ''
+  for (var i = 1; i <= n; ++i) {
+    accum += block.fn(i)
+  }
+  return accum
+})
+
 function getElement (block, data = {}) {
   let elem = document.createElement('div')
   elem.innerHTML = Handlebars.compile(block)(data)

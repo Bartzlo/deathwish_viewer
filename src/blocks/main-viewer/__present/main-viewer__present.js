@@ -39,6 +39,7 @@ document.addEventListener('click', e => {
     let queryNumber = currentNumber + parseInt(btn.dataset.inc)
 
     changeImg(currentImg, queryNumber, queryNumber > currentNumber ? 'fwd' : 'bwd')
+    document.dispatchEvent(new Event('setActiveNavMainViewer'))
 
     let url = window.location.hash.split('&')
     url[url.length - 1] = queryNumber

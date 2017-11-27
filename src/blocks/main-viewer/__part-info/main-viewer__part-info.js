@@ -1,13 +1,16 @@
+let nav = require('../__nav/main-viewer__nav').get()
+
 module.exports.get = function (className = '', id = '', innerContent = '') {
   return `
   <header class="main-viewer__part-info">
     <div class="main-viewer__backBtn">&#129092;</div>
     <div class="main-viewer__homeBtn">&#8962;</div>
     <h1>{{bookName}}</h1>
-    <span>
+    <span class="main-viewer__part-name">
       {{issueName}} part
       <span class="main-viewer__part-number">{{partNumber}}</span>
     </span>
+    ${nav}
   </header>
   `
 }
