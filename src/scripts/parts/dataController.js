@@ -63,10 +63,12 @@ module.exports = class dataController {
 
     this.dataBase.forEach((book) => {
       if (book.bookName === bookName) {
-        book.issues.forEach((issue, i) => {
+        book.issues.forEach((issue, i, arr) => {
           if (issue.issueName === issueName) {
+            if (arr[i + 1]) result.nextIssue = arr[i + 1].issueName
+            if (arr[i - 1]) result.prevIssue = arr[i - 1].issueName
             result.count = issue.count
-
+            number = number || issue.count
             for (let i = 1; i <= issue.count; i++) {
               if (i === parseInt(number)) {
                 result.part = this.rootDir + bookName + '/' + issueName + '/' + i + '.jpg'
@@ -77,7 +79,6 @@ module.exports = class dataController {
         })
       }
     })
-
     return result
   }
 

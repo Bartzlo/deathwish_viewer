@@ -14,6 +14,7 @@ let partsPreviewer = require('../../blocks/parts-previewer/parts-previewer')
 
 let mainVeiwer = require('../../blocks/main-viewer/main-viewer')
 let mainVeiwerSet = require('../../blocks/main-viewer/__hiddens/main-veiwer__hiddens')
+let mainVeiwerNav = require('../../blocks/main-viewer/__nav/main-viewer__nav')
 
 let screenContainer = document.getElementById('screen-container')
 
@@ -195,10 +196,18 @@ builder.buildMainVeiwer = function ([bookName, issueName, number, prevUrl]) {
         blockPreload: preloaderViewer.get()
       })
     })
+    .then(() => {
+      return moduleWorker.insert({
+        block: mainVeiwerNav.get(),
+        position: 'inside',
+        target: document.getElementById('main-viewer__nav'),
+        data: bookDbController.getPartsSet(bookName, issueName)
+      })
+    })
     .then(elem => {
       moduleWorker.insert({
         block: mainVeiwerSet.get(),
-        position: 'inside',
+        position: 'after',
         target: elem,
         data: bookDbController.getPartsSet(bookName, issueName)
       })

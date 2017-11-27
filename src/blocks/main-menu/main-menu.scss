@@ -19,7 +19,8 @@
     text-decoration: none;
     color: white;
   }
-  &:first-child {
-    border-bottom: 2px solid red;
-  }
+}
+
+#screen-container[data-screen="main-screen"] .main-menu__item_home {
+  border-bottom: 2px solid red;
 }
