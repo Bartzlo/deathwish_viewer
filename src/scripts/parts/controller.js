@@ -5,11 +5,15 @@ document.addEventListener('callPartsVeiwerScreen', e => {
 })
 
 document.addEventListener('callMainScreen', e => {
-  screenBuilder.buildMainScreen([])
+  screenBuilder.buildMainScreen()
 })
 
 document.addEventListener('callMainVeiwer', e => {
   screenBuilder.buildMainVeiwer([e.detail.bookName, e.detail.issueName, e.detail.number])
+})
+
+document.addEventListener('callError404', e => {
+  screenBuilder.buildError404()
 })
 
 window.addEventListener('popstate', e => {

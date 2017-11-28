@@ -4,6 +4,7 @@ let mainScreenSet = require('../../blocks-sets/main-screen/main-screen')
 let viewerScreenSet = require('../../blocks-sets/viewer-screen/viewer-screen')
 let preloaderSlider = require('../../blocks/preloader-slider/preloader-slider')
 let preloaderViewer = require('../../blocks/preloader-viewer/preloader-viewer')
+let error404 = require('../../blocks/error-404/error-404')
 
 let mianScreenDiscription = require('../../blocks/mian-screen-discription/mian-screen-discription')
 
@@ -33,15 +34,13 @@ function setUrl (funcName, args) {
 
 builder.getScreen = function (url) { // 'funcName&arg1&arg2&...'
   let params = url.split('&')
-  params.push('prevUrl')
 
-  // если вызов билдеров идет из этой функции, не нужно вызывать setUrl
   try {
-    builder[params[0]](params.slice(1))
+    builder[params[0]](params.slice(1), 'prevUrl')
   } catch (err) {
     if (err.message.includes('is not a function')) {
       builder.buildMainScreen()
-      console.error('Wrong url: ' + url)
+      console.error('Wrong function name: ' + params[0])
     } else {
       console.error(err.stack)
     }
@@ -96,7 +95,7 @@ function buildViewerScreenSet () {
     .catch((error) => console.error(error))
 }
 
-builder.buildMainScreen = function ([prevUrl]) {
+builder.buildMainScreen = function (prevUrl) {
   if (!prevUrl) setUrl('buildMainScreen', arguments)
   window.stop()
 
@@ -145,7 +144,7 @@ builder.buildMainScreen = function ([prevUrl]) {
     .catch(error => console.error(error))
 }
 
-builder.buildPartsViewer = function ([bookName, issueName, prevUrl]) {
+builder.buildPartsViewer = function ([bookName, issueName], prevUrl) {
   if (!prevUrl) setUrl('buildPartsViewer', arguments)
   window.stop()
 
@@ -171,7 +170,7 @@ builder.buildPartsViewer = function ([bookName, issueName, prevUrl]) {
     .catch(error => console.error(error))
 }
 
-builder.buildMainVeiwer = function ([bookName, issueName, number, prevUrl]) {
+builder.buildMainVeiwer = function ([bookName, issueName, number], prevUrl) {
   if (!prevUrl) setUrl('buildMainVeiwer', arguments)
   window.stop()
 
@@ -207,6 +206,23 @@ builder.buildMainVeiwer = function ([bookName, issueName, number, prevUrl]) {
       document.dispatchEvent(new Event('setActiveNavMainViewer'))
     })
     .catch(error => console.error(error))
+}
+
+builder.buildError404 = function (prevUrl) {
+  window.stop()
+
+  Promise.resolve()
+    .then(() => {
+      clearScreenContainer()
+      screenContainer.dataset.screen = 'error-404'
+
+      return moduleWorker.insert({
+        block: error404.get(),
+        position: 'inside',
+        target: screenContainer
+      })
+    })
+    .catch((err) => console.error(err))
 }
 
 module.exports = {

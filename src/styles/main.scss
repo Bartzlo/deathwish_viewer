@@ -3,6 +3,7 @@
 @import '../blocks-frames/wpapper/wrapper.scss';
 @import '../blocks/preloader-slider/preloader-slider.scss';
 @import '../blocks/preloader-viewer/preloader-viewer.scss';
+@import '../blocks/error-404/error-404.scss';
 
 @import '../blocks/main-header/main-header.scss';
 @import '../blocks/main-menu/main-menu.scss';
@@ -28,6 +29,18 @@ html {
 body {
   background-color: rgb(26, 26, 26);
   font-family: 'Century Gothic', 'Trebuchet MS';
+}
+
+noscript {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: gray;
+  font-size: 200%;
+  &::first-letter {
+    color: red;
+  }
 }
 
 #screen-container {

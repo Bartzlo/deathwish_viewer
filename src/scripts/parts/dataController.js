@@ -34,6 +34,7 @@ module.exports = class dataController {
 
   getMinParts (bookName, issueName) {
     let result = {'bookName': bookName, 'issueName': issueName}
+    let success = false
 
     this.dataBase.forEach((book) => {
       if (book.bookName === bookName) {
@@ -49,17 +50,19 @@ module.exports = class dataController {
                 'partNumber': i})
             }
 
+            success = true
             result.parts = urls
           }
         })
       }
     })
 
-    return result
+    return success ? result : 404
   }
 
   getPart (bookName, issueName, number) {
     let result = {'bookName': bookName, 'issueName': issueName}
+    let success = false
 
     this.dataBase.forEach((book) => {
       if (book.bookName === bookName) {
@@ -73,17 +76,19 @@ module.exports = class dataController {
               if (i === parseInt(number)) {
                 result.part = this.rootDir + bookName + '/' + issueName + '/' + i + '.jpg'
                 result.partNumber = i
+                success = true
               }
             }
           }
         })
       }
     })
-    return result
+    return success ? result : 404
   }
 
   getPartsSet (bookName, issueName) {
     let result = {'bookName': bookName, 'issueName': issueName}
+    let success = false
 
     this.dataBase.forEach((book) => {
       if (book.bookName === bookName) {
@@ -97,12 +102,13 @@ module.exports = class dataController {
             }
 
             result.parts = urls
+            success = true
           }
         })
       }
     })
 
-    return result
+    return success ? result : 404
   }
 
   getBooksCounter () {

@@ -68,6 +68,11 @@ function getRemPreloadElement (block, query) {
 }
 
 function insert ({block, position, target, data, blockPreload, query}) {
+  if (data === 404) {
+    console.error('Data base query error')
+    document.dispatchEvent(new Event('callError404'))
+  }
+
   return new Promise((resolve, reject) => {
     if (query && blockPreload) {
       let elemPreload = getElement(blockPreload)
