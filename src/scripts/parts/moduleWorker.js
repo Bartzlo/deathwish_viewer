@@ -22,95 +22,73 @@ function getElement (block, data = {}) {
   return elem
 }
 
-function getPreloadElement (block, data = {}) {
-  return new Promise((resolve, reject) => {
-    let elem = getElement(block, data)
-    let counter = elem.getElementsByTagName('img').length
-    if (counter === 0) resolve(elem)
+function getData (query) {
+  if (!query) return Promise.resolve(null)
 
-    elem.addEventListener('load', e => {
+  return fetch(query)
+    .then(res => {
+      return res.json()
+    })
+    .catch(err => {
+      console.error(err)
+      return null
+    })
+}
+
+function preload (el, blockPreload, target, position) {
+  let elemPreload = getElement(blockPreload)
+  elemPreload = addElem(elemPreload, target, position)
+
+  return new Promise((resolve, reject) => {
+    let counter = el.getElementsByTagName('img').length
+    if (counter === 0) {
+      elemPreload.remove()
+      resolve(el)
+    }
+
+    el.addEventListener('load', e => {
       counter -= 1
-      if (counter === 0) resolve(elem)
+      if (counter === 0) {
+        elemPreload.remove()
+        resolve(el)
+      }
     }, true)
 
-    elem.addEventListener('error', e => {
+    el.addEventListener('error', e => {
       counter -= 1
       console.error('Img: ' + e.path[0].baseURI + ' not load')
-      if (counter === 0) resolve(elem)
+      if (counter === 0) {
+        elemPreload.remove()
+        resolve(el)
+      }
     }, true)
   })
-}
-
-function getRemElement (block, query) {
-  let url = `${query}`
-  return fetch(url)
-    .then(res => res.json())
-    .then(res => getElement(block, res))
-    .catch(rej => {
-      console.error(rej)
-      let div = document.createElement('div')
-      div.setAttribute('data-render_error', '')
-      return div
-    })
-}
-
-function getRemPreloadElement (block, query) {
-  let url = `${query}`
-  return fetch(url)
-    .then(res => res.json())
-    .then(res => getPreloadElement(block, res))
-    .catch(rej => {
-      console.error(rej)
-      let div = document.createElement('div')
-      div.setAttribute('data-render_error', '')
-      return div
-    })
 }
 
 function insert ({block, position, target, data, blockPreload, query}) {
-  if (data === 404) {
-    console.error('Data base query error')
-    document.dispatchEvent(new Event('callError404'))
-  }
-
-  return new Promise((resolve, reject) => {
-    if (query && blockPreload) {
-      let elemPreload = getElement(blockPreload)
-      elemPreload = addElem(elemPreload, target, position)
-      getRemPreloadElement(block, data)
-        .then(elem => {
-          elemPreload.remove()
-          elem = addElem(elem, target, position)
-          resolve(elem)
-        })
-        .catch(rej => reject(rej))
-    } else if (query) {
-      getRemElement(block, data)
-        .then(elem => {
-          elem = addElem(elem, target, position)
-          resolve(elem)
-        })
-        .catch(rej => reject(rej))
-    } else if (blockPreload) {
-      let elemPreload = getElement(blockPreload)
-      elemPreload = addElem(elemPreload, target, position)
-      getPreloadElement(block, data)
-        .then(elem => {
-          elemPreload.remove()
-          elem = addElem(elem, target, position)
-          resolve(elem)
-        })
-        .catch(rej => reject(rej))
-    } else {
-      let elem = getElement(block, data)
-      elem = addElem(elem, target, position)
-      resolve(elem)
-    }
-  })
+  return getData(query || null)
+    .then((queryData) => {
+      data = queryData || data || {}
+      if (data === 404) {
+        document.dispatchEvent(new Event('callError404'))
+        throw new Error('Data base query error')
+      }
+    })
+    .then(() => {
+      let el = getElement(block, data)
+      return el
+    })
+    .then(el => {
+      return blockPreload ? preload(el, blockPreload, target, position) : el
+    })
+    .then(el => {
+      el = addElem(el, target, position)
+      return el
+    })
+    .catch(err => console.error(err))
 }
 
 function addElem (elem, target, position) {
-  // console.log(elem.iqnnerHTML)
   let outElem = elem.firstElementChild
 
   if (position === 'inside') {

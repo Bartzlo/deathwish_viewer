@@ -116,6 +116,7 @@ builder.buildMainScreen = function (prevUrl) {
         position: 'inside',
         target: document.getElementById('main-content'),
         data: {text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus quam porro, maiores assumenda, distinctio facilis ex ullam sint iure ipsam nemo nisi repudiandae iste aliquid placeat laboriosam neque quibusdam nesciunt.'}
+        // query: 'data/text.json'
       })
     })
     .then(elem => {
