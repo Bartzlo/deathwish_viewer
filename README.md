@@ -26,6 +26,7 @@
 ## Развертывание проекта
 Должен быть установлен node.js и npm. В консоли выполнить следующие команды:
 - git clone https://github.com/Bartzlo/deathwish_viewer.git ./
+- npm i gulp -g
 - npm i
 - gulp
 
