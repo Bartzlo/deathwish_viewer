@@ -40,6 +40,7 @@ function setUrl (funcName, args) {
 
 // Get page from url 'funcName&arg1&arg2&...'
 builder.getScreen = function (url) {
+  url = url.replace(new RegExp('%20', 'g'), ' ')
   let params = url.split('&')
 
   try {
