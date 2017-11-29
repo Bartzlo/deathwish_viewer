@@ -24,3 +24,11 @@
 #screen-container[data-screen="main-screen"] .main-menu__item_home {
   border-bottom: 2px solid red;
 }
+
+#screen-container[data-screen="blog-screen"] .main-menu__item_blog {
+  border-bottom: 2px solid red;
+}
+
+#screen-container[data-screen="wiki-screen"] .main-menu__item_wiki {
+  border-bottom: 2px solid red;
+}

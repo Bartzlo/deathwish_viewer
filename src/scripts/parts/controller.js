@@ -14,6 +14,14 @@ document.addEventListener('callMainVeiwer', e => {
   screenBuilder.buildMainVeiwer([e.detail.bookName, e.detail.issueName, e.detail.number])
 })
 
+document.addEventListener('callBlogScreen', e => {
+  screenBuilder.buildBlogPage()
+})
+
+document.addEventListener('callWikiScreen', e => {
+  screenBuilder.buildWikiPage()
+})
+
 document.addEventListener('callError404', e => {
   screenBuilder.buildError404()
 })

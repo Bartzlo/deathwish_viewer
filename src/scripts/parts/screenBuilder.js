@@ -7,6 +7,7 @@ let viewerScreenSet = require('../../blocks-sets/viewer-screen/viewer-screen')
 let preloaderSlider = require('../../blocks/preloader-slider/preloader-slider')
 let preloaderViewer = require('../../blocks/preloader-viewer/preloader-viewer')
 let error404 = require('../../blocks/error-404/error-404')
+let simpleText = require('../../blocks/simple-text-container/simple-text-container')
 
 let mianScreenDiscription = require('../../blocks/mian-screen-discription/mian-screen-discription')
 
@@ -173,6 +174,58 @@ builder.buildPartsViewer = function ([bookName, issueName], prevUrl) {
         position: 'inside',
         target: document.getElementById('main-content'),
         data: bookDbController.getMinParts(bookName, issueName)
+      })
+    })
+    .catch(error => console.error(error))
+}
+
+builder.buildBlogPage = function (prevUrl) {
+  if (!prevUrl) setUrl('buildBlogPage', arguments)
+  window.stop()
+
+  Promise.resolve()
+    .then(() => {
+      if (screenContainer.dataset.struct === 'main-screen-set') {
+        clearSlots()
+      } else {
+        return buildMainScreenSet()
+      }
+    })
+    .then(() => {
+      screenContainer.dataset.screen = 'blog-screen'
+    })
+    .then(() => {
+      return moduleWorker.insert({
+        block: simpleText.get(),
+        position: 'inside',
+        target: document.getElementById('main-content'),
+        data: {text: 'There must be a blog'}
+      })
+    })
+    .catch(error => console.error(error))
+}
+
+builder.buildWikiPage = function (prevUrl) {
+  if (!prevUrl) setUrl('buildWikiPage', arguments)
+  window.stop()
+
+  Promise.resolve()
+    .then(() => {
+      if (screenContainer.dataset.struct === 'main-screen-set') {
+        clearSlots()
+      } else {
+        return buildMainScreenSet()
+      }
+    })
+    .then(() => {
+      screenContainer.dataset.screen = 'wiki-screen'
+    })
+    .then(() => {
+      return moduleWorker.insert({
+        block: simpleText.get(),
+        position: 'inside',
+        target: document.getElementById('main-content'),
+        data: {text: 'There must be a wiki'}
       })
     })
     .catch(error => console.error(error))
