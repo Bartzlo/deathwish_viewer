@@ -1,3 +1,5 @@
+// Create all pages
+
 const moduleWorker = require('./moduleWorker.js')
 
 let mainScreenSet = require('../../blocks-sets/main-screen/main-screen')
@@ -18,21 +20,25 @@ let mainVeiwerSet = require('../../blocks/main-viewer/__hiddens/main-veiwer__hid
 
 let screenContainer = document.getElementById('screen-container')
 
+// Lockal data base which emulate server side
 let bookDbController
-let builder = {}
 
 function setDbController (dbController) {
   bookDbController = dbController
 }
 
+// Object with builders-functions, to access using string
+let builder = {}
+
+// Generate url from function name and arguments
 function setUrl (funcName, args) {
   args = args[0] ? [].slice.call(args[0]).join('&') : null
   let url = '#' + funcName + (args ? '&' + args : '')
-  // window.location.hash = url
   history.pushState({path: url}, '', url)
 }
 
-builder.getScreen = function (url) { // 'funcName&arg1&arg2&...'
+// Get page from url 'funcName&arg1&arg2&...'
+builder.getScreen = function (url) {
   let params = url.split('&')
 
   try {
@@ -59,8 +65,7 @@ function clearSlots () {
   })
 }
 
-// Build static sets
-
+// Build static content for index page
 function buildMainScreenSet () {
   return Promise.resolve()
     .then(() => {
@@ -78,6 +83,7 @@ function buildMainScreenSet () {
     .catch((error) => console.error(error))
 }
 
+// Build static content for main-viewer page
 function buildViewerScreenSet () {
   return Promise.resolve()
     .then(() => {
@@ -95,6 +101,7 @@ function buildViewerScreenSet () {
     .catch((error) => console.error(error))
 }
 
+// prevUrl - prevents created url (if builder-fuction will be called from getScreen())
 builder.buildMainScreen = function (prevUrl) {
   if (!prevUrl) setUrl('buildMainScreen', arguments)
   window.stop()

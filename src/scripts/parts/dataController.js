@@ -1,3 +1,5 @@
+// Simple emulation of server side
+
 module.exports = class dataController {
   constructor (url) {
     this.dataBase = null

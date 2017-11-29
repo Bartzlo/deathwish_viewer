@@ -1,3 +1,15 @@
+// Block of background images
+//
+// Data structure
+// {
+//   "parts": [
+//     {
+//       "url": "",
+//       "partNumber": ""
+//     }
+//   ]
+// }
+
 module.exports.get = function (className = '', id = '', innerContent = '') {
   return `
   <div class="main-veiwer__hiddens">

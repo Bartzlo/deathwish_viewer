@@ -1,6 +1,20 @@
+// Data structute:
+// {
+//   "srcBookPreviwe": "",
+//   "altBookPreviwe": "",
+//   "bookName": "",
+//   "issues": [
+//     {
+//       "issueName": "",
+//       "srcIssuePreviwe": "",
+//       "altIssuePreviwe": ""
+//     }
+//   ]
+// }
+
 module.exports.get = function (className = '', id = '', innerContent = '') {
   return `
-  <div class="book-slider">
+  <div class="book-slider ${className}">
     <header class="book-slider__head">
       <img src="{{srcBookPreviwe}}" alt="{{altBookPreviwe}}">
       
@@ -29,6 +43,7 @@ document.addEventListener('mousedown', e => {
   if (isClass(e.target, 'book-slider__forwardBtn') || isClass(e.target, 'book-slider__backBtn')) e.preventDefault()
 })
 
+// Slider controll
 document.addEventListener('click', e => {
   let trg = e.target
 
@@ -60,10 +75,6 @@ document.addEventListener('click', e => {
   }
 })
 
-function isClass (elem, selector) {
-  return elem.classList.contains(selector) ? elem : elem.closest('.' + selector)
-}
-
 function slideBookModule (bookModule, shift) {
   let slider = bookModule.querySelector('.book-slider__slider')
   let slideList = bookModule.querySelector('.book-slider__slideList')
@@ -88,4 +99,8 @@ function slideBookModule (bookModule, shift) {
 
   slideList.style.transform = `translatex(${left}px)`
   slideList.dataset.shift = left
+}
+
+function isClass (elem, selector) {
+  return elem.classList.contains(selector) ? elem : elem.closest('.' + selector)
 }

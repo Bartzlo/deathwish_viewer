@@ -1,3 +1,8 @@
+// Data structure
+// {
+//   "text": ""
+// }
+
 module.exports.get = function (className = '', id = '', innerContent = '') {
   return `
   <section class="mian-screen-discription ${className}">

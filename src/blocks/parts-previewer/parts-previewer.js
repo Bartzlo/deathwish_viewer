@@ -1,6 +1,20 @@
+// Data structure
+// {
+//   "bookName": "",
+//   "issueName": "",
+//   "prevIssue": "", // name
+//   "nextIssue": "", // name
+//   "parts": [
+//     {
+//       "partNumber": "",
+//       "url": ""
+//     }
+//   ]
+// }
+
 module.exports.get = function (className = '', id = '', innerContent = '') {
   return `
-  <section class="parts-previewer" data-book-name="{{bookName}}" data-issue-name="{{issueName}}">
+  <section class="parts-previewer ${className}" data-book-name="{{bookName}}" data-issue-name="{{issueName}}">
     <header class="parts-previewer__header">
       <h1>{{bookName}}</h1><span>{{issueName}}</span>
     </header>

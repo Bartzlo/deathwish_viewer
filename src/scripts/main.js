@@ -5,6 +5,7 @@ const controller = require('./parts/controller')
 const DataController = require('./parts/dataController')
 let bookDbController = new DataController('./data/books.json')
 
+// Get data base for emulated server side
 bookDbController.loadBase()
   .then(db => {
     screenBuilder.setDbController(bookDbController)

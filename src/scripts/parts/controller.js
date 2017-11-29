@@ -1,3 +1,5 @@
+// All pages can be called by dispatched one of the next events
+
 let screenBuilder = require('./screenBuilder.js').builder
 
 document.addEventListener('callPartsVeiwerScreen', e => {

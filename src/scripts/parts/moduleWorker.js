@@ -35,7 +35,9 @@ function getData (query) {
     })
 }
 
-function preload (el, blockPreload, target, position) {
+// preloadImgs return promise which will resolved when all images in target
+// block will dispached 'load' or/and 'error' events
+function preloadImgs (el, blockPreload, target, position) {
   let elemPreload = getElement(blockPreload)
   elemPreload = addElem(elemPreload, target, position)
 
@@ -65,6 +67,8 @@ function preload (el, blockPreload, target, position) {
   })
 }
 
+// Inserting blocks (string handlebars templates) with some data
+// into target block
 function insert ({block, position, target, data, blockPreload, query}) {
   return getData(query || null)
     .then((queryData) => {
@@ -79,7 +83,7 @@ function insert ({block, position, target, data, blockPreload, query}) {
       return el
     })
     .then(el => {
-      return blockPreload ? preload(el, blockPreload, target, position) : el
+      return blockPreload ? preloadImgs(el, blockPreload, target, position) : el
     })
     .then(el => {
       el = addElem(el, target, position)
