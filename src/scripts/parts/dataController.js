@@ -11,12 +11,19 @@ module.exports = class dataController {
     if (this.dataBase) {
       return Promise.resolve(this.dataBase)
     } else {
-      return fetch(this.url)
-        .then(res => res.json())
-        .then(res => {
-          this.dataBase = this._formateConfig(res)
-          return this.dataBase
-        })
+      return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest()
+        xhr.open('GET', this.url)
+        xhr.send()
+
+        xhr.onload = () => {
+          this.dataBase = this._formateConfig(JSON.parse(xhr.responseText))
+          resolve(this.dataBase)
+        }
+        xhr.onerror = () => {
+          reject(xhr.status)
+        }
+      })
     }
   }
 

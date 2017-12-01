@@ -1,6 +1,7 @@
 [
   {
     "bookName": "Book 1",
+    "count": 10,
     "issues": [
       {
         "issueName": "Chapter 1",
@@ -46,6 +47,7 @@
   },
   {
     "bookName": "Book 2",
+    "count": 10,
     "issues": [
       {
         "issueName": "Chapter 1",
@@ -91,6 +93,7 @@
   },
   {
     "bookName": "Book 3",
+    "count": 10,
     "issues": [
       {
         "issueName": "Chapter 1",

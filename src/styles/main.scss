@@ -29,6 +29,7 @@ html {
 body {
   background-color: rgb(26, 26, 26);
   font-family: 'Century Gothic', 'Trebuchet MS';
+  display: flex;
 }
 
 noscript {
@@ -44,6 +45,7 @@ noscript {
 }
 
 #screen-container {
+  width: 100%;
   color: gray;
   display: flex;
   min-height: 100vh;

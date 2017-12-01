@@ -1,8 +1,8 @@
 module.exports.get = function (className = '', id = '', innerContent = '') {
   return `
   <div class="main-viewer__present {{#if_eq partNumber 1}}main-viewer__present_isFirst{{/if_eq}}{{#if_eq partNumber count}}main-viewer__present_isLast{{/if_eq}}" data-book-name="{{bookName}}" data-issue-name="{{issueName}}" data-count="{{count}}" data-next-issue="{{nextIssue}}", data-prev-issue="{{prevIssue}}">
-    <div class="main-viewer__controlBtn main-viewer__controlBtn_prev" data-inc="-1"><svg width="36px" height="36px" class="JUQOtc yjarQe" viewBox="0 0 24 24"><path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"></path></svg></div>
-    <div class="main-viewer__controlBtn main-viewer__controlBtn_next" data-inc="1"><svg width="36px" height="36px" class="JUQOtc yjarQe" viewBox="0 0 24 24"><path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"></path></svg></div>
+    <div class="main-viewer__controlBtn main-viewer__controlBtn_prev" data-inc="-1"><div></div><svg width="36px" height="36px" class="JUQOtc yjarQe" viewBox="0 0 24 24"><path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"></path></svg></div>
+    <div class="main-viewer__controlBtn main-viewer__controlBtn_next" data-inc="1"><div></div><svg width="36px" height="36px" class="JUQOtc yjarQe" viewBox="0 0 24 24"><path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"></path></svg></div>
     <div class="main-viewer__chaptControlBtn main-viewer__chaptControlBtn_prev">&#129092; Previous chapter</div>
     <div class="main-viewer__chaptControlBtn main-viewer__chaptControlBtn_next">Next chapter &#129094;</div>
     <div class="main-viewer__endBtn">Finish of the {{bookName}} &#8962;</div>
@@ -39,7 +39,7 @@ document.addEventListener('click', e => {
     let queryNumber = currentNumber + parseInt(btn.dataset.inc)
 
     changeImg(currentImg, queryNumber, queryNumber > currentNumber ? 'fwd' : 'bwd')
-    document.dispatchEvent(new Event('setActiveNavMainViewer'))
+    document.dispatchEvent(new CustomEvent('setActiveNavMainViewer'))
 
     let url = window.location.hash.split('&')
     url[url.length - 1] = queryNumber
@@ -92,13 +92,9 @@ document.addEventListener('click', e => {
 
   if (btn.classList.contains('main-viewer__endBtn')) {
     e.preventDefault()
-    document.dispatchEvent(new Event('callMainScreen', {bubbles: true}))
+    document.dispatchEvent(new CustomEvent('callMainScreen', {bubbles: true}))
   }
 })
-
-function isClass (elem, selector) {
-  return elem.classList.contains(selector) ? elem : elem.closest('.' + selector)
-}
 
 function changeImg (img, counter, direction) {
   document.querySelector('.main-viewer__part-number').innerHTML = counter
@@ -129,4 +125,8 @@ function changeImg (img, counter, direction) {
 function hideElem (e) {
   if (e.target.classList.contains('current-img')) return
   e.target.setAttribute('hidden', '')
+}
+
+function isClass (elem, selector) {
+  return elem.classList.contains(selector) ? elem : elem.closest('.' + selector)
 }

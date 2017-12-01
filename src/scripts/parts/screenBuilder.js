@@ -46,12 +46,9 @@ builder.getScreen = function (url) {
   try {
     builder[params[0]](params.slice(1), 'prevUrl')
   } catch (err) {
-    if (err.message.includes('is not a function')) {
-      builder.buildMainScreen()
-      console.error('Wrong function name: ' + params[0])
-    } else {
-      console.error(err.stack)
-    }
+    builder.buildMainScreen()
+    console.error('Wrong function name: ' + params[0])
+    console.error(err.stack)
   }
 }
 
@@ -106,7 +103,7 @@ function buildViewerScreenSet () {
 // prevUrl - prevents created url (if builder-fuction will be called from getScreen())
 builder.buildMainScreen = function (prevUrl) {
   if (!prevUrl) setUrl('buildMainScreen', arguments)
-  window.stop()
+  if (window.stop) window.stop()
 
   Promise.resolve()
     .then(() => {
@@ -124,8 +121,8 @@ builder.buildMainScreen = function (prevUrl) {
         block: mianScreenDiscription.get(),
         position: 'inside',
         target: document.getElementById('main-content'),
-        data: {text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus quam porro, maiores assumenda, distinctio facilis ex ullam sint iure ipsam nemo nisi repudiandae iste aliquid placeat laboriosam neque quibusdam nesciunt.'}
-        // query: 'data/text.json'
+        // data: {text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus quam porro, maiores assumenda, distinctio facilis ex ullam sint iure ipsam nemo nisi repudiandae iste aliquid placeat laboriosam neque quibusdam nesciunt.'}
+        query: 'data/text.json'
       })
     })
     .then(elem => {
@@ -137,7 +134,6 @@ builder.buildMainScreen = function (prevUrl) {
     })
     .then(elem => {
       let books = bookDbController.getBooksCounter();
-
       (function createModule (counter) {
         if (counter >= books) return
 
@@ -156,7 +152,7 @@ builder.buildMainScreen = function (prevUrl) {
 
 builder.buildPartsViewer = function ([bookName, issueName], prevUrl) {
   if (!prevUrl) setUrl('buildPartsViewer', arguments)
-  window.stop()
+  if (window.stop) window.stop()
 
   Promise.resolve()
     .then(() => {
@@ -182,7 +178,7 @@ builder.buildPartsViewer = function ([bookName, issueName], prevUrl) {
 
 builder.buildBlogPage = function (prevUrl) {
   if (!prevUrl) setUrl('buildBlogPage', arguments)
-  window.stop()
+  if (window.stop) window.stop()
 
   Promise.resolve()
     .then(() => {
@@ -208,7 +204,7 @@ builder.buildBlogPage = function (prevUrl) {
 
 builder.buildWikiPage = function (prevUrl) {
   if (!prevUrl) setUrl('buildWikiPage', arguments)
-  window.stop()
+  if (window.stop) window.stop()
 
   Promise.resolve()
     .then(() => {
@@ -234,7 +230,7 @@ builder.buildWikiPage = function (prevUrl) {
 
 builder.buildMainVeiwer = function ([bookName, issueName, number], prevUrl) {
   if (!prevUrl) setUrl('buildMainVeiwer', arguments)
-  window.stop()
+  if (window.stop) window.stop()
 
   Promise.resolve()
     .then(() => {
@@ -265,13 +261,13 @@ builder.buildMainVeiwer = function ([bookName, issueName, number], prevUrl) {
       })
     })
     .then(() => {
-      document.dispatchEvent(new Event('setActiveNavMainViewer'))
+      document.dispatchEvent(new CustomEvent('setActiveNavMainViewer'))
     })
     .catch(error => console.error(error))
 }
 
 builder.buildError404 = function (prevUrl) {
-  window.stop()
+  if (window.stop) window.stop()
 
   Promise.resolve()
     .then(() => {

@@ -34,7 +34,7 @@ document.addEventListener('click', e => {
 
   if (isClass(trg, 'main-viewer__homeBtn')) {
     e.preventDefault()
-    document.dispatchEvent(new Event('callMainScreen', {bubbles: true}))
+    document.dispatchEvent(new CustomEvent('callMainScreen', {bubbles: true}))
   }
 })
 

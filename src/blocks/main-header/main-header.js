@@ -10,7 +10,10 @@ module.exports.get = function (className = '', id = '', innerContent = '') {
 
 // Link to index page
 document.addEventListener('click', e => {
-  if (isClass(e.target, 'main-header')) document.dispatchEvent(new Event('callMainScreen'))
+  if (isClass(e.target, 'main-header')) {
+    e.preventDefault()
+    document.dispatchEvent(new CustomEvent('callMainScreen'))
+  }
 })
 
 function isClass (elem, selector) {

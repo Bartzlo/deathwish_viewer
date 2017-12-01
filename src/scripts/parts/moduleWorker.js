@@ -25,14 +25,18 @@ function getElement (block, data = {}) {
 function getData (query) {
   if (!query) return Promise.resolve(null)
 
-  return fetch(query)
-    .then(res => {
-      return res.json()
-    })
-    .catch(err => {
-      console.error(err)
-      return null
-    })
+  return new Promise((resolve, reject) => {
+    let xhr = new XMLHttpRequest()
+    xhr.open('GET', query)
+    xhr.send()
+
+    xhr.onload = () => {
+      resolve(JSON.parse(xhr.responseText))
+    }
+    xhr.onerror = () => {
+      reject(xhr.status)
+    }
+  })
 }
 
 // preloadImgs return promise which will resolved when all images in target
@@ -74,7 +78,7 @@ function insert ({block, position, target, data, blockPreload, query}) {
     .then((queryData) => {
       data = queryData || data || {}
       if (data === 404) {
-        document.dispatchEvent(new Event('callError404'))
+        document.dispatchEvent(new CustomEvent('callError404'))
         throw new Error('Data base query error')
       }
     })

@@ -6,11 +6,42 @@ const browserSync = require('browser-sync')
 const sass = require('gulp-sass')
 const cleanCSS = require('gulp-clean-css')
 const sourcemaps = require('gulp-sourcemaps')
-const uglifyjs = require('gulp-uglify')
-const browserify = require('gulp-browserify')
+const webpack = require('webpack-stream')
 const rimraf = require('rimraf')
-const babel = require('gulp-babel')
 const rigger = require('gulp-rigger')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
+let webpackConfig = {
+  entry: [
+    'babel-polyfill', // babel-polyfill for IE11 promise support
+    './src/scripts/main.js'
+  ],
+
+  output: {
+    filename: 'main.js'
+  },
+
+  module: {
+    rules: [
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
+    ]
+  },
+
+  // !!!exclude from the production!!!
+  plugins: [
+    new UglifyJsPlugin()
+  ],
+
+  // devtool: 'source-map', // for IE and EDGE debug
+  devtool: 'eval-source-map',
+
+  // fix "require.extensions" warning
+  resolve: {
+    alias: {
+      handlebars: 'handlebars/dist/handlebars.min.js'
+    }
+  }
+}
 
 gulp.task('serve', ['build-style', 'build-html', 'build-js', 'build-img', 'copy-data', 'build-fonts'], function () {
   browserSync.init({
@@ -37,11 +68,11 @@ gulp.task('build-html', () => {
 
 gulp.task('build-style', () => {
   return gulp.src('src/styles/main.scss')
-    .pipe(sourcemaps.init()) // !!!exclude from the release!!!
+    .pipe(sourcemaps.init()) // !!!exclude from the production!!!
     .pipe(wait(300))
     .pipe(sass())
     .pipe(cleanCSS())
-    .pipe(sourcemaps.write()) // !!!exclude from the release!!!
+    .pipe(sourcemaps.write()) // !!!exclude from the production!!!
     .pipe(gulp.dest('build/styles/'))
     .pipe(wait(100))
     .pipe(browserSync.stream())
@@ -49,11 +80,7 @@ gulp.task('build-style', () => {
 
 gulp.task('build-js', () => {
   return gulp.src('src/scripts/*.js')
-    .pipe(sourcemaps.init()) // !!!exclude from the release!!!
-    .pipe(browserify({debug: true})) // !!!exclude from the release (debug : false)!!!
-    .pipe(babel())
-    .pipe(uglifyjs())
-    .pipe(sourcemaps.write()) // !!!exclude from the release!!!
+    .pipe(webpack(webpackConfig))
     .pipe(gulp.dest('build/scripts/'))
     .pipe(browserSync.stream())
 })

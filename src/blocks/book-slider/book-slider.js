@@ -1,5 +1,6 @@
 // Data structute:
 // {
+//   "count": "",
 //   "srcBookPreviwe": "",
 //   "altBookPreviwe": "",
 //   "bookName": "",
@@ -22,7 +23,7 @@ module.exports.get = function (className = '', id = '', innerContent = '') {
     <div class="book-slider__backBtn">
       &#11164;
     </div>
-    <div class="book-slider__slider" data-book-name="{{bookName}}">
+    <div class="book-slider__slider" data-book-name="{{bookName}}" data-count="{{count}}">
       <ul class="book-slider__slideList" data-shift="0">
         {{#issues}}
         <li class="book-slider__slideItem" data-issue-name="{{issueName}}">
@@ -78,9 +79,10 @@ document.addEventListener('click', e => {
 function slideBookModule (bookModule, shift) {
   let slider = bookModule.querySelector('.book-slider__slider')
   let slideList = bookModule.querySelector('.book-slider__slideList')
+  let firstItem = slideList.querySelector('.book-slider__slideItem') // to calc list width (IE 11 support)
 
   let sliderWidth = slider.getBoundingClientRect().width
-  let slideListWidth = slideList.getBoundingClientRect().width
+  let slideListWidth = (firstItem.offsetWidth + 8) * slider.dataset.count // 8 - is margin of book-slider__slideItem
 
   let currShift = parseInt(slideList.dataset.shift)
   let left = currShift + shift

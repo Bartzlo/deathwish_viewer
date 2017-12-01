@@ -11,14 +11,19 @@ module.exports.get = function (className = '', id = '', innerContent = '') {
 }
 
 document.addEventListener('click', e => {
+  if (isClass(e.target, 'main-menu__item_home')) {
+    e.preventDefault()
+    document.dispatchEvent(new CustomEvent('callMainScreen'))
+    return
+  }
   if (isClass(e.target, 'main-menu__item_blog')) {
     e.preventDefault()
-    document.dispatchEvent(new Event('callBlogScreen'))
+    document.dispatchEvent(new CustomEvent('callBlogScreen'))
     return
   }
   if (isClass(e.target, 'main-menu__item_wiki')) {
     e.preventDefault()
-    document.dispatchEvent(new Event('callWikiScreen'))
+    document.dispatchEvent(new CustomEvent('callWikiScreen'))
     return
   }
 })
