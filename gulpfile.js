@@ -6,7 +6,8 @@ const browserSync = require('browser-sync')
 const sass = require('gulp-sass')
 const cleanCSS = require('gulp-clean-css')
 const sourcemaps = require('gulp-sourcemaps')
-const webpack = require('webpack-stream')
+const webpackStream = require('webpack-stream')
+const webpack = require('webpack')
 const rimraf = require('rimraf')
 const rigger = require('gulp-rigger')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
@@ -29,7 +30,10 @@ let webpackConfig = {
 
   // !!!exclude from the production!!!
   plugins: [
-    new UglifyJsPlugin()
+    // new UglifyJsPlugin(),
+    new webpack.ProvidePlugin({
+      Handlebars: 'handlebars'
+    })
   ],
 
   // devtool: 'source-map', // for IE and EDGE debug
@@ -38,7 +42,7 @@ let webpackConfig = {
   // fix "require.extensions" warning
   resolve: {
     alias: {
-      handlebars: 'handlebars/dist/handlebars.min.js'
+      handlebars: 'handlebars/dist/handlebars.js'
     }
   }
 }
@@ -80,7 +84,7 @@ gulp.task('build-style', () => {
 
 gulp.task('build-js', () => {
   return gulp.src('src/scripts/*.js')
-    .pipe(webpack(webpackConfig))
+    .pipe(webpackStream(webpackConfig))
     .pipe(gulp.dest('build/scripts/'))
     .pipe(browserSync.stream())
 })

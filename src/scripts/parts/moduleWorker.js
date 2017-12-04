@@ -1,5 +1,3 @@
-const Handlebars = require('handlebars')
-
 Handlebars.registerHelper('if_eq', function (a, b, opts) {
   if (a == b) {
     return opts.fn(this)
