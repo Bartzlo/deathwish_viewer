@@ -17,7 +17,6 @@ let bookSlider = require('../../blocks/book-slider/book-slider')
 let partsPreviewer = require('../../blocks/parts-previewer/parts-previewer')
 
 let mainVeiwer = require('../../blocks/main-viewer/main-viewer')
-let mainVeiwerSet = require('../../blocks/main-viewer/__hiddens/main-veiwer__hiddens')
 
 let screenContainer = document.getElementById('screen-container')
 
@@ -115,6 +114,7 @@ builder.buildMainScreen = function (prevUrl) {
     })
     .then(() => {
       screenContainer.dataset.screen = 'main-screen'
+      document.title = 'Vampire comics'
     })
     .then(() => {
       return moduleWorker.insert({
@@ -164,6 +164,7 @@ builder.buildPartsViewer = function ([bookName, issueName], prevUrl) {
     })
     .then(() => {
       screenContainer.dataset.screen = 'parts-screen'
+      document.title = 'Vampire  ' + bookName + ' ' + issueName
     })
     .then(() => {
       return moduleWorker.insert({
@@ -190,6 +191,7 @@ builder.buildBlogPage = function (prevUrl) {
     })
     .then(() => {
       screenContainer.dataset.screen = 'blog-screen'
+      document.title = 'Vampire blog'
     })
     .then(() => {
       return moduleWorker.insert({
@@ -216,6 +218,7 @@ builder.buildWikiPage = function (prevUrl) {
     })
     .then(() => {
       screenContainer.dataset.screen = 'wiki-screen'
+      document.title = 'Vampire wiki'
     })
     .then(() => {
       return moduleWorker.insert({
@@ -242,25 +245,18 @@ builder.buildMainVeiwer = function ([bookName, issueName, number], prevUrl) {
     })
     .then(() => {
       screenContainer.dataset.screen = 'main-slider'
+      document.title = 'Vampire ' + bookName + ' ' + issueName + ' part ' + number
     })
     .then(elem => {
       return moduleWorker.insert({
         block: mainVeiwer.get(),
         position: 'inside',
         target: document.getElementById('pats-slider'),
-        data: bookDbController.getPart(bookName, issueName, number),
-        blockPreload: preloaderViewer.get()
-      })
-    })
-    .then(elem => {
-      moduleWorker.insert({
-        block: mainVeiwerSet.get(),
-        position: 'inside',
-        target: elem,
-        data: bookDbController.getPartsSet(bookName, issueName)
+        data: bookDbController.getPartsSet(bookName, issueName, number)
       })
     })
     .then(() => {
+      document.dispatchEvent(new CustomEvent('mainViewerIsLoad'))
       document.dispatchEvent(new CustomEvent('setActiveNavMainViewer'))
     })
     .catch(error => console.error(error))

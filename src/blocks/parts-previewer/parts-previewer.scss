@@ -46,12 +46,24 @@
 
 .parts-previewer__btn {
   line-height: 40px;
-  width: 50px;
+  width: 60px;
+  height: 18px;
   text-align: center;
   cursor: pointer;
   font-size: 200%;
+  opacity: 0.5;
+  flex-grow: 10;
+  color: black;
 }
 
 .parts-previewer__btn[data-issue-name=""] {
   visibility: hidden;
+}
+
+.parts-previewer__btn_prev {
+  background: url('/img/left_btn.svg') no-repeat;
+}
+
+.parts-previewer__btn_next {
+  background: url('/img/right_btn.svg') no-repeat;
 }

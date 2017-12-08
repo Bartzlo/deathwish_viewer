@@ -37,7 +37,7 @@ let webpackConfig = {
   ],
 
   // devtool: 'source-map', // for IE and EDGE debug
-  devtool: 'eval-source-map',
+  // devtool: 'eval-source-map',
 
   // fix "require.extensions" warning
   resolve: {

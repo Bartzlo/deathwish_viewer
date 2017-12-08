@@ -21,7 +21,7 @@ module.exports.get = function (className = '', id = '', innerContent = '') {
       
     </header>
     <div class="book-slider__backBtn">
-      &#11164;
+      .
     </div>
     <div class="book-slider__slider" data-book-name="{{bookName}}" data-count="{{count}}">
       <ul class="book-slider__slideList" data-shift="0">
@@ -34,7 +34,7 @@ module.exports.get = function (className = '', id = '', innerContent = '') {
       </ul>
     </div>
     <div class="book-slider__forwardBtn">
-      &#11166;
+      .
     </div>
   </div>
   `

@@ -95,16 +95,22 @@ module.exports = class dataController {
     return success ? result : 404
   }
 
-  getPartsSet (bookName, issueName) {
+  getPartsSet (bookName, issueName, number) {
     let result = {'bookName': bookName, 'issueName': issueName}
     let success = false
 
     this.dataBase.forEach((book) => {
       if (book.bookName === bookName) {
-        book.issues.forEach((issue, i) => {
+        book.issues.forEach((issue, i, arr) => {
           if (issue.issueName === issueName) {
-            let urls = []
+            if (arr[i + 1]) result.nextIssue = arr[i + 1].issueName
+            if (arr[i - 1]) result.prevIssue = arr[i - 1].issueName
+            result.max = issue.count
 
+            number = number || issue.count
+            result.count = number
+
+            let urls = []
             for (let i = 1; i <= issue.count; i++) {
               urls.push({'url': this.rootDir + bookName + '/' + issueName + '/' + i + '.jpg',
                 'partNumber': i})

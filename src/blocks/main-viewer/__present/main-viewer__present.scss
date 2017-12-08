@@ -26,28 +26,26 @@
   margin: 0 20px 0 20px;
 }
 
-.main-viewer__part {
+.main-viewer__slider {
   overflow: hidden;
-  display: flex;
-  height: 930px;
+  visibility: hidden;
+  position: relative;
+}
+
+.main-viewer__wrapper {
+  overflow: hidden;
+  //height: 930px;
   position: relative;
   img {
     width: 630px;
-    opacity: 1;
-    transform: translateX(0);
-    position: absolute;
-    transition: transform 0.4s, opacity 0.4s;
     background: rgb(70, 0, 0);
   }
 
-  .forward-img {
-    opacity: 0;
-    transform: translateX(300px);
-  }
-  
-  .backward-img {
-    opacity: 0;
-    transform: translateX(-300px);
+  div {
+    float: left;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
   }
 }
 
@@ -138,5 +136,20 @@
     .main-viewer__endBtn {
       visibility: visible;
     }
+  }
+}
+
+
+@media (max-width: 600px) {
+  .main-viewer__wrapper {
+    overflow: hidden;
+    position: relative;
+    img {
+      width: 100%;
+      background: rgb(70, 0, 0);
+    }
+  }
+  .main-viewer__controlBtn {
+    visibility: hidden;
   }
 }
