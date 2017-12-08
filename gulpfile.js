@@ -42,7 +42,7 @@ let webpackConfig = {
   // fix "require.extensions" warning
   resolve: {
     alias: {
-      handlebars: 'handlebars/dist/handlebars.min.js'
+      handlebars: 'handlebars/dist/handlebars.js'
     }
   }
 }
