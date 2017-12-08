@@ -19,7 +19,7 @@ module.exports.get = function (className = '', id = '', innerContent = '') {
       <h1>{{bookName}}</h1><span>{{issueName}}</span>
     </header>
     <div class="parts-previewer__container">
-      <div class="parts-previewer__btn" data-issue-name="{{prevIssue}}">
+      <div class="parts-previewer__btn parts-previewer__btn_prev" data-issue-name="{{prevIssue}}">
         &#11164;
       </div>
       <ul class="parts-previewer__list">
@@ -29,12 +29,35 @@ module.exports.get = function (className = '', id = '', innerContent = '') {
           </li>
         {{/parts}}
       </ul>
-      <div class="parts-previewer__btn" data-issue-name="{{nextIssue}}">
+      <div class="parts-previewer__btn parts-previewer__btn_next" data-issue-name="{{nextIssue}}">
         &#11166;
       </div>
     </div>
   </section>
   `
+}
+
+let startSwipe
+
+document.addEventListener('touchstart', e => {
+  if (isClass(e.target, 'parts-previewer__container')) {
+    startSwipe = e.changedTouches[0].pageX
+    document.addEventListener('touchend', stopSwipe)
+  }
+})
+
+function stopSwipe (e) {
+  document.removeEventListener('mouseup', stopSwipe)
+
+  if (startSwipe - e.changedTouches[0].pageX < -100) {
+    let newEvent = new Event('click', {bubbles: true})
+    document.querySelector('.parts-previewer__btn_prev').dispatchEvent(newEvent)
+  }
+
+  if (startSwipe - e.changedTouches[0].pageX > 100) {
+    let newEvent = new Event('click', {bubbles: true})
+    document.querySelector('.parts-previewer__btn_next').dispatchEvent(newEvent)
+  }
 }
 
 document.addEventListener('mousedown', e => {

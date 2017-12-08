@@ -2,6 +2,7 @@
   background-color: rgb(5, 5, 5);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-bottom: 10px solid rgb(26, 26, 26);
 }
 
@@ -17,4 +18,11 @@
   font-size: 80%;
   color: gray;
   padding: 20px;
+}
+
+@media (max-width: 600px) {
+  .mian-screen-discription__text {
+    font-size: 75%;
+    padding: 5px 10px;
+  }
 }

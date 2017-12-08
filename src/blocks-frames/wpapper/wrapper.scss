@@ -6,3 +6,9 @@
   background: rgb(8, 8, 8);
   border-bottom: 10px solid rgb(26, 26, 26);
 }
+
+@media (max-width: 600px) {
+  .wrapper {
+    width: 477px;
+  }
+}

@@ -40,25 +40,48 @@ module.exports.get = function (className = '', id = '', innerContent = '') {
   `
 }
 
+let startSwipe
+let currSwipe
+let swipedModule
+
+document.addEventListener('touchstart', e => {
+  swipedModule = isClass(e.target, 'book-slider__slider')
+  if (swipedModule) {
+    startSwipe = e.changedTouches[0].pageX
+    currSwipe = parseFloat(swipedModule.firstElementChild.dataset.shift.replace('px', ''))
+    document.addEventListener('touchend', stopSwipe)
+    document.addEventListener('touchmove', swipe)
+  }
+})
+
+function swipe (e) {
+  var newLeft = e.changedTouches[0].pageX - startSwipe + currSwipe
+  slideBookModule(swipedModule.parentElement, newLeft)
+}
+
+function stopSwipe () {
+  document.removeEventListener('mousemove', swipe)
+  document.removeEventListener('mouseup', stopSwipe)
+}
+
 document.addEventListener('mousedown', e => {
   if (isClass(e.target, 'book-slider__forwardBtn') || isClass(e.target, 'book-slider__backBtn')) e.preventDefault()
 })
 
-// Slider controll
 document.addEventListener('click', e => {
   let trg = e.target
 
   if (isClass(trg, 'book-slider__forwardBtn')) {
     e.preventDefault()
     let bookModule = trg.closest('.book-slider')
-    slideBookModule(bookModule, -216)
+    slideBookModule(bookModule, -216 + parseInt(bookModule.querySelector('.book-slider__slideList').dataset.shift))
     return
   }
 
   if (isClass(trg, 'book-slider__backBtn')) {
     e.preventDefault()
     let bookModule = trg.closest('.book-slider')
-    slideBookModule(bookModule, 216)
+    slideBookModule(bookModule, 216 + parseInt(bookModule.querySelector('.book-slider__slideList').dataset.shift))
     return
   }
 
@@ -84,23 +107,20 @@ function slideBookModule (bookModule, shift) {
   let sliderWidth = slider.getBoundingClientRect().width
   let slideListWidth = (firstItem.offsetWidth + 8) * slider.dataset.count // 8 - is margin of book-slider__slideItem
 
-  let currShift = parseInt(slideList.dataset.shift)
-  let left = currShift + shift
-
-  if (left > 0) {
+  if (shift > 0) {
     slideList.style.transform = `translatex(0px)`
     slideList.dataset.shift = 0
     return
   }
 
-  if (left < (sliderWidth - slideListWidth)) {
+  if (shift < (sliderWidth - slideListWidth)) {
     slideList.style.transform = `translatex(${-(slideListWidth - sliderWidth)}px)`
     slideList.dataset.shift = -(slideListWidth - sliderWidth)
     return
   }
 
-  slideList.style.transform = `translatex(${left}px)`
-  slideList.dataset.shift = left
+  slideList.style.transform = `translatex(${shift}px)`
+  slideList.dataset.shift = shift
 }
 
 function isClass (elem, selector) {
