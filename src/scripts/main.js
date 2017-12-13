@@ -13,9 +13,9 @@ class Block1 {
 
     this.template = `
       <div class="block-1 ${this.classModif}" id="${this.elemId}">
-        <slot id="slot1">
+        <slot class="slot1"></slot>
         <h1>Block 1 header</h1>
-        <slot id="slot2">
+        <slot class="slot2"></slot>
       </div>
     `
   }
@@ -29,14 +29,18 @@ class Block1 {
     let elementContainet = document.createElement('div')
     elementContainet.innerHTML = Handlebars.compile(this.template)(this.data)
 
+    console.log(inner);
     for (const key in inner) {
       if (inner.hasOwnProperty(key)) {
         const slotContent = inner[key]
         slotContent.forEach(block => {
-          document.getElementById(key).appendChild(block)
+          console.log(block);
+          elementContainet.getElementsByClassName(key)[0].appendChild(block)
         })
       }
     }
+
+    return elementContainet.firstElementChild
   }
 }
 
@@ -68,14 +72,17 @@ class Block2 {
       if (inner.hasOwnProperty(key)) {
         const slotContent = inner[key]
         slotContent.forEach(block => {
-          document.getElementById(key).appendChild(block)
+          elementContainet.getElementsByClassName(key)[0].appendChild(block)
         })
       }
     }
+
+    return elementContainet.firstElementChild
   }
 }
 
 let block1 = new Block1()
+let block0 = new Block1()
 let block2 = new Block2()
 
 let element = block1.getElement({inner: {
@@ -89,7 +96,7 @@ let element = block1.getElement({inner: {
   ]
 }})
 
-document.body.appendChild(element)
+document.getElementById('screen-container').appendChild(element)
 
 // mainScreen.getElement({inner: {slot1: [
 //   wrapper.getElement({innerModules: [
