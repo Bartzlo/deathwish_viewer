@@ -14,7 +14,6 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 let webpackConfig = {
   entry: [
-    'babel-polyfill', // babel-polyfill for IE11 promise support
     './src/scripts/main.js'
   ],
 
@@ -22,29 +21,15 @@ let webpackConfig = {
     filename: 'main.js'
   },
 
-  module: {
-    rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
-    ]
-  },
-
   plugins: [
-    new UglifyJsPlugin(), // !!!exclude from the production!!!
+    // new UglifyJsPlugin(), // !!!exclude from the production!!!
     new webpack.ProvidePlugin({
-      Handlebars: 'handlebars',
+      Handlebars: 'handlebars/dist/handlebars.js',
       Swipe: 'swipejs'
     })
   ],
 
-  // devtool: 'source-map', // for IE and EDGE debug
-  // devtool: 'eval-source-map',
-
-  // fix "require.extensions" warning
-  resolve: {
-    alias: {
-      handlebars: 'handlebars/dist/handlebars.js'
-    }
-  }
+  devtool: 'eval-source-map'
 }
 
 gulp.task('serve', ['build-style', 'build-html', 'build-js', 'build-img', 'copy-data', 'build-fonts'], function () {

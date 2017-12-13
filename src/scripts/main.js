@@ -1,14 +1,101 @@
-const polifills = require('./parts/polyfills')
-const screenBuilder = require('./parts/screenBuilder')
-const controller = require('./parts/controller')
+// const screenBuilder = require('./parts/screenBuilder')
+// const controller = require('./parts/controller')
 
-const DataController = require('./parts/dataController')
-let bookDbController = new DataController('./data/books.json')
+// // Get data base for emulated server side
+// screenBuilder.builder.getScreen(window.location.hash ? window.location.hash.substring(1) : 'buildMainScreen')
 
-// Get data base for emulated server side
-bookDbController.loadBase()
-  .then(db => {
-    screenBuilder.setDbController(bookDbController)
-    screenBuilder.builder.getScreen(window.location.hash ? window.location.hash.substring(1) : 'buildMainScreen')
-  })
-  .catch(rej => console.error(rej))
+class Block1 {
+  constructor ({classModif = '', elemId = '', data = {}, inner = {}} = {}) {
+    this.data = data
+    this.classModif = classModif
+    this.elemId = elemId
+    this.inner = inner
+
+    this.template = `
+      <div class="block-1 ${this.classModif}" id="${this.elemId}">
+        <slot id="slot1">
+        <h1>Block 1 header</h1>
+        <slot id="slot2">
+      </div>
+    `
+  }
+
+  getElement ({classModif, elemId, data, inner} = {}) {
+    if (classModif) this.classModif = classModif
+    if (elemId) this.elemId = elemId
+    if (data) this.data = data
+    if (inner) this.inner = inner
+
+    let elementContainet = document.createElement('div')
+    elementContainet.innerHTML = Handlebars.compile(this.template)(this.data)
+
+    for (const key in inner) {
+      if (inner.hasOwnProperty(key)) {
+        const slotContent = inner[key]
+        slotContent.forEach(block => {
+          document.getElementById(key).appendChild(block)
+        })
+      }
+    }
+  }
+}
+
+class Block2 {
+  constructor ({classModif = '', elemId = '', data = {}, inner = {}} = {}) {
+    this.data = data
+    this.classModif = classModif
+    this.elemId = elemId
+    this.inner = inner
+
+    this.template = `
+      <div class="block-2 ${this.classModif}" id="${this.elemId}">
+        <h2>Block 2 header</h2>
+        {{text}}
+      </div>
+    `
+  }
+
+  getElement ({classModif, elemId, data, inner} = {}) {
+    if (classModif) this.classModif = classModif
+    if (elemId) this.elemId = elemId
+    if (data) this.data = data
+    if (inner) this.inner = inner
+
+    let elementContainet = document.createElement('div')
+    elementContainet.innerHTML = Handlebars.compile(this.template)(this.data)
+
+    for (const key in inner) {
+      if (inner.hasOwnProperty(key)) {
+        const slotContent = inner[key]
+        slotContent.forEach(block => {
+          document.getElementById(key).appendChild(block)
+        })
+      }
+    }
+  }
+}
+
+let block1 = new Block1()
+let block2 = new Block2()
+
+let element = block1.getElement({inner: {
+  slot1: [
+    block2.getElement({data: {text: 'First before block 2'}}),
+    block2.getElement({data: {text: 'Second before block 2'}})
+  ],
+  slot2: [
+    block2.getElement({data: {text: 'First after block 2'}}),
+    block2.getElement({data: {text: 'Second after block 2'}})
+  ]
+}})
+
+document.body.appendChild(element)
+
+// mainScreen.getElement({inner: {slot1: [
+//   wrapper.getElement({innerModules: [
+//     header.getElement(),
+//     mainMenu.getElement(),
+//     content.getElement({elemId: 'mainScreenContent'})
+//   ]}),
+//   footer.getElement()
+// ]}})
