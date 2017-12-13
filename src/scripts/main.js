@@ -85,6 +85,7 @@ let block1 = new Block1()
 let block0 = new Block1()
 let block2 = new Block2()
 
+
 let element = block1.getElement({inner: {
   slot1: [
     block2.getElement({data: {text: 'First before block 2'}}),
