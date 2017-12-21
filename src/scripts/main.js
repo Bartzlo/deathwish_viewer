@@ -1,109 +1,124 @@
-// const screenBuilder = require('./parts/screenBuilder')
-// const controller = require('./parts/controller')
+class Block {
+  _initBlock () { }
+  _initElement () { }
 
-// // Get data base for emulated server side
-// screenBuilder.builder.getScreen(window.location.hash ? window.location.hash.substring(1) : 'buildMainScreen')
+  createElement (data, options) {
+    this.innerBlocks = {}
+    this.data = data || {}
+    this.options = options || {}
 
-class Block1 {
-  constructor ({classModif = '', elemId = '', data = {}, inner = {}} = {}) {
-    this.data = data
-    this.classModif = classModif
-    this.elemId = elemId
-    this.inner = inner
+    this._initBlock()
+    if (this.options.includes) this.innerBlocks = Object.assign(this.innerBlocks, this.options.includes)
+
+    this.html = Handlebars.compile(this.template)(this.data)
+    this.element = document.createElement('div')
+    this.element.innerHTML = this.html
+    this.element = this.element.firstElementChild
+
+    this._fillSlots()
+    this._initElement()
+
+    return this.element
+  }
+
+  _fillSlots () {
+    let slots = this.element.querySelectorAll('[data-slot]')
+    if (slots.lenght === 0) return
+
+    [].forEach.call(slots, (slotElem, index) => {
+      let include = this.innerBlocks[slotElem.dataset.slot]
+
+      if (!include) {
+        slotElem.remove()
+        return
+      }
+
+      if (Array.isArray(include)) {
+        include.forEach(elem => {
+          slotElem.before(elem)
+        })
+      } else {
+        slotElem.before(include)
+      }
+
+      slotElem.remove()
+    })
+  }
+}
+
+class Header extends Block {
+  _initBlock () {
+    let menu = new Menu()
+    this.innerBlocks.menu = menu.createElement({info: 'info for menu'}, {className: 'menu-samall'})
 
     this.template = `
-      <div class="block-1 ${this.classModif}" id="${this.elemId}">
-        <slot class="slot1"></slot>
-        <h1>Block 1 header</h1>
-        <slot class="slot2"></slot>
+      <div class="header ${this.options.className}" id="${this.options.id}">
+        <div data-slot="menu"></div>
+        <h1 class="logo">
+          Header H1
+        </h1>
+        <div data-slot="slot1"></div>
       </div>
     `
   }
 
-  getElement ({classModif, elemId, data, inner} = {}) {
-    if (classModif) this.classModif = classModif
-    if (elemId) this.elemId = elemId
-    if (data) this.data = data
-    if (inner) this.inner = inner
-
-    let elementContainet = document.createElement('div')
-    elementContainet.innerHTML = Handlebars.compile(this.template)(this.data)
-
-    console.log(inner);
-    for (const key in inner) {
-      if (inner.hasOwnProperty(key)) {
-        const slotContent = inner[key]
-        slotContent.forEach(block => {
-          console.log(block);
-          elementContainet.getElementsByClassName(key)[0].appendChild(block)
-        })
-      }
-    }
-
-    return elementContainet.firstElementChild
+  _initElement () {
+    console.log('Init header')
   }
 }
 
-class Block2 {
-  constructor ({classModif = '', elemId = '', data = {}, inner = {}} = {}) {
-    this.data = data
-    this.classModif = classModif
-    this.elemId = elemId
-    this.inner = inner
-
+class Menu extends Block {
+  _initBlock () {
     this.template = `
-      <div class="block-2 ${this.classModif}" id="${this.elemId}">
-        <h2>Block 2 header</h2>
+      <div class="menu ${this.options.className}" id="${this.options.id}">
+        <ul class="menu-list">
+          <li class="menu-item">Item 1</li>
+          <li class="menu-item">Item 2</li>
+          <li class="menu-item">Item 3</li>
+        </ul>
+      </div>
+    `
+  }
+
+  _initElement () {
+    console.log('Init menu')
+    this._handleClick = this._handleClick.bind(this)
+    this.element.addEventListener('click', this._handleClick)
+  }
+
+  _handleClick (event) {
+    let target = event.target
+
+    if (target.classList.contains('menu-item')) {
+      console.log(target.innerHTML + ': ' + this.data.info)
+    }
+  }
+}
+
+class SimpleBlock extends Block {
+  _initBlock () {
+    this.template = `
+      <div class="simple-block ${this.options.className}" id="${this.options.id}">
         {{text}}
       </div>
     `
   }
 
-  getElement ({classModif, elemId, data, inner} = {}) {
-    if (classModif) this.classModif = classModif
-    if (elemId) this.elemId = elemId
-    if (data) this.data = data
-    if (inner) this.inner = inner
-
-    let elementContainet = document.createElement('div')
-    elementContainet.innerHTML = Handlebars.compile(this.template)(this.data)
-
-    for (const key in inner) {
-      if (inner.hasOwnProperty(key)) {
-        const slotContent = inner[key]
-        slotContent.forEach(block => {
-          elementContainet.getElementsByClassName(key)[0].appendChild(block)
-        })
-      }
-    }
-
-    return elementContainet.firstElementChild
+  _initElement () {
+    console.log('Init simple block')
   }
 }
 
-let block1 = new Block1()
-let block0 = new Block1()
-let block2 = new Block2()
+let header = new Header()
+let block = new SimpleBlock()
 
+let elementHeader = header.createElement(null, {
+  className: 'big',
+  id: '',
+  includes: {
+    slot1: [block.createElement({text: 'first simple block'}), block.createElement({text: 'second simple block'}), block.createElement({text: 'QWEQWE'})]
+  }
+})
 
-let element = block1.getElement({inner: {
-  slot1: [
-    block2.getElement({data: {text: 'First before block 2'}}),
-    block2.getElement({data: {text: 'Second before block 2'}})
-  ],
-  slot2: [
-    block2.getElement({data: {text: 'First after block 2'}}),
-    block2.getElement({data: {text: 'Second after block 2'}})
-  ]
-}})
+document.getElementById('root').appendChild(elementHeader)
 
-document.getElementById('screen-container').appendChild(element)
-
-// mainScreen.getElement({inner: {slot1: [
-//   wrapper.getElement({innerModules: [
-//     header.getElement(),
-//     mainMenu.getElement(),
-//     content.getElement({elemId: 'mainScreenContent'})
-//   ]}),
-//   footer.getElement()
-// ]}})
