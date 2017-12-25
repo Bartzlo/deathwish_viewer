@@ -1,8 +1,9 @@
 // Create all pages
 
-const moduleWorker = require('./moduleWorker.js')
-
-import {MainPageStruct} from '../blocks/page-main-struct/page-main-struct'
+import MainPageStruct from '../blocks/page-main-struct/page-main-struct'
+import Content from '../blocks/content/content'
+import SideBar from '../blocks/side-bar/side-bar'
+import insert from './moduleWorker.js'
 
 const screenContainer = document.getElementById('root')
 
@@ -51,8 +52,8 @@ function buildPageMainStruct () {
       return screenContainer
     })
     .then(elem => {
-      return moduleWorker.insert({
-        block: MainPageStruct,
+      return insert({
+        block: new MainPageStruct(),
         position: 'inside',
         target: screenContainer
       })
@@ -61,50 +62,40 @@ function buildPageMainStruct () {
 }
 
 // prevUrl - prevents created url (if builder-fuction will be called from getScreen())
-builder.buildMainScreen = function (prevUrl) {
-  if (!prevUrl) setUrl('buildMainScreen', arguments)
+builder.buildPage1 = function (prevUrl) {
+  if (!prevUrl) setUrl('buildPage1', arguments)
   if (window.stop) window.stop()
 
   Promise.resolve()
     .then(() => {
-      if (screenContainer.dataset.struct === 'main-screen-set') {
+      if (screenContainer.dataset.struct === 'main-page-struct') {
         clearSlots()
       } else {
-        return buildMainScreenSet()
+        return buildPageMainStruct()
       }
     })
     .then(() => {
-      screenContainer.dataset.screen = 'main-screen'
-      document.title = 'Main page'
+      screenContainer.dataset.screen = 'page1'
+      document.title = 'Page 1'
     })
     .then(() => {
-      return moduleWorker.insert({
-        block: simpleText.get(),
+      return insert({
+        block: new SideBar(),
         position: 'inside',
-        target: document.getElementById('main-content'),
-        query: 'data/text.json'
+        target: document.getElementById('side-bar-slot'),
+        query: 'data/page1_side_bar.json',
+        options: {className: 'side-bar_left'}
+      })
+    })
+    .then(() => {
+      return insert({
+        block: new Content(),
+        position: 'inside',
+        target: document.getElementById('main-content-slot'),
+        query: 'data/page1_content.json'
       })
     })
     .catch(error => console.error(error))
 }
 
-builder.buildError404 = function (prevUrl) {
-  if (window.stop) window.stop()
-
-  Promise.resolve()
-    .then(() => {
-      clearScreenContainer()
-      screenContainer.dataset.screen = 'error-404'
-
-      return moduleWorker.insert({
-        block: error404.get(),
-        position: 'inside',
-        target: screenContainer
-      })
-    })
-    .catch((err) => console.error(err))
-}
-
-module.exports = {
-  'builder': builder
-}
+export default builder

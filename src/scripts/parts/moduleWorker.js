@@ -71,7 +71,7 @@ function preloadImgs (el, blockPreload, target, position) {
 
 // Inserting blocks (string handlebars templates) with some data
 // into target block
-function insert ({block, position, target, data, blockPreload, query}) {
+function insert ({block, position, target, data, blockPreload, query, options = {}}) {
   return getData(query || null)
     .then((queryData) => {
       data = queryData || data || {}
@@ -81,14 +81,14 @@ function insert ({block, position, target, data, blockPreload, query}) {
       }
     })
     .then(() => {
-      let el = getElement(block, data)
+      let el = block.createElement(data, options)
       return el
     })
     .then(el => {
       return blockPreload ? preloadImgs(el, blockPreload, target, position) : el
     })
     .then(el => {
-      el = addElem(el, target, position)
+      addElem(el, target, position)
       return el
     })
     .catch(err => console.error(err))
@@ -98,16 +98,14 @@ function addElem (elem, target, position) {
   let outElem = elem.firstElementChild
 
   if (position === 'inside') {
-    target.append(...elem.childNodes)
+    target.append(elem)
   } else if (position === 'before') {
-    target.before(...elem.childNodes)
+    target.before(elem)
   } else if (position === 'after') {
-    target.after(...elem.childNodes)
+    target.after(elem)
   }
 
   return outElem
 }
 
-module.exports = {
-  'insert': insert
-}
+export default insert

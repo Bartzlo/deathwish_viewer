@@ -1,4 +1,6 @@
-class Content extends Block {
+import Block from '../../parts/Block'
+
+export default class Content extends Block {
   _initBlock () {
     this.template = `
       <section class="content">

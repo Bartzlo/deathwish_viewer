@@ -1,4 +1,4 @@
-class Block {
+export default class Block {
   _initBlock () { }
   _initElement () { }
 
@@ -41,6 +41,7 @@ class Block {
         slotElem.before(include)
       }
 
+      console.log(slotElem);
       slotElem.remove()
     })
   }

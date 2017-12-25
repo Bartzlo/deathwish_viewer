@@ -24,8 +24,7 @@ let webpackConfig = {
   plugins: [
     // new UglifyJsPlugin(), // !!!exclude from the production!!!
     new webpack.ProvidePlugin({
-      Handlebars: 'handlebars/dist/handlebars.js',
-      Swipe: 'swipejs'
+      Handlebars: 'handlebars/dist/handlebars.js'
     })
   ],
 

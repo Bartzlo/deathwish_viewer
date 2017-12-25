@@ -1,4 +1,6 @@
-class Menu extends Block {
+import Block from '../../parts/Block'
+
+export default class Menu extends Block {
   _initBlock () {
     this.template = `
       <nav class="menu">

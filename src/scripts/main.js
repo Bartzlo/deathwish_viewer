@@ -1,4 +1,5 @@
-const screenBuilder = require('./parts/screenBuilder')
-const controller = require('./parts/controller')
+import initController from './parts/controller'
+import screenBuilder from './parts/screenBuilder'
 
-screenBuilder.builder.getScreen(window.location.hash ? window.location.hash.substring(1) : 'buildMainScreen')
+initController()
+screenBuilder.getScreen(window.location.hash ? window.location.hash.substring(1) : 'buildPage1')
