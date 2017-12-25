@@ -1,7 +1,7 @@
 class Content extends Block {
   _initBlock () {
     this.template = `
-      <main class="content">
+      <section class="content">
         <article>
           <header>
             <h2>{{contentHeader}}</h2>
@@ -13,7 +13,7 @@ class Content extends Block {
             {{contentDate}}
           </footer>
         </article>
-      </main>
+      </section>
     `
   }
 }

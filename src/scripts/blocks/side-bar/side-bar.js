@@ -1,15 +1,21 @@
+import {Info} from './info/info'
+
 class SideBar extends Block {
   _initBlock () {
+    this.innerBlocks.info = new Info().createElement(this.data)
+
     this.template = `
       <aside class="side-bar ${this.options.className}">
-        <div>
+        <section>
           <ul>
             {{#sideBarItems}}
             <li>.</li>
             {{/sideBarItems}}
-            </ul>
-        </div>
-        <div data-slot="slot1"></div>
+          </ul>
+        </section>
+        <section>
+          <div data-slot="info">
+        </section>
       </aside>
     `
   }

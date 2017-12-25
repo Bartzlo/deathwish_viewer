@@ -1,4 +1,4 @@
-class SideCommon extends Block {
+class Info extends Block {
   _initBlock () {
     this.template = `
       <section class="side-common">

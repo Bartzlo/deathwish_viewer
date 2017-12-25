@@ -2,7 +2,7 @@
 
 const moduleWorker = require('./moduleWorker.js')
 
-let error404 = require('../../blocks/error-404/error-404')
+import {MainPageStruct} from '../blocks/page-main-struct/page-main-struct'
 
 const screenContainer = document.getElementById('root')
 
@@ -43,16 +43,16 @@ function clearSlots () {
 }
 
 // Build static content for index page
-function buildMainScreenSet () {
+function buildPageMainStruct () {
   return Promise.resolve()
     .then(() => {
       clearScreenContainer()
-      screenContainer.dataset.struct = 'main-screen-set'
+      screenContainer.dataset.struct = 'main-page-struct'
       return screenContainer
     })
     .then(elem => {
       return moduleWorker.insert({
-        block: mainScreenSet.get(),
+        block: MainPageStruct,
         position: 'inside',
         target: screenContainer
       })
