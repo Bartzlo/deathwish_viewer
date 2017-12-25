@@ -1,45 +1,32 @@
 @import '../../node_modules/normalize.css/normalize.css';
 
-@import '../blocks-frames/wpapper/wrapper.scss';
-@import '../blocks/preloader-slider/preloader-slider.scss';
-@import '../blocks/error-404/error-404.scss';
-
-@import '../blocks/main-header/main-header.scss';
-@import '../blocks/main-menu/main-menu.scss';
-@import '../blocks/main-footer/main-footer.scss';
-
-@font-face {
-  font-family: 'Century Gothic';
-  src: url(../fonts/CenturyGothicRegular.ttf)
-}
-
 html {
   height: 100%;
 }
 
 body {
-  // background-color: rgb(26, 26, 26);
-  font-family: 'Century Gothic', 'Trebuchet MS';
   display: flex;
 }
 
-noscript {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  color: gray;
-  font-size: 200%;
-  &::first-letter {
-    color: red;
-  }
-}
-
-#screen-container {
+#app {
   width: 100%;
-  color: gray;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 630px;
+  height: 100%;
+  flex-grow: 1;
+  background: rgb(8, 8, 8);
+  border-bottom: 10px solid rgb(26, 26, 26);
+}
+
+.footer {
+  width: 100%;
+  height: 90px;
+  background-color: rgb(5, 5, 5);
 }

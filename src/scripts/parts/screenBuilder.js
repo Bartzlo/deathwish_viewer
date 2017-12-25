@@ -3,13 +3,10 @@
 const moduleWorker = require('./moduleWorker.js')
 
 let error404 = require('../../blocks/error-404/error-404')
-let mainScreenSet = require('../../blocks-sets/main-screen/main-screen')
-let preloaderSlider = require('../../blocks/preloader-slider/preloader-slider')
-let simpleText = require('../../blocks/simple-text-container/simple-text-container')
 
-let screenContainer = document.getElementById('screen-container')
+const screenContainer = document.getElementById('root')
 
-// Object with builders-functions, to access using string
+// Object with builders-functions, to access by using string name
 let builder = {}
 
 // Generate url from function name and arguments
@@ -19,7 +16,7 @@ function setUrl (funcName, args) {
   history.pushState({path: url}, '', url)
 }
 
-// Get page from url 'funcName&arg1&arg2&...'
+// Get page from url 'funcName&arg1&arg2&...' for screen build
 builder.getScreen = function (url) {
   url = url.replace(new RegExp('%20', 'g'), ' ')
   let params = url.split('&')
@@ -86,60 +83,6 @@ builder.buildMainScreen = function (prevUrl) {
         position: 'inside',
         target: document.getElementById('main-content'),
         query: 'data/text.json'
-      })
-    })
-    .catch(error => console.error(error))
-}
-
-builder.buildBlogPage = function (prevUrl) {
-  if (!prevUrl) setUrl('buildBlogPage', arguments)
-  if (window.stop) window.stop()
-
-  Promise.resolve()
-    .then(() => {
-      if (screenContainer.dataset.struct === 'main-screen-set') {
-        clearSlots()
-      } else {
-        return buildMainScreenSet()
-      }
-    })
-    .then(() => {
-      screenContainer.dataset.screen = 'blog-screen'
-      document.title = 'Vampire blog'
-    })
-    .then(() => {
-      return moduleWorker.insert({
-        block: simpleText.get(),
-        position: 'inside',
-        target: document.getElementById('main-content'),
-        data: {text: 'There must be a blog'}
-      })
-    })
-    .catch(error => console.error(error))
-}
-
-builder.buildWikiPage = function (prevUrl) {
-  if (!prevUrl) setUrl('buildWikiPage', arguments)
-  if (window.stop) window.stop()
-
-  Promise.resolve()
-    .then(() => {
-      if (screenContainer.dataset.struct === 'main-screen-set') {
-        clearSlots()
-      } else {
-        return buildMainScreenSet()
-      }
-    })
-    .then(() => {
-      screenContainer.dataset.screen = 'wiki-screen'
-      document.title = 'Vampire wiki'
-    })
-    .then(() => {
-      return moduleWorker.insert({
-        block: simpleText.get(),
-        position: 'inside',
-        target: document.getElementById('main-content'),
-        data: {text: 'There must be a wiki'}
       })
     })
     .catch(error => console.error(error))
